@@ -12,11 +12,11 @@ export default function Base() {
 
     // add an expense
     const form = <form onSubmit={(event) => {submitData(event)}}>
-        <input type="text" placeholder={'amount'} name={'amount'}/>
+        <input type="text" placeholder={'amount'} name={'amount'} autoComplete={'off'}/>
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
-        <input type="text" placeholder={'type'} name={'type'}/>
-        <input type="text" placeholder={'notes'} name={'notes'}/>
+        <input type="text" placeholder={'type'} name={'type'} autoComplete={'off'}/>
+        <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
         <button >Add Expense</button>
 
     </form>
