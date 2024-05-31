@@ -15,7 +15,45 @@ export default function Base() {
         <input type="text" placeholder={'amount'} name={'amount'} autoComplete={'off'}/>
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
-        <input type="text" placeholder={'type'} name={'type'} autoComplete={'off'}/>
+
+        <input type={'radio'} id={'essential_food'} value={'essential_food'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="essential_food">Essential Food</label>
+
+        <input type={'radio'} id={'non_essential_food'} value={'non_essential_food'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="non_essential_food">Non Essential Food</label>
+
+        <input type={'radio'} id={'party'} value={'party'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="party">Party</label>
+
+        <input type={'radio'} id={'phone'} value={'phone'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="phone">Phone</label>
+
+        <input type={'radio'} id={'insurance'} value={'insurance'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="insurance">Insurance</label>
+
+        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
+        <label htmlFor=""></label>
+
+        <input type={'radio'} id={'cash'} value={'cash'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="cash">Cash</label>
+
+        <input type={'radio'} id={'home'} value={'home'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="home">Home</label>
+
+        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
+        <label htmlFor=""></label>
+
+        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
+        <label htmlFor=""></label>
+
+        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
+        <label htmlFor=""></label>
+
+        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
+        <label htmlFor=""></label>
+
+
+
         <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
         <button >Add Expense</button>
 
