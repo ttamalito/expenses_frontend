@@ -40,17 +40,18 @@ export default function Base() {
         <input type={'radio'} id={'home'} value={'home'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="home">Home</label>
 
-        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
-        <label htmlFor=""></label>
+        <input type={'radio'} id={'recreational_purchase'} value={'recreational_purchase'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="recreational_purchase">Recreational Purchase</label>
 
-        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
-        <label htmlFor=""></label>
+        <input type={'radio'} id={'rent'} value={'rent'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="rent">Rent</label>
 
-        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
-        <label htmlFor=""></label>
+        <input type={'radio'} id={'gift'} value={'gift'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="gift">Gift</label>
 
-        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
-        <label htmlFor=""></label>
+
+        <input type={'radio'} id={'other'} value={'other'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="other">Other</label>
 
 
 
