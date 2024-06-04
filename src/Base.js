@@ -15,6 +15,7 @@ export default function Base() {
         <input type="text" placeholder={'amount'} name={'amount'} autoComplete={'off'}/>
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
+        <input type="text" placeholder={'date'} name={'date'}/>
 
         <input type={'radio'} id={'essential_food'} value={'essential_food'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
