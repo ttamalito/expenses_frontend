@@ -16,7 +16,13 @@ export default function Base() {
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
         <input type="text" placeholder={'date'} name={'date'}/>
+        <input type={'radio'} id={'expense'} value={'expense'} name={'transaction'} autoComplete={'off'}/>
+        <label htmlFor="expense">Expense</label>
 
+        <input type={'radio'} id={'income'} value={'income'} name={'transaction'} autoComplete={'off'}/>
+        <label htmlFor="income">Income</label>
+
+        <!-- Type of expense -->
         <input type={'radio'} id={'essential_food'} value={'essential_food'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
 
@@ -35,8 +41,8 @@ export default function Base() {
         <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
         <label htmlFor=""></label>
 
-        <input type={'radio'} id={'cash'} value={'cash'} name={'type'} autoComplete={'off'}/>
-        <label htmlFor="cash">Cash</label>
+        <input type={'radio'} id={'income'} value={'income'} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="income">Income</label>
 
         <input type={'radio'} id={'home'} value={'home'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="home">Home</label>
@@ -54,7 +60,7 @@ export default function Base() {
         <input type={'radio'} id={'other'} value={'other'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="other">Other</label>
 
-
+        
 
         <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
         <button >Add Expense</button>
