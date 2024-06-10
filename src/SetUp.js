@@ -20,6 +20,15 @@ export default function SetUp() {
         <input type="number" placeholder={'Non Essential Food budget'} value={typesBudget.non_essential_food}
         id={'non_essential_food'} name={'non_essential_food'}/>
         <br/>
+        <label htmlFor="party">Party Budget</label>
+        <input type="number" placeholder={'party budget'} value={typesBudget.party}
+        id={'party'} name={'party'}/>
+        <br/>
+        <label htmlFor="phone">Phone Budget</label>
+        <input type="number" placeholder={'phone budget'} value={typesBudget.phone}
+        id={'phone'} name={'phone'}/>
+        <br/>
+
     </form>;
 
     return (
