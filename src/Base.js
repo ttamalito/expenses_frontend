@@ -16,13 +16,14 @@ export default function Base() {
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
         <input type="text" placeholder={'date'} name={'date'}/>
+        <label htmlFor="">Expense or Income?:</label>
         <input type={'radio'} id={'expense'} value={'expense'} name={'transaction'} autoComplete={'off'}/>
         <label htmlFor="expense">Expense</label>
 
         <input type={'radio'} id={'income'} value={'income'} name={'transaction'} autoComplete={'off'}/>
         <label htmlFor="income">Income</label>
 
-        <!-- Type of expense -->
+        <label htmlFor="">Type of transaction:</label>
         <input type={'radio'} id={'essential_food'} value={'essential_food'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
 
@@ -37,9 +38,6 @@ export default function Base() {
 
         <input type={'radio'} id={'insurance'} value={'insurance'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="insurance">Insurance</label>
-
-        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
-        <label htmlFor=""></label>
 
         <input type={'radio'} id={'income'} value={'income'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="income">Income</label>

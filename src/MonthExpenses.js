@@ -147,7 +147,8 @@ function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingl
                         const total = `Amount: ${expense.amount}`;
                         const type = `Type: ${expense.type}`;
                         const notes = `Notes: ${expense.notes}`;
-                        const div = <div>{total} {type} {notes}</div>
+                        const date = `Date: ${expense.date}`;
+                        const div = <div>{total} {type} {notes} {date}</div>
                         return <li key={expense._id}>{div}</li>}
                 )}
             </ul>;
