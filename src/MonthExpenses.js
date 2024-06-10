@@ -72,7 +72,7 @@ export default function MonthExpenses() {
             {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
             {!singleTypeFlag ? allExpensesList : expensesOfATypeList}
             {!singleTypeFlag ? 'Total Spent on month:' :'Total Spent on month for a single type:'}
-            {!singleTypeFlag && totalSpent}
+            {!singleTypeFlag ? totalSpent : totalSpentOfASingleType}
         </>
     );
 
@@ -133,25 +133,24 @@ function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingl
         // get the data
         res.json().then(data => {
             console.log(data);
-            for (const c of data.expenses) {
-                console.log(c);
-            }
-
             let totalSpent = 0;
+
             const list = <ul>
-                {data.expenses.map( expense =>
+                {data.expenses[0].map( expense =>
 
                     {
                         // add it to the total spent
                         const spent = parseFloat(expense.amount);
                         totalSpent += spent;
+                        console.log(expense.amount);
+                        console.log(expense._id);
                         const total = `Amount: ${expense.amount}`;
                         const type = `Type: ${expense.type}`;
                         const notes = `Notes: ${expense.notes}`;
                         const div = <div>{total} {type} {notes}</div>
                         return <li key={expense._id}>{div}</li>}
                 )}
-            </ul>
+            </ul>;
             setExpensesOfATypeList(list);
             // set the total spent
             setTotalSpentOfASingleType(totalSpent);
@@ -159,5 +158,5 @@ function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingl
         }) // end of res.json().then()
     }).catch(err => console.error(err))
     // set the total spent
-}
+} // end of getExpensesOfAType
 
