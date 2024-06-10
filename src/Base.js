@@ -14,8 +14,10 @@ export default function Base() {
     // add an expense
     const form = <form onSubmit={(event) => {submitData(event)}}>
         <input type="text" placeholder={'amount'} name={'amount'} autoComplete={'off'}/>
+        <br/>
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
+        <br/>
         <input type="text" placeholder={'date'} name={'date'}/>
         <label htmlFor="">Expense or Income?:</label>
         <input type={'radio'} id={'expense'} value={'expense'} name={'transaction'} autoComplete={'off'}/>
@@ -23,20 +25,20 @@ export default function Base() {
 
         <input type={'radio'} id={'income'} value={'income'} name={'transaction'} autoComplete={'off'}/>
         <label htmlFor="income">Income</label>
-
+        <br/>
         <label htmlFor="">Type of transaction:</label>
         <input type={'radio'} id={'essential_food'} value={'essential_food'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
 
         <input type={'radio'} id={'non_essential_food'} value={'non_essential_food'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="non_essential_food">Non Essential Food</label>
-
+        <br/>
         <input type={'radio'} id={'party'} value={'party'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="party">Party</label>
 
         <input type={'radio'} id={'phone'} value={'phone'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="phone">Phone</label>
-
+        <br/>
         <input type={'radio'} id={'insurance'} value={'insurance'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="insurance">Insurance</label>
 
@@ -45,13 +47,13 @@ export default function Base() {
 
         <input type={'radio'} id={'home'} value={'home'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="home">Home</label>
-
+        <br/>
         <input type={'radio'} id={'recreational_purchase'} value={'recreational_purchase'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="recreational_purchase">Recreational Purchase</label>
 
         <input type={'radio'} id={'rent'} value={'rent'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="rent">Rent</label>
-
+        <br/>
         <input type={'radio'} id={'gift'} value={'gift'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="gift">Gift</label>
 
@@ -70,7 +72,10 @@ export default function Base() {
             <h1>Hello World</h1>
             {setUp}
             {h2}
+            <br/>
             {getExpenseForMonth}
+            <br/>
+            {'Add a transaction'}
             {form}
         </div>
     );
