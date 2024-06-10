@@ -28,6 +28,23 @@ export default function SetUp() {
         <input type="number" placeholder={'phone budget'} value={typesBudget.phone}
         id={'phone'} name={'phone'}/>
         <br/>
+        <label htmlFor="insurance">Insurance Budget</label>
+        <input type="number" placeholder={'insurance budget'} value={typesBudget.insurance}
+        id={'insurance'} name={'insurance'}/>
+        <br/>
+        <label htmlFor="home">Home Budget</label>
+        <input type="number" placeholder={'home budget'} value={typesBudget.home}
+        id={'home'} name={'home'}/>
+        <br/>
+        <label htmlFor="gift">Gifts Budget</label>
+        <input type="number" placeholder={'gift budget'} value={typesBudget.gift}
+        id={'gift'} name={'gift'}/>
+        <br/>
+        <label htmlFor="recreational_purchase">Recreational Purchases Budget</label>
+        <input type="number" placeholder={'recreational_purchase budget'}
+        value={typesBudget.recreational_purchase}
+        id={'recreational_purchase'} name={'recreational_purchase'}/>
+        <br/>
 
     </form>;
 
