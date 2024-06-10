@@ -9,14 +9,21 @@ export default function MonthExpenses() {
     const year = params.year;
     const [allExpensesList, setAllExpensesList] = useState(<ul></ul>);
     const [totalSpent, setTotalSpent] = useState(0);
+    const [expensesOfATypeList, setExpensesOfATypeList] = useState(<ul></ul>);
+    const [singleTypeFlag, setSingleTypeFLag] = useState(false);
+    const [totalSpentOfASingleType, setTotalSpentOfASingleType] = useState(0);
+
     useEffect(() => {
         getAllExpenses(month, year, setAllExpensesList, setTotalSpent);
     }, [month, year]);
 
-    const seeExpensesOfAType = <form onSubmit={(event) => {getExpensesOfAType(event, month, year)}}>
-
-        <input type="number" placeholder={'month'} name={'month'}/>
-        <input type="number" placeholder={'year'} name={'year'}/>
+    const seeExpensesOfAType = <form onSubmit={(event) => {
+        getExpensesOfAType(event,
+            month,
+            year,
+            setExpensesOfATypeList,
+            setSingleTypeFLag,
+            setTotalSpentOfASingleType)}}>
 
         <input type={'radio'} id={'essential_food'} value={'essential_food'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
@@ -55,19 +62,17 @@ export default function MonthExpenses() {
         <input type={'radio'} id={'other'} value={'other'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="other">Other</label>
 
-
-
         <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
-        <button >See Expenses</button>
+        <button >See Expenses of a Type</button>
 
     </form>
 
     return (<>
             {seeExpensesOfAType}
-            All Expenses:
-            {allExpensesList}
-            Total Spent on month:
-            {totalSpent}
+            {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
+            {!singleTypeFlag ? allExpensesList : expensesOfATypeList}
+            {!singleTypeFlag ? 'Total Spent on month:' :'Total Spent on month for a single type:'}
+            {!singleTypeFlag && totalSpent}
         </>
     );
 
@@ -112,8 +117,11 @@ function getAllExpenses(month, year, setAllExpensesList, setTotalSpent) {
  * @param event
  * @param month
  * @param year
+ * @param {Function} setExpensesOfATypeList
+ * @param {Function} setSingleTypeFLag
+ * @param {Function} setTotalSpentOfASingleType
  */
-function getExpensesOfAType(event, month, year) {
+function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingleTypeFLag, setTotalSpentOfASingleType) {
     // prevent default
     event.preventDefault();
     const urlData = createUrlParams(event.nativeEvent.srcElement);
@@ -128,7 +136,7 @@ function getExpensesOfAType(event, month, year) {
             for (const c of data.expenses) {
                 console.log(c);
             }
-            /*
+
             let totalSpent = 0;
             const list = <ul>
                 {data.expenses.map( expense =>
@@ -144,11 +152,11 @@ function getExpensesOfAType(event, month, year) {
                         return <li key={expense._id}>{div}</li>}
                 )}
             </ul>
-            setAllExpensesList(list);
+            setExpensesOfATypeList(list);
             // set the total spent
-            setTotalSpent(totalSpent);
-             */
-        })
+            setTotalSpentOfASingleType(totalSpent);
+            setSingleTypeFLag(true);
+        }) // end of res.json().then()
     }).catch(err => console.error(err))
     // set the total spent
 }
