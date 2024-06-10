@@ -45,7 +45,15 @@ export default function SetUp() {
         value={typesBudget.recreational_purchase}
         id={'recreational_purchase'} name={'recreational_purchase'}/>
         <br/>
+        <label htmlFor="rent">Rent Budget</label>
+        <input type="number" placeholder={'rent budget'} value={typesBudget.rent}
+        id={'rent'} name={'rent'}/>
+        <br/>
+        <label htmlFor="other">Other Budget</label>
+        <input type="number" placeholder={'other budget'} value={typesBudget.other}
+        id={'other'} name={'other'}/>
 
+        <button type={'submit'}>Change Budget</button>
     </form>;
 
     return (
