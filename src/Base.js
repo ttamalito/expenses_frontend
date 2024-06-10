@@ -1,6 +1,7 @@
 
 export default function Base() {
-
+    // setup the maximum for expenses and other settings
+    const setUp = <a href={'/setUp'}>Set Up your expenses </a>
     // view the expenses
     const h2 = <h2>See expenses for a specific month</h2>
     const getExpenseForMonth = <form onSubmit={(event) => {expenseForAMonth(event)}}
@@ -67,6 +68,7 @@ export default function Base() {
     return (
         <div className="App">
             <h1>Hello World</h1>
+            {setUp}
             {h2}
             {getExpenseForMonth}
             {form}
