@@ -19,6 +19,7 @@ export default function Base() {
         <input type="number" placeholder={'year'} name={'year'}/>
         <br/>
         <input type="text" placeholder={'date'} name={'date'}/>
+        <br/>
         <label htmlFor="">Expense or Income?:</label>
         <input type={'radio'} id={'expense'} value={'expense'} name={'transaction'} autoComplete={'off'}/>
         <label htmlFor="expense">Expense</label>
@@ -60,10 +61,11 @@ export default function Base() {
 
         <input type={'radio'} id={'other'} value={'other'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="other">Other</label>
-
+        <br/>
         
 
         <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
+        <br/>
         <button >Add Expense</button>
 
     </form>
