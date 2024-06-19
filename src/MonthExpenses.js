@@ -8,13 +8,13 @@ export default function MonthExpenses() {
     const month = params.month;
     const year = params.year;
     const [allExpensesList, setAllExpensesList] = useState(<ul></ul>);
-    const [totalSpent, setTotalSpent] = useState(0);
+    const [totalSpent, setTotalSpent] = useState([0, 0]);
     const [expensesOfATypeList, setExpensesOfATypeList] = useState(<ul></ul>);
     const [singleTypeFlag, setSingleTypeFLag] = useState(false);
     const [totalSpentOfASingleType, setTotalSpentOfASingleType] = useState(0);
-
+    const [totalEarned, setTotalEarned] = useState(0);
     useEffect(() => {
-        getAllExpenses(month, year, setAllExpensesList, setTotalSpent);
+        getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned);
     }, [month, year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => {
@@ -71,14 +71,19 @@ export default function MonthExpenses() {
             {seeExpensesOfAType}
             {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
             {!singleTypeFlag ? allExpensesList : expensesOfATypeList}
+            <br/>
             {!singleTypeFlag ? 'Total Spent on month:' :'Total Spent on month for a single type:'}
-            {!singleTypeFlag ? totalSpent : totalSpentOfASingleType}
+            {!singleTypeFlag ? totalSpent[0] : totalSpentOfASingleType}
+            <br/>
+            {!singleTypeFlag ? `Your budget is: ${totalSpent[1]}` : `Your budget for this type is: ${totalSpentOfASingleType}`}
+            <br/>
+            {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
         </>
     );
 
 }
 
-function getAllExpenses(month, year, setAllExpensesList, setTotalSpent) {
+function getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned) {
 
 
     fetch(`http://localhost:8080/getExpenseForMonth/${month}/${year}`).then(res => {
@@ -101,10 +106,18 @@ function getAllExpenses(month, year, setAllExpensesList, setTotalSpent) {
                         const div = <div>{total} {type} {notes} {date}</div>
                         return <li key={expense._id}>{div}</li>}
                 )}
-            </ul>
+            </ul>;
+            // get the amount of money received in the month
+            let income = 0;
+            for (const value of data.incomes) {
+                income += parseFloat(value.amount);
+            }
+
             setAllExpensesList(list);
             // set the total spent
-            setTotalSpent(totalSpent);
+            setTotalSpent([totalSpent, data.monthBudget]);
+            // setTotal Received
+            setTotalEarned(income)
         })
     }).catch(err => console.error(err))
     // set the total spent
@@ -136,7 +149,7 @@ function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingl
             let totalSpent = 0;
 
             const list = <ul>
-                {data.expenses[0].map( expense =>
+                {data.expenses.map( expense =>
 
                     {
                         // add it to the total spent
