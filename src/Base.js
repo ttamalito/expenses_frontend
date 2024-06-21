@@ -1,4 +1,4 @@
-
+import types from "./utils/types";
 export default function Base() {
     // setup the maximum for expenses and other settings
     const setUp = <a href={'/setUp'}>Set Up your expenses </a>
@@ -62,8 +62,30 @@ export default function Base() {
         <input type={'radio'} id={'other'} value={'other'} name={'type'} autoComplete={'off'}/>
         <label htmlFor="other">Other</label>
         <br/>
-        
 
+        <input type={'radio'} id={types.VACATION} value={types.VACATION} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.VACATION}>Vacation</label>
+
+        <input type={'radio'} id={types.SAVINGS} value={types.SAVINGS} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.SAVINGS}>Savings</label>
+
+        <input type={'radio'} id={types.INVESTMENT} value={types.INVESTMENT} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.INVESTMENT}>Investment</label>
+        <br/>
+
+        <input type={'radio'} id={types.GYM} value={types.GYM} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.GYM}>Gym</label>
+
+        <input type={'radio'} id={types.MEDICINE} value={types.MEDICINE} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.MEDICINE}>Medicine</label>
+        <br/>
+
+        <input type={'radio'} id={types.CLOTHES} value={types.CLOTHES} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.CLOTHES}>Clothes</label>
+
+        <input type={'radio'} id={types.UNIVERSITY} value={types.UNIVERSITY} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.UNIVERSITY}>University</label>
+        <br/>
         <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
         <br/>
         <button >Add Expense</button>

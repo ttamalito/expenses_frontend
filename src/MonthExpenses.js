@@ -46,7 +46,7 @@ export default function MonthExpenses() {
 
         <input type={'radio'} id={'cash'} value={types.CASH} name={'type'} autoComplete={'off'}/>
         <label htmlFor="cash">Cash</label>
-
+        <br/>
         <input type={'radio'} id={'home'} value={types.HOME} name={'type'} autoComplete={'off'}/>
         <label htmlFor="home">Home</label>
 
@@ -58,16 +58,42 @@ export default function MonthExpenses() {
 
         <input type={'radio'} id={'gift'} value={types.GIFT} name={'type'} autoComplete={'off'}/>
         <label htmlFor="gift">Gift</label>
+        <br/>
+        <input type={'radio'} id={types.VACATION} value={types.VACATION} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.VACATION}>Vacation</label>
 
+        <input type={'radio'} id={types.SAVINGS} value={types.SAVINGS} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.SAVINGS}>Savings</label>
+
+        <input type={'radio'} id={types.INVESTMENT} value={types.INVESTMENT} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.INVESTMENT}>Investment</label>
+        <br/>
+
+        <input type={'radio'} id={types.GYM} value={types.GYM} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.GYM}>Gym</label>
+
+        <input type={'radio'} id={types.MEDICINE} value={types.MEDICINE} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.MEDICINE}>Medicine</label>
+        <br/>
+
+        <input type={'radio'} id={types.CLOTHES} value={types.CLOTHES} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.CLOTHES}>Clothes</label>
+
+        <input type={'radio'} id={types.UNIVERSITY} value={types.UNIVERSITY} name={'type'} autoComplete={'off'}/>
+        <label htmlFor={types.UNIVERSITY}>University</label>
+        <br/>
 
         <input type={'radio'} id={'other'} value={types.OTHER} name={'type'} autoComplete={'off'}/>
         <label htmlFor="other">Other</label>
+        <br/>
         <button >See Expenses of a Type</button>
 
     </form>
 
     return (<>
             {seeExpensesOfAType}
+            <br/>
+            <br/>
             {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
             {!singleTypeFlag ? allExpensesList : expensesOfATypeList}
             <br/>
