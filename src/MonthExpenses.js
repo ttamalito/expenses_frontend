@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import createUrlParams
     from "./utils/createURLParams";
+import types from "./utils/types";
 
 export default function MonthExpenses() {
     const params = useParams();
@@ -25,44 +26,42 @@ export default function MonthExpenses() {
             setSingleTypeFLag,
             setTotalSpentOfASingleType)}}>
 
-        <input type={'radio'} id={'essential_food'} value={'essential_food'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'essential_food'} value={types.ESSENTIAL_FOOD} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
 
-        <input type={'radio'} id={'non_essential_food'} value={'non_essential_food'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'non_essential_food'} value={types.NON_ESSENTIAL_FOOD} name={'type'} autoComplete={'off'}/>
         <label htmlFor="non_essential_food">Non Essential Food</label>
 
-        <input type={'radio'} id={'party'} value={'party'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'party'} value={types.PARTY} name={'type'} autoComplete={'off'}/>
         <label htmlFor="party">Party</label>
 
-        <input type={'radio'} id={'phone'} value={'phone'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'phone'} value={types.PHONE} name={'type'} autoComplete={'off'}/>
         <label htmlFor="phone">Phone</label>
 
-        <input type={'radio'} id={'insurance'} value={'insurance'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'insurance'} value={types.INSURANCE} name={'type'} autoComplete={'off'}/>
         <label htmlFor="insurance">Insurance</label>
 
-        <input type={'radio'} id={''} value={''} name={'type'} autoComplete={'off'}/>
-        <label htmlFor=""></label>
+        <input type={'radio'} id={'income'} value={types.INCOME} name={'type'} autoComplete={'off'}/>
+        <label htmlFor="income">Income</label>
 
-        <input type={'radio'} id={'cash'} value={'cash'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'cash'} value={types.CASH} name={'type'} autoComplete={'off'}/>
         <label htmlFor="cash">Cash</label>
 
-        <input type={'radio'} id={'home'} value={'home'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'home'} value={types.HOME} name={'type'} autoComplete={'off'}/>
         <label htmlFor="home">Home</label>
 
-        <input type={'radio'} id={'recreational_purchase'} value={'recreational_purchase'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'recreational_purchase'} value={types.RECREATIONAL_PURCHASE} name={'type'} autoComplete={'off'}/>
         <label htmlFor="recreational_purchase">Recreational Purchase</label>
 
-        <input type={'radio'} id={'rent'} value={'rent'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'rent'} value={types.RENT} name={'type'} autoComplete={'off'}/>
         <label htmlFor="rent">Rent</label>
 
-        <input type={'radio'} id={'gift'} value={'gift'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'gift'} value={types.GIFT} name={'type'} autoComplete={'off'}/>
         <label htmlFor="gift">Gift</label>
 
 
-        <input type={'radio'} id={'other'} value={'other'} name={'type'} autoComplete={'off'}/>
+        <input type={'radio'} id={'other'} value={types.OTHER} name={'type'} autoComplete={'off'}/>
         <label htmlFor="other">Other</label>
-
-        <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
         <button >See Expenses of a Type</button>
 
     </form>
