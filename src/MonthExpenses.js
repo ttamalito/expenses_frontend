@@ -22,7 +22,7 @@ export default function MonthExpenses() {
     const [totalEarned, setTotalEarned] = useState(0);
     // use to keep the budget
     const [budget, setBudget] = useState(0);
-
+    // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
         getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned);
