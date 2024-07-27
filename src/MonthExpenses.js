@@ -26,7 +26,7 @@ export default function MonthExpenses() {
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
         getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned);
-        getBudget(year, setBudget);
+        getBudget(year, setBudet);
     }, [month, year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => {
