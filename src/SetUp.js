@@ -99,10 +99,15 @@ export default function SetUp() {
         <button type={'submit'}>Change Budget</button>
     </form>;
 
+    const returnHome = <a href={'/'}>Return Home</a>;
     return (
         <>
+            {returnHome}
+            <br/>
+            <br/>
             This is to set up your monthly budget of 2024
-
+            <br/>
+            <br/>
             {setUpForm}
         </>
     )
