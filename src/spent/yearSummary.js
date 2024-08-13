@@ -1,21 +1,24 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import createUrlParams
-    from "./utils/createURLParams";
+import {BACKEND_URL} from "../constants";
 import types from "../utils/types";
+import createUrlParams
+    from "../utils/createURLParams";
+import {
+    createListOfExpenses
+} from "./utils/createListOfExpenses";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
  *
  * @return {JSX.Element} The JSX element displaying the MonthExpenses component.
  */
-export default function yearSummary() {
+export default function YearSummary() {
     const params = useParams();
-    const month = params.month;
     const year = params.year;
     const [allExpensesList, setAllExpensesList] = useState(<ul></ul>);
     // the first entry is the total spent for all types and the second entry is the budget for the month
-    const [totalSpent, setTotalSpent] = useState([0, 0]);
+    const [totalSpent, setTotalSpent] = useState(0);
     const [expensesOfATypeList, setExpensesOfATypeList] = useState(<ul></ul>);
     const [singleTypeFlag, setSingleTypeFLag] = useState(false);
     const [totalSpentOfASingleType, setTotalSpentOfASingleType] = useState(0);
@@ -25,11 +28,17 @@ export default function yearSummary() {
     // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
-        getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned);
-        getBudget(year, setBudget);
-    }, [month, year]);
+        getTotalSpentOnAYear(year, setTotalSpent);
+    }, [year]);
 
-    const seeExpensesOfAType = <form>
+    const seeExpensesOfAType = <form onSubmit={(event) => getExpensesOfAType(
+        event,
+        year,
+        setExpensesOfATypeList,
+        setSingleTypeFLag,
+        setSingleType,
+        setTotalSpentOfASingleType
+    )}>
 
         <input type={'radio'} id={'essential_food'} value={types.ESSENTIAL_FOOD} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
@@ -106,13 +115,71 @@ export default function yearSummary() {
             {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
             {!singleTypeFlag ? allExpensesList : expensesOfATypeList}
             <br/>
-            {!singleTypeFlag ? 'Total Spent on month:' :'Total Spent on month for a single type:'}
-            {!singleTypeFlag ? totalSpent[0] : totalSpentOfASingleType}
+            {!singleTypeFlag ? 'Total Spent on a year:' :'Total Spent on a year for a single type:'}
+            {!singleTypeFlag ? totalSpent : totalSpentOfASingleType}
             <br/>
-            {!singleTypeFlag ? `Your budget is: ${budget.monthBudget}` : `Your budget for this type is: ${budget.typesBudget[singleType]} euros`};
+            {!singleTypeFlag ? `Your monthly budget is: {budget.monthBudget}` : `Your monthly budget for '${singleType}' this type is: {budget.typesBudget[singleType]} euros`};
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
         </>
     );
 
-}
+} // end of component
+
+/**
+ * Retrieves the total amount spent for a specific year from the backend API.
+ *
+ * @param {number} year - The year for which the total spent is to be retrieved.
+ * @param {Function} setTotalSpent - A function to set the total amount spent for the year.
+ */
+function getTotalSpentOnAYear(year, setTotalSpent) {
+    fetch(`${BACKEND_URL}/expenses/total-spent?year=${year}`, {
+        method: 'GET',
+        credentials: "include",
+    }).then(res => {
+        console.log('Getting the total spent');
+        console.log(res);
+        if (res.status === 500) {
+            console.log('Failed to get the total spent');
+            alert('Failed to get the total spent');
+            setTotalSpent(0);
+        }
+        if (res.status === 200) {
+            res.json().then(data => {
+                console.log(data);
+                setTotalSpent(data.totalSpent);
+            })
+        }
+    }).catch(err => console.error(err));
+} // end of getTotalSpentOnAYear
+
+function getExpensesOfAType(event, year,  setExpensesOfATypeList, setSingleTypeFLag, setSingleType, setTotalSpentOfASingleType) {
+    event.preventDefault();
+    // get the type from the event
+    const urlData = createUrlParams(event.nativeEvent.srcElement);
+    const type = urlData.get('type');
+    setSingleType(type);
+    console.log(type);
+    fetch(`${BACKEND_URL}/expenses/single-type?year=${year}&type=${type}`, {
+        method: 'GET',
+        credentials: "include",
+    }).then(res => {
+        console.log(res);
+        if (res.status === 500) {
+            console.log('Failed to get the expenses of a type');
+            alert('Failed to get the expenses of a type');
+            setExpensesOfATypeList(<ul></ul>);
+        }
+        if (res.status === 200) {
+            res.json().then(data => {
+                console.log(data);
+                const expenses = createListOfExpenses(data.expenses)
+                const expensesList = expenses.list;
+                const totalSpent = expenses.totalSpent;
+                setExpensesOfATypeList(expensesList);
+                setSingleTypeFLag(true);
+                setTotalSpentOfASingleType(totalSpent);
+            })
+        }
+    }).catch(err => console.error(err));
+} // end of getExpensesOfAType
