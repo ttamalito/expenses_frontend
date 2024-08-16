@@ -1,4 +1,5 @@
 import types from "./utils/types";
+import {goToLink} from "./utils/goToLinkFromForm";
 export default function Base() {
     // setup the maximum for expenses and other settings
     const setUp = <a href={'/setUp'}>Set Up your expenses </a>
@@ -9,7 +10,7 @@ export default function Base() {
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
         <button>See Expenses</button>
-    </form>
+</form>
 
     // add an expense
     const form = <form onSubmit={(event) => {submitData(event)}}>
@@ -91,13 +92,27 @@ export default function Base() {
         <button >Add Expense</button>
 
     </form>
+
+    const yearlySummary = <form onSubmit={(event) => {
+        goToLink(event, 'year', 'summary');
+    }}>
+        <label htmlFor="year">Go To Yearly Summary</label>
+        <br/>
+        <input type="number" placeholder={'year'} name={'year'}/>
+        <button>Go To Summary</button>
+    </form>
+
+
     return (
         <div className="App">
-            <h1>Hello World</h1>
+            <h1>Expenses Manager</h1>
             {setUp}
             {h2}
             <br/>
+
             {getExpenseForMonth}
+            <br/>
+            {yearlySummary}
             <br/>
             {'Add a transaction'}
             {form}
