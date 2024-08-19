@@ -1,5 +1,7 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
+import { Stack, IStackTokens } from '@fluentui/react';
+import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 export default function Base() {
     // setup the maximum for expenses and other settings
     const setUp = <a href={'/setUp'}>Set Up your expenses </a>
