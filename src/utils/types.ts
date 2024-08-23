@@ -1,5 +1,6 @@
+import expensesTypesTypesDeclarations from './expensesTypesTypesDeclarations';
 
- const expensesTypes = {
+ const expensesTypes: expensesTypesTypesDeclarations = {
     ESSENTIAL_FOOD: "essential_food",
     NON_ESSENTIAL_FOOD: "non_essential_food",
     PARTY: "party",
