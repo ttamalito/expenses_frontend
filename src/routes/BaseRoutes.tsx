@@ -8,9 +8,9 @@ import YearSummary from "../spent/yearSummary";
 export default function BaseRoutes() {
 
     return (<Routes>
-        <Route exact path='/' element={<Base />}/>
-        <Route exact path={'/expensesMonth/:month/:year'} element={<MonthExpenses />} />
-        <Route exact path={'/setUp'} element={<SetUp />} />
-        <Route exact path={'/summary/:year'} element={<YearSummary />} />
+        <Route path='/' element={<Base />}/>
+        <Route path={'/expensesMonth/:month/:year'} element={<MonthExpenses />} />
+        <Route path={'/setUp'} element={<SetUp />} />
+        <Route path={'/summary/:year'} element={<YearSummary />} />
     </Routes>);
 }
