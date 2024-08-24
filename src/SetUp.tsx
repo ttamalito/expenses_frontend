@@ -4,73 +4,76 @@ import createUrlParams
 import types from "./utils/types";
 import expensesTypesTypesDeclarations
     from "./utils/expensesTypesTypesDeclarations";
+import typesBudgetTypeDeclaration from "./utils/typesBudgetTypeDeclaration";
 import React from "react";
 import { Button } from "@fluentui/react-components";
+import { Label } from "@fluentui/react-components";
 import type { ButtonProps } from "@fluentui/react-components";
 export default function SetUp() {
     // query the setup
     const [monthBudget, setMonthBudget] = useState(0);
-    const [typesBudget, setTypesBudget] = useState<expensesTypesTypesDeclarations>();
+    const [typesBudget, setTypesBudget] = useState<typesBudgetTypeDeclaration>(defualtObjectForTypesBudget);
     const monthBudgetRef = useRef(10);
     const [budgetModifierForm, setBudgetModifierForm] = useState(<form></form>);
     const [percentages, setPercentages] = useState({});
     useEffect(() => querySetUp(setMonthBudget, setTypesBudget, monthBudgetRef), []);
 
     const setUpForm = <form onSubmit={(event) => {submitSetUp(event)}}>
-        <label htmlFor="month_budget">Month Budget:</label>
+        {/*<label htmlFor="month_budget">Month Budget:</label>*/}
+        <Label htmlFor="month_budget" weight={"semibold"}>Month Budget:</Label>
         <input type="number" placeholder={'Month Budget'} value={monthBudget} id={'month_budget'} name={'monthBudget_static'}/>
         <br/>
-        <label htmlFor="monthBudget">Modify Month Budget:</label>
+        <Label htmlFor="month_budget" weight={"semibold"}>Modify Month Budget:</Label>
         <input type="number" placeholder={'Modify Month Budget'} id={'monthBudget'} name={'monthBudget'}/>
         <br/>
-        <label htmlFor="essential_food_budget">Essential Food</label>
-        <input type="number" placeholder={'Essential Food buget'} defaultValue={typesBudget?.ESSENTIAL_FOOD}
-        id={'essential_food_budget'} name={'essential_food'}/>
+        <Label htmlFor="essential_food_budget" weight={"semibold"}>Essential Food:</Label>
+        <input type="number" placeholder={'Essential Food buget'} defaultValue={typesBudget.essential_food}
+        id={'essential_food_budget'} name={types.ESSENTIAL_FOOD}/>
         <br/>
-        <label htmlFor="non_essential_food">Non Essential Food</label>
-        <input type="number" placeholder={'Non Essential Food budget'} defaultValue={typesBudget?.NON_ESSENTIAL_FOOD}
+        <Label htmlFor={types.NON_ESSENTIAL_FOOD} weight={"semibold"}>Non Essential Food:</Label>
+        <input type="number" placeholder={'Non Essential Food budget'} defaultValue={typesBudget.non_essential_food}
         id={'non_essential_food'} name={'non_essential_food'}/>
         <br/>
-        <label htmlFor="party">Party Budget</label>
-        <input type="number" placeholder={'party budget'} defaultValue={typesBudget?.PARTY}
-        id={'party'} name={'party'}/>
+        <Label htmlFor={types.PARTY} weight={"semibold"}>Party Budget:</Label>
+        <input type="number" placeholder={'party budget'} defaultValue={typesBudget.party}
+        id={types.PARTY} name={types.PARTY}/>
         <br/>
-        <label htmlFor="phone">Phone Budget</label>
-        <input type="number" placeholder={'phone budget'} defaultValue={typesBudget?.PHONE}
-        id={'phone'} name={'phone'}/>
+        <Label htmlFor={types.PHONE} weight={"semibold"}>Phone Budget:</Label>
+        <input type="number" placeholder={'phone budget'} defaultValue={typesBudget.phone}
+        id={'phone'} name={types.PHONE}/>
         <br/>
-        <label htmlFor="insurance">Insurance Budget</label>
-        <input type="number" placeholder={'insurance budget'} defaultValue={typesBudget?.INSURANCE}
-        id={'insurance'} name={'insurance'}/>
+        <Label htmlFor={types.INSURANCE} weight={"semibold"}>Insurance Budget:</Label>
+        <input type="number" placeholder={'insurance budget'} defaultValue={typesBudget.insurance}
+        id={'insurance'} name={types.INSURANCE}/>
         <br/>
-        <label htmlFor="home">Home Budget</label>
-        <input type="number" placeholder={'home budget'} defaultValue={typesBudget?.HOME}
+        <Label htmlFor={types.HOME} weight={"semibold"}>Home Budget:</Label>
+        <input type="number" placeholder={'home budget'} defaultValue={typesBudget.home}
         id={'home'} name={'home'}/>
         <br/>
-        <label htmlFor="gift">Gifts Budget</label>
-        <input type="number" placeholder={'gift budget'} defaultValue={typesBudget?.GIFT}
+        <Label htmlFor={types.GIFT} weight={"semibold"}>Gifts Budget:</Label>
+        <input type="number" placeholder={'gift budget'} defaultValue={typesBudget.gift}
         id={'gift'} name={'gift'}/>
         <br/>
-        <label htmlFor="recreational_purchase">Recreational Purchases Budget</label>
+        <Label htmlFor={types.RECREATIONAL_PURCHASE} weight={"semibold"}>Recreational Purchases Budget:</Label>
         <input type="number" placeholder={'recreational_purchase budget'}
-        defaultValue={typesBudget?.RECREATIONAL_PURCHASE}
+        defaultValue={typesBudget.recreational_purchase}
         id={'recreational_purchase'} name={'recreational_purchase'}/>
         <br/>
-        <label htmlFor="rent">Rent Budget</label>
-        <input type="number" placeholder={'rent budget'} defaultValue={typesBudget?.RENT}
+        <Label htmlFor={types.RENT} weight={"semibold"}>Rent Budget:</Label>
+        <input type="number" placeholder={'rent budget'} defaultValue={typesBudget.rent}
         id={'rent'} name={'rent'}/>
         <br/>
-        <label htmlFor={types.VACATION}>Vacation Budget</label>
-    <input type="number" placeholder={'vacation budget'} defaultValue={typesBudget?.VACATION}
+        <Label htmlFor={types.VACATION} weight={"semibold"}>Vacation Budget:</Label>
+    <input type="number" placeholder={'vacation budget'} defaultValue={typesBudget.vacation}
         id={types.VACATION} name={types.VACATION}/>
         <br/>
-        <label htmlFor={types.SAVINGS}>Savings Budget</label>
-        <input type="number" placeholder={'savings budget'}  defaultValue={typesBudget?.SAVINGS}
+        <Label htmlFor={types.SAVINGS} weight={"semibold"}>Savings Budget:</Label>
+        <input type="number" placeholder={'savings budget'}  defaultValue={typesBudget.savings}
         id={types.SAVINGS} name={types.SAVINGS}/>
         <br/>
 
-        <label htmlFor={types.INVESTMENT}>Investment Budget</label>
-        <input type="number" placeholder={'investment budget'} defaultValue={typesBudget?.INVESTMENT}
+        <Label htmlFor={types.INVESTMENT} weight={"semibold"}>Investement Budget:</Label>
+        <input type="number" placeholder={'investment budget'} defaultValue={typesBudget.investment}
         id={types.INVESTMENT} name={types.INVESTMENT}/>
         <br/>
 
@@ -79,23 +82,21 @@ export default function SetUp() {
         id={types.GYM} name={types.GYM}/>
         <br/>
 
-        <label htmlFor={types.MEDICINE}>Medicine Budget</label>
-        <input type="number" placeholder={'medicine budget'} defaultValue={typesBudget?.MEDICINE}
+        <Label htmlFor={types.MEDICINE} weight={"semibold"}>Medicine Budget:</Label>
+        <input type="number" placeholder={'medicine budget'} defaultValue={typesBudget.medicine}
         id={types.MEDICINE} name={types.MEDICINE}/>
         <br/>
 
-        <label htmlFor={types.CLOTHES}>Clothes Budget</label>
-        <input type="number" placeholder={'clothes budget'} defaultValue={typesBudget?.CLOTHES}
+        <Label htmlFor={types.CLOTHES} weight={"semibold"}>Clothes Budget:</Label>
+        <input type="number" placeholder={'clothes budget'} defaultValue={typesBudget.clothes}
         id={types.CLOTHES} name={types.CLOTHES}/>
         <br/>
-
-        <label htmlFor={types.UNIVERSITY}>University Budget</label>
-        <input type="number" placeholder={'university budget'} defaultValue={typesBudget?.UNIVERSITY}
+        <Label htmlFor={types.UNIVERSITY} weight={"semibold"}>University Budget:</Label>
+        <input type="number" placeholder={'university budget'} defaultValue={typesBudget.university}
         id={types.UNIVERSITY} name={types.UNIVERSITY}/>
         <br/>
-
-        <label htmlFor="other">Other Budget</label>
-        <input type="number" placeholder={'other budget'} defaultValue={typesBudget?.OTHER}
+        <Label htmlFor={types.OTHER} weight={"semibold"}>Other Budget:</Label>
+        <input type="number" placeholder={'other budget'} defaultValue={typesBudget.other}
         id={'other'} name={'other'}/>
         <br/>
         {/*<button type={'submit'}>Change Budget</button>*/}
@@ -124,7 +125,7 @@ export default function SetUp() {
  * @param monthBudgetRef
  */
 function querySetUp(setMonthBudget: React.Dispatch<React.SetStateAction<number>>, 
-setTypesBudget: { (value: React.SetStateAction<expensesTypesTypesDeclarations | undefined>): void; (arg0: any): void; }, 
+setTypesBudget: { (value: React.SetStateAction<typesBudgetTypeDeclaration>): void; (arg0: any): void; },
 monthBudgetRef: React.MutableRefObject<number>) {
 
     // send the request
@@ -191,3 +192,63 @@ function retrievePercentages(typesBudget: expensesTypesTypesDeclarations) {
     };
 }
 
+
+const defualtObjectForTypesBudget: typesBudgetTypeDeclaration = {
+    cash
+        :
+        0,
+    clothes
+        :
+        0,
+    essential_food
+        :
+        251,
+    gift
+        :
+        0,
+    gym
+        :
+        40,
+    home
+        :
+        0,
+    income
+        :
+        0,
+    insurance
+        :
+        130,
+    investment
+        :
+        0,
+    medicine
+        :
+        5,
+    non_essential_food
+        :
+        70,
+    other
+        :
+        50,
+    party
+        :
+        0,
+    phone
+        :
+        10,
+    recreational_purchase
+        :
+        15,
+    rent
+        :
+        330,
+    savings
+        :
+        0,
+    university
+        :
+        50,
+    vacation
+        :
+        0,
+}
