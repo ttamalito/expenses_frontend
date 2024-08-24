@@ -5,7 +5,8 @@ import types from "./utils/types";
 import expensesTypesTypesDeclarations
     from "./utils/expensesTypesTypesDeclarations";
 import React from "react";
-
+import { Button } from "@fluentui/react-components";
+import type { ButtonProps } from "@fluentui/react-components";
 export default function SetUp() {
     // query the setup
     const [monthBudget, setMonthBudget] = useState(0);
@@ -97,7 +98,8 @@ export default function SetUp() {
         <input type="number" placeholder={'other budget'} defaultValue={typesBudget?.OTHER}
         id={'other'} name={'other'}/>
         <br/>
-        <button type={'submit'}>Change Budget</button>
+        {/*<button type={'submit'}>Change Budget</button>*/}
+        <Button type={'submit'}>Change Budget</Button>
     </form>;
 
     const returnHome = <a href={'/'}>Return Home</a>;
