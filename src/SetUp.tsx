@@ -76,9 +76,8 @@ export default function SetUp() {
         <input type="number" placeholder={'investment budget'} defaultValue={typesBudget.investment}
         id={types.INVESTMENT} name={types.INVESTMENT}/>
         <br/>
-
-        <label htmlFor={types.GYM}>Gym Budget</label>
-        <input type="number" placeholder={'gym budget'} defaultValue={typesBudget?.GYM}
+        <Label htmlFor={types.GYM} weight={"semibold"}>GYM Budget:</Label>
+        <input type="number" placeholder={'gym budget'} defaultValue={typesBudget.gym}
         id={types.GYM} name={types.GYM}/>
         <br/>
 
