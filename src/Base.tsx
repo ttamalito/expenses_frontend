@@ -92,7 +92,9 @@ export default function Base() {
         <br/>
         <input type="text" placeholder={'notes'} name={'notes'} autoComplete={'off'}/>
         <br/>
-        <button >Add Expense</button>
+        {/*<button >Add Expense</button>*/}
+        <Button type={'submit'}>Add Expense</Button>
+
 
     </form>
 
@@ -102,7 +104,7 @@ export default function Base() {
         <label htmlFor="year">Go To Yearly Summary</label>
         <br/>
         <input type="number" placeholder={'year'} name={'year'}/>
-        <button>Go To Summary</button>
+        <Button type={'submit'}> Go to Summary</Button>
     </form>
 
 
