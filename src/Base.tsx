@@ -125,17 +125,17 @@ export default function Base() {
     );
 }
 
-function expenseForAMonth(event) {
+function expenseForAMonth(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const urlData = createUrlParams(event.nativeEvent.srcElement);
+    const urlData = createUrlParams(event.currentTarget);
     const month = urlData.get('month');
     const year = urlData.get('year');
     window.location.href = `/expensesMonth/${month}/${year}`
 }
 
-function submitData(event) {
+function submitData(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const urlData = createUrlParams(event.nativeEvent.srcElement);
+    const urlData = createUrlParams(event.currentTarget);
 
     fetch(`http://localhost:8080/addExpense`, {
         method: "POST",
@@ -149,13 +149,13 @@ function submitData(event) {
             if (data.result) {
                 // allgucci
                 alert('Your expense was recorded');
-                event.target.reset()
+                (event.target as HTMLFormElement).reset();
             }
         })
     }).catch(err => console.error(err));
 } // end of submitdata
 
-function createUrlParams(form) {
+function createUrlParams(form: HTMLFormElement) {
     // get the form data
     const formData = new FormData(form);
 
@@ -163,7 +163,8 @@ function createUrlParams(form) {
     const urlData = new URLSearchParams();
     for (const pair of formData) {
         console.log(pair[0], pair[1]);
-        urlData.append(pair[0], pair[1]);
+        const pair1 = pair[1].toString();
+        urlData.append(pair[0], pair1);
     }
 
     return urlData;
