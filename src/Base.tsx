@@ -2,8 +2,13 @@ import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
 import React from "react";
 import { Button } from "@fluentui/react-components";
+import useButtonStyles
+    from "./FluentStyles/baseButton";
+
+
 
 export default function Base() {
+    const buttonStyles = useButtonStyles();
     // setup the maximum for expenses and other settings
     const setUp = <a href={'/setUp'}>Set Up your expenses </a>
     // view the expenses
@@ -12,7 +17,7 @@ export default function Base() {
     >
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
-        <Button type={'submit'}>See Expenses</Button>
+        <Button className={buttonStyles.button} type={'submit'}>See Expenses</Button>
 </form>
 
     // add an expense
