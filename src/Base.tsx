@@ -1,5 +1,7 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
+import React from "react";
+import { Button } from "@fluentui/react-components";
 
 export default function Base() {
     // setup the maximum for expenses and other settings
@@ -10,7 +12,7 @@ export default function Base() {
     >
         <input type="number" placeholder={'month'} name={'month'}/>
         <input type="number" placeholder={'year'} name={'year'}/>
-        <button>See Expenses</button>
+        <Button type={'submit'}>See Expenses</Button>
 </form>
 
     // add an expense
