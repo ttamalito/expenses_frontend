@@ -58,15 +58,7 @@ export default function Base() {
                    placeholder={'date'}
                    name={'date'}/>
             <br/>
-        {/*<Accordion collapsible>*/}
-        {/*    <AccordionItem value="1">*/}
-        {/*        <AccordionHeader>Type Of Expense: </AccordionHeader>*/}
-        {/*        <AccordionPanel>*/}
 
-
-        {/*        </AccordionPanel>*/}
-        {/*    </AccordionItem>*/}
-        {/*</Accordion>*/}
 
             <br/>
         <Field label="Type of Expense/Transaction">
@@ -76,138 +68,137 @@ export default function Base() {
 
             </RadioGroup>
         </Field>
-            <label htmlFor="">Type of
-                transaction:</label>
-            <input type={'radio'}
-                   id={'essential_food'}
-                   value={'essential_food'}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="essential_food">Essential
-                Food</label>
+        <input type={'radio'}
+               id={'essential_food'}
+               value={'essential_food'}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="essential_food">Essential
+            Food</label>
 
-            <input type={'radio'}
-                   id={'non_essential_food'}
-                   value={'non_essential_food'}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="non_essential_food">Non
-                Essential Food</label>
-            <br/>
-            <input type={'radio'} id={'party'}
-                   value={'party'} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="party">Party</label>
+        <input type={'radio'}
+               id={'non_essential_food'}
+               value={'non_essential_food'}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="non_essential_food">Non
+            Essential Food</label>
+        <br/>
+        <input type={'radio'} id={'party'}
+               value={'party'} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="party">Party</label>
 
-            <input type={'radio'} id={'phone'}
-                   value={'phone'} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="phone">Phone</label>
-            <br/>
-            <input type={'radio'} id={'insurance'}
-                   value={'insurance'}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor="insurance">Insurance</label>
+        <input type={'radio'} id={'phone'}
+               value={'phone'} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="phone">Phone</label>
+        <br/>
+        <input type={'radio'} id={'insurance'}
+               value={'insurance'}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor="insurance">Insurance</label>
 
-            <input type={'radio'} id={'income'}
-                   value={'income'} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="income">Income</label>
+        <input type={'radio'} id={'income'}
+               value={'income'} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="income">Income</label>
 
-            <input type={'radio'} id={'home'}
-                   value={'home'} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="home">Home</label>
-            <br/>
-            <input type={'radio'}
-                   id={'recreational_purchase'}
-                   value={'recreational_purchase'}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor="recreational_purchase">Recreational
-                Purchase</label>
+        <input type={'radio'} id={'home'}
+               value={'home'} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="home">Home</label>
+        <br/>
+        <input type={'radio'}
+               id={'recreational_purchase'}
+               value={'recreational_purchase'}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor="recreational_purchase">Recreational
+            Purchase</label>
 
-            <input type={'radio'} id={'rent'}
-                   value={'rent'} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="rent">Rent</label>
-            <br/>
-            <input type={'radio'} id={'gift'}
-                   value={'gift'} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="gift">Gift</label>
+        <input type={'radio'} id={'rent'}
+               value={'rent'} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="rent">Rent</label>
+        <br/>
+        <input type={'radio'} id={'gift'}
+               value={'gift'} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="gift">Gift</label>
 
 
-            <input type={'radio'} id={'other'}
-                   value={'other'} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor="other">Other</label>
-            <br/>
+        <input type={'radio'} id={'other'}
+               value={'other'} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor="other">Other</label>
+        <br/>
 
-            <input type={'radio'}
-                   id={types.VACATION}
-                   value={types.VACATION}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor={types.VACATION}>Vacation</label>
+        <input type={'radio'}
+               id={types.VACATION}
+               value={types.VACATION}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor={types.VACATION}>Vacation</label>
 
-            <input type={'radio'}
-                   id={types.SAVINGS}
-                   value={types.SAVINGS}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor={types.SAVINGS}>Savings</label>
+        <input type={'radio'}
+               id={types.SAVINGS}
+               value={types.SAVINGS}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor={types.SAVINGS}>Savings</label>
 
-            <input type={'radio'}
-                   id={types.INVESTMENT}
-                   value={types.INVESTMENT}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor={types.INVESTMENT}>Investment</label>
-            <br/>
+        <input type={'radio'}
+               id={types.INVESTMENT}
+               value={types.INVESTMENT}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor={types.INVESTMENT}>Investment</label>
+        <br/>
 
-            <input type={'radio'} id={types.GYM}
-                   value={types.GYM} name={'type'}
-                   autoComplete={'off'}/>
-            <label htmlFor={types.GYM}>Gym</label>
+        <input type={'radio'} id={types.GYM}
+               value={types.GYM} name={'type'}
+               autoComplete={'off'}/>
+        <label htmlFor={types.GYM}>Gym</label>
 
-            <input type={'radio'}
-                   id={types.MEDICINE}
-                   value={types.MEDICINE}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor={types.MEDICINE}>Medicine</label>
-            <br/>
+        <input type={'radio'}
+               id={types.MEDICINE}
+               value={types.MEDICINE}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor={types.MEDICINE}>Medicine</label>
+        <br/>
 
-            <input type={'radio'}
-                   id={types.CLOTHES}
-                   value={types.CLOTHES}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor={types.CLOTHES}>Clothes</label>
+        <input type={'radio'}
+               id={types.CLOTHES}
+               value={types.CLOTHES}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor={types.CLOTHES}>Clothes</label>
 
-            <input type={'radio'}
-                   id={types.UNIVERSITY}
-                   value={types.UNIVERSITY}
-                   name={'type'}
-                   autoComplete={'off'}/>
-            <label
-                htmlFor={types.UNIVERSITY}>University</label>
-            <br/>
-            <input type="text"
-                   placeholder={'notes'}
-                   name={'notes'}
-                   autoComplete={'off'}/>
-            <br/>
-            {/*<button >Add Expense</button>*/}
+        <input type={'radio'}
+               id={types.UNIVERSITY}
+               value={types.UNIVERSITY}
+               name={'type'}
+               autoComplete={'off'}/>
+        <label
+            htmlFor={types.UNIVERSITY}>University</label>
+        <br/>
+        <input type="text"
+               placeholder={'notes'}
+               name={'notes'}
+               autoComplete={'off'}/>
+        <br/>
+
+
             <Button type={'submit'}>Add
                 Expense</Button>
 
