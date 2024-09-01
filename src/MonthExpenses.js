@@ -3,6 +3,8 @@ import {useEffect, useState} from "react";
 import createUrlParams
     from "./utils/createURLParams";
 import types from "./utils/types";
+import OneExpenseSummary
+    from "./expensesComponents/OneExpenseSummary";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
