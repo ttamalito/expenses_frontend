@@ -6,9 +6,14 @@ interface IExpense {
     expense: OneExpenseSummaryTypeDeclaration
 }
 
+export default function OneExpenseSummary({expense}: IExpense) {
 
-export default function OneExpenseSummary() {
-    return <div>
-Hello World
-    </div>
+
+    const total = `Amount: ${expense.amount}`;
+    const type = `Type: ${expense.type}`;
+    const notes = `Notes: ${expense.notes}`;
+    const date = `Date: ${expense.date}`;
+    const div = <div>{total} {type} {notes} {date}</div>
+    const id = expense._id;
+    return div;
 }
