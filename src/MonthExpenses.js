@@ -141,7 +141,7 @@ function getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotal
         console.log(res);
         // get the data
         res.json().then(data => {
-            console.log(data);
+            // console.log(data);
             let totalSpent = 0;
             const list = <ul>
                 {data.expenses.map( expense =>
@@ -150,12 +150,13 @@ function getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotal
                         // add it to the total spent
                         const spent = parseFloat(expense.amount);
                         totalSpent += spent;
-                        const total = `Amount: ${expense.amount}`;
-                        const type = `Type: ${expense.type}`;
-                        const notes = `Notes: ${expense.notes}`;
-                        const date = `Date: ${expense.date}`;
-                        const div = <div>{total} {type} {notes} {date}</div>
-                        return <li key={expense._id}>{div}</li>}
+                        // const total = `Amount: ${expense.amount}`;
+                        // const type = `Type: ${expense.type}`;
+                        // const notes = `Notes: ${expense.notes}`;
+                        // const date = `Date: ${expense.date}`;
+                        // const div = <div>{total} {type} {notes} {date}</div>
+                        const expenseSummary = <OneExpenseSummary expense={expense} />
+                        return <li key={expense._id}>{expenseSummary}</li>}
                 )}
             </ul>;
             // get the amount of money received in the month
