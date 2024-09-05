@@ -231,11 +231,11 @@ function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingl
                         totalSpent += spent;
                         console.log(expense.amount);
                         console.log(expense._id);
-                        const total = `Amount: ${expense.amount}`;
-                        const type = `Type: ${expense.type}`;
-                        const notes = `Notes: ${expense.notes}`;
-                        const date = `Date: ${expense.date}`;
-                        const div = <div>{total} {type} {notes} {date}</div>
+                        // const total = `Amount: ${expense.amount}`;
+                        // const type = `Type: ${expense.type}`;
+                        // const notes = `Notes: ${expense.notes}`;
+                        // const date = `Date: ${expense.date}`;
+                        const div = <OneExpenseSummary expense={expense} />//<div>{total} {type} {notes} {date}</div>
                         return <li key={expense._id}>{div}</li>}
                 )}
             </ul>;
