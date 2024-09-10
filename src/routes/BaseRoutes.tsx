@@ -3,7 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import Base from "../Base";
 import MonthExpenses from "../MonthExpenses";
 import SetUp from "../SetUp";
-import YearSummary from "../spent/yearSummary";
+import YearSummary from "../spent/YearSummary";
 
 export default function BaseRoutes() {
 
