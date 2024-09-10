@@ -7,6 +7,8 @@ import createUrlParams
 import {
     createListOfExpenses
 } from "./utils/createListOfExpenses";
+import React from "react";
+import fetchTotalEarnedInYear from "./utils/fetchTotalEarnedInYear";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -129,10 +131,10 @@ export default function YearSummary() {
 /**
  * Retrieves the total amount spent for a specific year from the backend API.
  *
- * @param {number} year - The year for which the total spent is to be retrieved.
+ * @param {string} year - The year for which the total spent is to be retrieved.
  * @param {Function} setTotalSpent - A function to set the total amount spent for the year.
  */
-function getTotalSpentOnAYear(year, setTotalSpent) {
+function getTotalSpentOnAYear(year: string | undefined, setTotalSpent: { (value: React.SetStateAction<number>): void; (arg0: number): void; }) {
     fetch(`${BACKEND_URL}/expenses/total-spent?year=${year}`, {
         method: 'GET',
         credentials: "include",
@@ -153,11 +155,29 @@ function getTotalSpentOnAYear(year, setTotalSpent) {
     }).catch(err => console.error(err));
 } // end of getTotalSpentOnAYear
 
-function getExpensesOfAType(event, year,  setExpensesOfATypeList, setSingleTypeFLag, setSingleType, setTotalSpentOfASingleType) {
+/**
+ * Queries all the expenses of a single type
+ * @param event
+ * @param year
+ * @param setExpensesOfATypeList
+ * @param setSingleTypeFLag
+ * @param setSingleType
+ * @param setTotalSpentOfASingleType
+ */
+
+function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>, 
+    year: string | undefined,  
+    setExpensesOfATypeList: { (value: React.SetStateAction<React.JSX.Element>): void; (arg0: React.JSX.Element): void; }, 
+    setSingleTypeFLag: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; }, 
+    setSingleType: { (value: React.SetStateAction<string>): void; (arg0: string): void; }, 
+    setTotalSpentOfASingleType: { (value: React.SetStateAction<number>): void; (arg0: any): void; }) {
     event.preventDefault();
     // get the type from the event
     const urlData = createUrlParams(event.nativeEvent.srcElement);
     const type = urlData.get('type');
+    if (!type) {
+        throw new Error('No type provided');
+    }
     setSingleType(type);
     console.log(type);
     fetch(`${BACKEND_URL}/expenses/single-type?year=${year}&type=${type}`, {
