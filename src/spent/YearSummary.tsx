@@ -31,6 +31,7 @@ export default function YearSummary() {
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
         getTotalSpentOnAYear(year, setTotalSpent);
+        retrieveTotalEarnedInAYear(year, setTotalEarned);
     }, [year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => getExpensesOfAType(
@@ -203,3 +204,23 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
         }
     }).catch(err => console.error(err));
 } // end of getExpensesOfAType
+
+function retrieveTotalEarnedInAYear(year: string | undefined , setTotalEarned: { (value: React.SetStateAction<number>): void; (arg0: number): void; }) {
+    if (!year) {
+        alert('No year provided');
+        throw new Error('No year provided');
+    }
+    const yearAsNumber = parseInt(year);
+    if (isNaN(yearAsNumber)) {
+        alert('Invalid year');
+        throw new Error('Invalid year');
+    }
+    fetchTotalEarnedInYear(yearAsNumber).then(totalEarned => {
+        if (totalEarned === undefined) {
+            alert('Failed to get the total earned');
+            return;
+        }
+        setTotalEarned(totalEarned);
+    }).catch(err => console.error(err));
+
+} // end of retrieveTotalEarnedInAYear
