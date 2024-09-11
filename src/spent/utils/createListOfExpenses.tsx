@@ -1,10 +1,12 @@
+import React from "react";
+
 /**
  * Creates a list of expenses from the given array of expenses.
  *
  * @param {Array} expenses - An array of expenses to be converted into a list.
  * @return {{JSX.Element}, number} A JSX element representing the list of expenses and the total spent.
  */
-export function createListOfExpenses(expenses) {
+export function createListOfExpenses(expenses: any[]) {
     let totalSpent = 0;
     const list = <ul>
         {expenses.map( expense =>
