@@ -174,7 +174,7 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
     setTotalSpentOfASingleType: { (value: React.SetStateAction<number>): void; (arg0: any): void; }) {
     event.preventDefault();
     // get the type from the event
-    const urlData = createUrlParams(event.nativeEvent.srcElement);
+    const urlData = createUrlParams(event.currentTarget);
     const type = urlData.get('type');
     if (!type) {
         throw new Error('No type provided');

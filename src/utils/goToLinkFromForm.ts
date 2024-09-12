@@ -10,7 +10,7 @@ import createUrlParams from "./createURLParams";
  */
  export function goToLink(event: FormEvent<HTMLFormElement>, valueToSearch: string, url: string) {
     event.preventDefault();
-    const urlData = createUrlParams(event.nativeEvent.srcElement);
+    const urlData = createUrlParams(event.currentTarget);
     const value = urlData.get(valueToSearch);
     window.location.href = `/${url}/${value}`
 }
