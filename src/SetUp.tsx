@@ -156,7 +156,7 @@ monthBudgetRef: React.MutableRefObject<number>) {
 function submitSetUp(event: React.FormEvent<HTMLFormElement>) {
 event.preventDefault();
 
-const urlData = createUrlParams(event.nativeEvent.srcElement);
+const urlData = createUrlParams(event.currentTarget);
 
 fetch(`http://localhost:8080/modifySetUp/2024`, {
     method: 'POST',
