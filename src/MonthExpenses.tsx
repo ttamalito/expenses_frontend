@@ -1,10 +1,14 @@
+
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import createUrlParams
     from "./utils/createURLParams";
 import types from "./utils/types";
+import monthBudgetType from "./utils/types/monthBudgetType";
 import OneExpenseSummary
     from "./expensesComponents/OneExpenseSummary";
+import React from "react";
+import typesBudgetTypeDeclaration from "./utils/typesBudgetTypeDeclaration";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -23,7 +27,8 @@ export default function MonthExpenses() {
     const [totalSpentOfASingleType, setTotalSpentOfASingleType] = useState(0);
     const [totalEarned, setTotalEarned] = useState(0);
     // use to keep the budget
-    const [budget, setBudget] = useState(0);
+    // @ts-ignore
+    const [budget, setBudget] = useState<monthBudgetType>({monthBudget: 0, typesBudget: undefined});
     // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
@@ -117,7 +122,7 @@ export default function MonthExpenses() {
             {!singleTypeFlag ? 'Total Spent on month:' :'Total Spent on month for a single type:'}
             {!singleTypeFlag ? totalSpent[0] : totalSpentOfASingleType}
             <br/>
-            {!singleTypeFlag ? `Your budget is: ${budget.monthBudget}` : `Your budget for this type is: ${budget.typesBudget[singleType]} euros`};
+            {!singleTypeFlag ? `Your budget is: ${budget.monthBudget}` : `Your budget for this type is: ${budget.typesBudget[singleType as keyof typesBudgetTypeDeclaration]} euros`};
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
         </>
@@ -134,7 +139,11 @@ export default function MonthExpenses() {
  * @param {Function} setTotalSpent - A function to set the total spent.
  * @param {Function} setTotalEarned - A function to set the total earned.
  */
-function getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned) {
+function getAllExpenses(month: string | undefined, year: string | undefined, setAllExpensesList: {
+    (value: React.SetStateAction<React.JSX.Element>): void;
+    (arg0: React.JSX.Element): void;
+}, setTotalSpent: { (value: React.SetStateAction<number[]>): void; (arg0: any[]): void; },
+                        setTotalEarned: { (value: React.SetStateAction<number>): void; (arg0: number): void; }) {
 
 
     fetch(`http://localhost:8080/getExpenseForMonth/${month}/${year}`).then(res => {
@@ -144,7 +153,7 @@ function getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotal
             // console.log(data);
             let totalSpent = 0;
             const list = <ul>
-                {data.expenses.map( expense =>
+                {data.expenses.map( (expense: { amount: any; _id: any; type: string; notes: string; date: string; }) =>
 
                     {
                         // add it to the total spent
@@ -183,7 +192,8 @@ function getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotal
  * @param {Function} setBudget - A function to set the budget state.
  * @returns {void}
  */
-function getBudget(year, setBudget) {
+function getBudget(year: string | undefined,
+                   setBudget: { (value: React.SetStateAction<monthBudgetType>): void; (arg0: any): void; }) {
     fetch(`http://localhost:8080/getSetUp/${year}`, {
         method: 'GET',
     }).then(res => {
@@ -208,10 +218,16 @@ function getBudget(year, setBudget) {
  * @param {Function} setSingleTypeFLag
  * @param {Function} setTotalSpentOfASingleType
  */
-function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingleTypeFLag, setTotalSpentOfASingleType, setSingleType) {
+function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
+                            month: string | undefined,
+                            year: string | undefined,
+                            setExpensesOfATypeList: { (value: React.SetStateAction<React.JSX.Element>): void; (arg0: React.JSX.Element): void; },
+                            setSingleTypeFLag: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; },
+                            setTotalSpentOfASingleType: { (value: React.SetStateAction<number>): void; (arg0: number): void; },
+                            setSingleType: { (value: React.SetStateAction<string>): void; (arg0: string): void; }) {
     // prevent default
     event.preventDefault();
-    const urlData = createUrlParams(event.nativeEvent.srcElement);
+    const urlData = createUrlParams(event.currentTarget);
     fetch(`http://localhost:8080/getExpensesOfType/${month}/${year}`, {
         method: 'POST',
         body: urlData
@@ -223,7 +239,7 @@ function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingl
             let totalSpent = 0;
 
             const list = <ul>
-                {data.expenses.map( expense =>
+                {data.expenses.map( (expense: { amount: any; _id: any; type: string; notes: string; date: string; }) =>
 
                     {
                         // add it to the total spent
@@ -243,7 +259,13 @@ function getExpensesOfAType(event, month, year, setExpensesOfATypeList, setSingl
             // set the total spent
             setTotalSpentOfASingleType(totalSpent);
             setSingleTypeFLag(true);
-            setSingleType(urlData.get('type'));
+            const singleTypeSelected = urlData.get('type');
+            if (!singleTypeSelected) {
+                alert('No correct types was selected')
+                throw new Error('No type was selected');
+
+            }
+            setSingleType(singleTypeSelected);
         }) // end of res.json().then()
     }).catch(err => console.error(err))
     // set the total spent
