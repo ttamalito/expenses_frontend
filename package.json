@@ -6,6 +6,7 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fluentui/react-components": "^9.54.13",
+    "@fluentui/react-datepicker-compat": "^0.4.50",
     "@mui/material": "^5.16.7",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.5.0",

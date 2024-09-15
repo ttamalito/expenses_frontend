@@ -1,19 +1,32 @@
 import OneExpenseSummaryTypeDeclaration
     from "./utils/types/OneExpenseSummaryType";
+import {Button, Field, makeStyles } from "@fluentui/react-components";
+import {DatePicker} from "@fluentui/react-datepicker-compat";
 import React from "react";
-import { Button } from "@fluentui/react-components";
 interface IExpense {
     expense: OneExpenseSummaryTypeDeclaration
     setShowModifyForm: (cancelModification: boolean) => void
 }
-
+const useDateStyles = makeStyles({
+    control: {
+        maxWidth: "300px",
+    },
+});
 export default function ModifyExpenseForm({expense, setShowModifyForm}: IExpense) {
+    const dateStyles = useDateStyles();
+
     const expenseForm =  <form onSubmit={(event) =>
         modifyExpense(event, expense._id)} >
         <input type="text" placeholder={'amount'} name={'amount'} defaultValue={expense.amount}/>
         <br/>
-        <input type="text" placeholder={'date'} name={'date'} defaultValue={expense.date}/>
-        <br/>
+        <Field label="Change the date">
+            <DatePicker
+                className={dateStyles.control}
+                placeholder="Select a date..."
+                name={'date'}
+                value={new Date(expense.date)}
+            />
+        </Field>
         <input type="text" placeholder={'type'} name={'type'} defaultValue={expense.type} readOnly={true}/>
         <br/>
         <input type="text" placeholder={'notes'} name={'notes'} defaultValue={expense.notes}/>
