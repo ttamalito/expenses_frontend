@@ -9,6 +9,9 @@ import {
 } from "./utils/createListOfExpenses";
 import React from "react";
 import fetchTotalEarnedInYear from "./utils/fetchTotalEarnedInYear";
+import fetchBudget from "../budget/requests/fetchBudget";
+import ISetUpForm from "../budget/types/ISetUpForm";
+import typesBudgetTypeDeclaration from "../utils/typesBudgetTypeDeclaration";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -26,12 +29,15 @@ export default function YearSummary() {
     const [totalSpentOfASingleType, setTotalSpentOfASingleType] = useState(0);
     const [totalEarned, setTotalEarned] = useState(0);
     // use to keep the budget
-    const [budget, setBudget] = useState(0);
+    const [budget, setBudget] = useState<ISetUpForm>({typesBudget: undefined, monthBudget: 0});
     // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
         getTotalSpentOnAYear(year, setTotalSpent);
         retrieveTotalEarnedInAYear(year, setTotalEarned);
+        fetchBudget().then((budget) => {
+            setBudget(budget);
+        }).catch((error) => {console.error(error);})
     }, [year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => getExpensesOfAType(
@@ -121,7 +127,7 @@ export default function YearSummary() {
             {!singleTypeFlag ? 'Total Spent on a year:' :'Total Spent on a year for a single type:'}
             {!singleTypeFlag ? totalSpent : totalSpentOfASingleType}
             <br/>
-            {!singleTypeFlag ? `Your monthly budget is: {budget.monthBudget}` : `Your monthly budget for '${singleType}' this type is: {budget.typesBudget[singleType]} euros`};
+            {constructStringToDisplayBudget(singleTypeFlag, singleType, budget)}
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
         </>
@@ -224,3 +230,28 @@ function retrieveTotalEarnedInAYear(year: string | undefined , setTotalEarned: {
     }).catch(err => console.error(err));
 
 } // end of retrieveTotalEarnedInAYear
+
+function constructStringToDisplayBudget(singleTypeFlag: boolean, singleType: string, budget: ISetUpForm) {
+    if (!singleTypeFlag) {
+        const monthlyBudgetString = `Your monthly budget is: ${budget.monthBudget}`;
+        const notSpendMoreThanSring = `You should not spend more than: ${budget.monthBudget * 12} in year`;
+        const paragraph = <p>{monthlyBudgetString}
+            <br/>
+            {notSpendMoreThanSring}
+        </p>;
+        return paragraph;
+    } else {
+        if (!budget.typesBudget) {
+            throw new Error('No budget provided');
+        }
+        const monthlyBudgetForType: number  = budget.typesBudget[singleType as keyof typesBudgetTypeDeclaration];
+        const monthlyBudgetForTypeString =`Your monthly budget for '${singleType}' is: ${monthlyBudgetForType} euros`;
+        const notSpendMoreThanForTypeString = `You should not spend more than: ${monthlyBudgetForType * 12} euros in a year`;
+
+        const paragraph = <p>{monthlyBudgetForTypeString}
+            <br/>
+            {notSpendMoreThanForTypeString}
+        </p>;
+        return paragraph;
+    }
+}
