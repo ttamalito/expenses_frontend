@@ -9,11 +9,7 @@ export default function SetUpForm({typesBudget, monthBudget}: ISetUpForm) {
 
     const setUpForm = <form onSubmit={(event) => {submitSetUp(event)}}>
         {/*<label htmlFor="month_budget">Month Budget:</label>*/}
-        <Label htmlFor="month_budget" weight={"semibold"}>Month Budget:</Label>
-        <input type="number" placeholder={'Month Budget'} value={monthBudget} id={'month_budget'} name={'monthBudget_static'}/>
-        <br/>
-        <Label htmlFor="month_budget" weight={"semibold"}>Modify Month Budget:</Label>
-        <input type="number" placeholder={'Modify Month Budget'} id={'monthBudget'} name={'monthBudget'}/>
+        <h3>Your monthly budget is: {monthBudget}</h3>
         <br/>
         <Label htmlFor="essential_food_budget" weight={"semibold"}>Essential Food:</Label>
         <input type="number" placeholder={'Essential Food buget'} defaultValue={typesBudget?.essential_food}
@@ -103,6 +99,7 @@ function submitSetUp(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const urlData = createUrlParams(event.currentTarget);
+    urlData.append('monthBudget', '1600')
 
     fetch(`http://localhost:8080/modifySetUp/2024`, {
         method: 'POST',
