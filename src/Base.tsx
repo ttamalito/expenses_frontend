@@ -17,7 +17,7 @@ export default function Base() {
 
     const dateStyles = useDateStyles();
     // setup the maximum for expenses and other settings
-    const setUp = <a href={'/setUp'}>Set Up your
+    const setUp = <a href={'/budget/setup'}>Set Up your
         expenses </a>
     // view the expenses
     const h2 = <h2>See expenses for a specific
