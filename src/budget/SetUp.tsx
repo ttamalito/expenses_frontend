@@ -31,10 +31,7 @@ export default function SetUp() {
         <>
             {returnHome}
             <br/>
-            <br/>
-            This is to set up your monthly budget of 2024
-            <br/>
-            <br/>
+            <h2>Modify your monthly budget</h2>
             {<SetUpForm typesBudget={budget.typesBudget} monthBudget={budget.monthBudget}/>}
         </>
     )
