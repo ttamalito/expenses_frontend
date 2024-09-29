@@ -7,3 +7,6 @@ export const fetchExpensesOfATypeForAYearPath = (year: number, type: string) => 
 export const fetchTotalSpentInYearPath = (year: number) => `${BACKEND_URL}/expenses/total-spent?year=${year}`;
 
 export const fetchExpensesOfATypeForAMonthPath = (year: string, month: string ) => `${BACKEND_URL}/expenses/single-type/${month}/${year}`;
+
+export const fetchAllExpensesForAMonthPath = (year: string, month: string ) => `${BACKEND_URL}/expenses/monthly/${month}/${year}`;
+

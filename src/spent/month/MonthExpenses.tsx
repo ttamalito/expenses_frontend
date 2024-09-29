@@ -13,7 +13,7 @@ import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
 import {ExpensesDataGrid} from "../expensesDataGrid/ExpensesDataGrid";
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
 import {retrieveBudgetForAYear} from "../../budget/requests/paths";
-import {fetchExpensesOfATypeForAMonthPath} from "../requests/paths";
+import {fetchExpensesOfATypeForAMonthPath, fetchAllExpensesForAMonthPath} from "../requests/paths";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -155,7 +155,8 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
                         setExpenses: { (value: React.SetStateAction<OneExpenseSummaryTypeDeclaration[]>): void; (arg0: any[]): void; }) {
 
 
-    fetch(`http://localhost:8080/getExpenseForMonth/${month}/${year}`).then(res => {
+    const url = fetchAllExpensesForAMonthPath(year as string, month as string);
+    fetch(url).then(res => {
         console.log(res);
         // get the data
         res.json().then(data => {
