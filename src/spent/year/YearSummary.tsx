@@ -1,14 +1,14 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {BACKEND_URL} from "../../constants";
 import types from "../../utils/types";
+import {fetchExpensesOfATypeForAYearPath, fetchTotalSpentInYearPath} from "../requests/paths";
 import createUrlParams
     from "../../utils/createURLParams";
 import {
     createListOfExpenses
 } from "../utils/createListOfExpenses";
 import React from "react";
-import fetchTotalEarnedInYear from "../utils/fetchTotalEarnedInYear";
+import fetchTotalEarnedInYear from "../requests/fetchTotalEarnedInYear";
 import fetchBudget from "../../budget/requests/fetchBudget";
 import ISetUpForm from "../../budget/types/ISetUpForm";
 import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
@@ -147,7 +147,10 @@ export default function YearSummary() {
  * @param {Function} setTotalSpent - A function to set the total amount spent for the year.
  */
 function getTotalSpentOnAYear(year: string | undefined, setTotalSpent: { (value: React.SetStateAction<number>): void; (arg0: number): void; }) {
-    fetch(`${BACKEND_URL}/expenses/total-spent?year=${year}`, {
+    const yearAsNumber = parseInt(year as string);
+    const url = fetchTotalSpentInYearPath(yearAsNumber);
+
+    fetch(url, {
         method: 'GET',
         credentials: "include",
     }).then(res => {
@@ -191,8 +194,10 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
         throw new Error('No type provided');
     }
     setSingleType(type);
-    console.log(type);
-    fetch(`${BACKEND_URL}/expenses/single-type?year=${year}&type=${type}`, {
+
+    const url = fetchExpensesOfATypeForAYearPath(parseInt(year as string), type);
+
+    fetch(url, {
         method: 'GET',
         credentials: "include",
     }).then(res => {
