@@ -1,5 +1,7 @@
 
 import ISetUpForm from "../types/ISetUpForm";
+import customFetch from "../../utils/fetchRequests";
+import {retrieveBudgetForAYear} from "./paths";
 
 /**
  * Queries the budget from the backend api
@@ -9,10 +11,15 @@ import ISetUpForm from "../types/ISetUpForm";
  */
 async function fetchBudget(): Promise<ISetUpForm> {
 
+    const url = retrieveBudgetForAYear(2024);
 
-    const response = await fetch(`http://localhost:8080/getSetUp/2024`, {
+    const response = await fetch(url, {
         method: 'GET',
     });
+
+    if (response === undefined) {
+        throw new Error('Response is undefined!');
+    }
 
     if (response.ok) {
         const data = await response.json();
@@ -23,7 +30,6 @@ async function fetchBudget(): Promise<ISetUpForm> {
         }
     } else {
         console.error('There was an error querying the setup');
-        alert("Response code was: " + response.status);
         return {
             typesBudget: undefined,
             monthBudget: 0

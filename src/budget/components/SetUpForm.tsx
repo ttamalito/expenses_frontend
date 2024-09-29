@@ -3,11 +3,12 @@ import {Button, Label} from "@fluentui/react-components";
 import types from "../../utils/types";
 import createUrlParams from "../../utils/createURLParams";
 import ISetUpForm from "../types/ISetUpForm";
+import {modifyBudget} from "../requests/modifyBudget";
 
 
 export default function SetUpForm({typesBudget, monthBudget}: ISetUpForm) {
 
-    const setUpForm = <form onSubmit={(event) => {submitSetUp(event)}}>
+    const setUpForm = <form onSubmit={(event) => {modifyBudget(event)}}>
         {/*<label htmlFor="month_budget">Month Budget:</label>*/}
         <h3>Your monthly budget is: {monthBudget}</h3>
         <br/>
@@ -91,30 +92,3 @@ export default function SetUpForm({typesBudget, monthBudget}: ISetUpForm) {
     );
 } // end of SetUpForm
 
-/**
- * Submits the data to change the set up
- * @param event
- */
-function submitSetUp(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const urlData = createUrlParams(event.currentTarget);
-    urlData.append('monthBudget', '1600')
-
-    fetch(`http://localhost:8080/modifySetUp/2024`, {
-        method: 'POST',
-        body: urlData
-    }).then(res => {
-        console.log(res);
-        // get the data
-        res.json().then(data => {
-            if (data.result) {
-                // all good
-                window.location.href = '/'; // go to the homepage
-            }
-            else {
-                alert('Something went wrong... check the backend!')
-            }
-        })
-    }).catch(err => console.error(err));
-}
