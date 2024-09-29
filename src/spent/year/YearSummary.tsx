@@ -1,18 +1,18 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {BACKEND_URL} from "../constants";
-import types from "../utils/types";
+import {BACKEND_URL} from "../../constants";
+import types from "../../utils/types";
 import createUrlParams
-    from "../utils/createURLParams";
+    from "../../utils/createURLParams";
 import {
     createListOfExpenses
-} from "./utils/createListOfExpenses";
+} from "../utils/createListOfExpenses";
 import React from "react";
-import fetchTotalEarnedInYear from "./utils/fetchTotalEarnedInYear";
-import fetchBudget from "../budget/requests/fetchBudget";
-import ISetUpForm from "../budget/types/ISetUpForm";
-import typesBudgetTypeDeclaration from "../utils/typesBudgetTypeDeclaration";
-import InternalError from "../fallback/InternalError";
+import fetchTotalEarnedInYear from "../utils/fetchTotalEarnedInYear";
+import fetchBudget from "../../budget/requests/fetchBudget";
+import ISetUpForm from "../../budget/types/ISetUpForm";
+import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
+import InternalError from "../../fallback/InternalError";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -118,7 +118,7 @@ export default function YearSummary() {
 
     </form>
 
-    const returnHome = <a href="/">Return Home</a>;
+    const returnHome = <a href="/public">Return Home</a>;
 
     return (<>
             {seeExpensesOfAType}
