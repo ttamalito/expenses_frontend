@@ -17,7 +17,7 @@ import {ReceiptMoneyRegular, EyeRegular} from "@fluentui/react-icons";
 import useButtonStyles from "./FluentStyles/baseButton";
 import {DatePicker} from "@fluentui/react-datepicker-compat";
 import ExpensesTypesTypesDeclarations from "./utils/expensesTypesTypesDeclarations";
-
+import {addOneExpensePath} from "./utils/requests/paths";
 const useDateStyles = makeStyles({
     control: {
         maxWidth: "300px",
@@ -162,7 +162,9 @@ function submitData(event: React.FormEvent<HTMLFormElement>) {
     for (const pair of urlData) {
         console.log(pair[0], pair[1]);
     }
-    fetch(`http://localhost:8080/addExpense`, { //addExpense
+    const url = addOneExpensePath;
+
+    fetch(url, { //addExpense
         method: "POST",
         body: urlData,
     }).then(res => {
