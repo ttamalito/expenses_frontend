@@ -2,13 +2,16 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import createUrlParams
-    from "./utils/createURLParams";
-import types from "./utils/types";
-import monthBudgetType from "./utils/types/monthBudgetType";
+    from "../../utils/createURLParams";
+import types from "../../utils/types";
+import monthBudgetType from "../../utils/types/monthBudgetType";
 import OneExpenseSummary
-    from "./expensesComponents/OneExpenseSummary";
+    from "../../expensesComponents/OneExpenseSummary";
 import React from "react";
-import typesBudgetTypeDeclaration from "./utils/typesBudgetTypeDeclaration";
+import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
+//import {ExpensesDataGrid} from "./spent/expensesDataGrid/ExpensesDataGrid";
+import {ExpensesDataGrid} from "../expensesDataGrid/ExpensesDataGrid";
+import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -26,13 +29,14 @@ export default function MonthExpenses() {
     const [singleTypeFlag, setSingleTypeFLag] = useState(false);
     const [totalSpentOfASingleType, setTotalSpentOfASingleType] = useState(0);
     const [totalEarned, setTotalEarned] = useState(0);
+    const [expenses, setExpenses] = useState<OneExpenseSummaryTypeDeclaration[]>([]);
     // use to keep the budget
     // @ts-ignore
     const [budget, setBudget] = useState<monthBudgetType>({monthBudget: 0, typesBudget: undefined});
     // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
-        getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned);
+        getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned, setExpenses);
         getBudget(year, setBudget);
     }, [month, year]);
 
@@ -108,7 +112,7 @@ export default function MonthExpenses() {
 
     </form>
 
-    const returnHome = <a href="/">Return Home</a>;
+    const returnHome = <a href="/public">Return Home</a>;
 
     return (<>
             {seeExpensesOfAType}
@@ -117,7 +121,7 @@ export default function MonthExpenses() {
             <br/>
             <br/>
             {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
-            {!singleTypeFlag ? allExpensesList : expensesOfATypeList}
+            {/*{!singleTypeFlag ? allExpensesList : expensesOfATypeList}*/}
             <br/>
             {!singleTypeFlag ? 'Total Spent on month:' :'Total Spent on month for a single type:'}
             {!singleTypeFlag ? totalSpent[0] : totalSpentOfASingleType}
@@ -125,6 +129,8 @@ export default function MonthExpenses() {
             {!singleTypeFlag ? `Your budget is: ${budget.monthBudget}` : `Your budget for this type is: ${budget.typesBudget[singleType as keyof typesBudgetTypeDeclaration]} euros`};
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
+            {/*<ExpensesDataGrid />*/}
+            <ExpensesDataGrid expenses={expenses}/>
         </>
     );
 
@@ -143,7 +149,8 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
     (value: React.SetStateAction<React.JSX.Element>): void;
     (arg0: React.JSX.Element): void;
 }, setTotalSpent: { (value: React.SetStateAction<number[]>): void; (arg0: any[]): void; },
-                        setTotalEarned: { (value: React.SetStateAction<number>): void; (arg0: number): void; }) {
+                        setTotalEarned: { (value: React.SetStateAction<number>): void; (arg0: number): void; },
+                        setExpenses: { (value: React.SetStateAction<OneExpenseSummaryTypeDeclaration[]>): void; (arg0: any[]): void; }) {
 
 
     fetch(`http://localhost:8080/getExpenseForMonth/${month}/${year}`).then(res => {
@@ -152,6 +159,7 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
         res.json().then(data => {
             // console.log(data);
             let totalSpent = 0;
+            setExpenses(data.expenses);
             const list = <ul>
                 {data.expenses.map( (expense: { amount: any; _id: any; type: string; notes: string; date: string; }) =>
 
