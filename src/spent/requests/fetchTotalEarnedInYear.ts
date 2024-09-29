@@ -1,5 +1,5 @@
 import { BACKEND_URL } from "../../constants";
-
+import {fetchTotalEarnedInYearPath} from "./paths";
 /**
  * Retrieves the total amount of money received in a specific year from the backend API.
  * The response is returned as a number.
@@ -9,7 +9,8 @@ import { BACKEND_URL } from "../../constants";
  */
 export default async function fetchTotalEarnedInYear(year: number): Promise<number | undefined> {
   let totalEarned: number | undefined = undefined;
-  const res = await fetch(`${BACKEND_URL}/income/total-earned?year=${year}`, {
+  const url = fetchTotalEarnedInYearPath(year);
+  const res = await fetch(url, {
     method: 'GET',
     credentials: 'include',
   });
