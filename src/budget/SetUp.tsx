@@ -16,7 +16,6 @@ export default function SetUp() {
             }
         ).catch((error) => {
             console.error('There was an error querying the setup');
-            alert("There was an error querying the setup");
         });
     }, [setBudget]);
 

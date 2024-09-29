@@ -4,6 +4,6 @@ export const retrieveBudgetForAYear = (year: number) => {
     return `${BACKEND_URL}/budget/${year}`;
 }
 
-const modifyBudgetForAYear = (year: number) => {
+export const modifyBudgetForAYear = (year: number) => {
     return `${BACKEND_URL}/budget/modify/${year}`;
 }
