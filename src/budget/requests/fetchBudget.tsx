@@ -1,6 +1,5 @@
 
 import ISetUpForm from "../types/ISetUpForm";
-import customFetch from "../../utils/fetchRequests";
 import {retrieveBudgetForAYear} from "./paths";
 import {IResponseWrapper} from "../../wrappers/IResponseWrapper";
 import InternalAPINotFound from "../../fallback/InternalAPINotFound";
