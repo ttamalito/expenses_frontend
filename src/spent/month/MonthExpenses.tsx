@@ -12,6 +12,8 @@ import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
 //import {ExpensesDataGrid} from "./spent/expensesDataGrid/ExpensesDataGrid";
 import {ExpensesDataGrid} from "../expensesDataGrid/ExpensesDataGrid";
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
+import {retrieveBudgetForAYear} from "../../budget/requests/paths";
+import {fetchExpensesOfATypeForAMonthPath} from "../requests/paths";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -202,7 +204,9 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
  */
 function getBudget(year: string | undefined,
                    setBudget: { (value: React.SetStateAction<monthBudgetType>): void; (arg0: any): void; }) {
-    fetch(`http://localhost:8080/getSetUp/${year}`, {
+
+    const url = retrieveBudgetForAYear(parseInt(year as string));
+    fetch(url, {
         method: 'GET',
     }).then(res => {
         console.log(res);
@@ -236,7 +240,8 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
     // prevent default
     event.preventDefault();
     const urlData = createUrlParams(event.currentTarget);
-    fetch(`http://localhost:8080/getExpensesOfType/${month}/${year}`, {
+    const url = fetchExpensesOfATypeForAMonthPath(year as string, month as string)
+    fetch(url, {
         method: 'POST',
         body: urlData
     }).then(res => {
