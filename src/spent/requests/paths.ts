@@ -10,3 +10,5 @@ export const fetchExpensesOfATypeForAMonthPath = (year: string, month: string ) 
 
 export const fetchAllExpensesForAMonthPath = (year: string, month: string ) => `${BACKEND_URL}/expenses/monthly/${month}/${year}`;
 
+export const fetchAllExpensesForAYearPath = (year: string) => `${BACKEND_URL}/expenses/yearly/${year}`;
+
