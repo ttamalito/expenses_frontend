@@ -1,10 +1,23 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
 import React from "react";
-import {Button, Field, makeStyles, Radio, RadioGroup} from "@fluentui/react-components";
+import {
+    Button,
+    Field,
+    makeStyles,
+    Radio,
+    RadioGroup,
+    Dropdown,
+    Input,
+    Option,
+    Select,
+    InfoLabel
+} from "@fluentui/react-components";
+import {ReceiptMoneyRegular, EyeRegular} from "@fluentui/react-icons";
 import useButtonStyles from "./FluentStyles/baseButton";
 import {DatePicker} from "@fluentui/react-datepicker-compat";
-
+import ExpensesTypesTypesDeclarations from "./utils/expensesTypesTypesDeclarations";
+import {addOneExpensePath} from "./utils/requests/paths";
 const useDateStyles = makeStyles({
     control: {
         maxWidth: "300px",
@@ -13,6 +26,16 @@ const useDateStyles = makeStyles({
 
 export default function Base() {
     const buttonStyles = useButtonStyles();
+
+    let typeKey: keyof ExpensesTypesTypesDeclarations;
+    const keysOfTypesOfTransactions : (keyof ExpensesTypesTypesDeclarations)[] = [
+    ];
+    const typesOfTransactions = [];
+
+    for (typeKey in types) {
+        keysOfTypesOfTransactions.push(typeKey);
+        typesOfTransactions.push(types[typeKey]);
+    }
 
 
     const dateStyles = useDateStyles();
@@ -30,8 +53,8 @@ export default function Base() {
                name={'month'}/>
         <input type="number" placeholder={'year'}
                name={'year'}/>
-        <Button className={buttonStyles.button}
-                type={'submit'}>See
+        <Button
+                type={'submit'} icon={<EyeRegular />}>See
             Expenses</Button>
     </form>
 
@@ -62,8 +85,6 @@ export default function Base() {
         </Field>
         <br/>
 
-
-        <br/>
         <Field label="Expense of Income?">
             <RadioGroup layout="horizontal-stacked" name={'transaction'} required={true}>
                 <Radio value="expense" label="Expense"/>
@@ -71,29 +92,17 @@ export default function Base() {
 
             </RadioGroup>
         </Field>
-        <Field label="Type of Transaction">
-            <RadioGroup layout="horizontal-stacked" name={'type'} required={true}>
-                <Radio value={types.ESSENTIAL_FOOD} label="Essential Food"/>
-                <Radio value={types.NON_ESSENTIAL_FOOD} label="Non Essential Food"/>
-                <Radio value={types.PARTY} label="Party"/>
-                <Radio value={types.PHONE} label="Phone"/>
-                <Radio value={types.INSURANCE} label="Insurance"/>
-                <Radio value={types.INCOME} label="Income"/>
-                <Radio value={types.HOME} label="Home"/>
-                <Radio value={types.RECREATIONAL_PURCHASE} label="Recreational Purchase"/>
-                <Radio value={types.RENT} label="Rent"/>
-                <Radio value={types.GIFT} label="Gift"/>
-                <Radio value={types.VACATION} label="Vacation"/>
-                <Radio value={types.SAVINGS} label="Savings"/>
-                <Radio value={types.INVESTMENT} label="Investment"/>
-                <Radio value={types.GYM} label="Gym"/>
-                <Radio value={types.MEDICINE} label="Medicine"/>
-                <Radio value={types.CLOTHES} label="Clothes"/>
-                <Radio value={types.UNIVERSITY} label="University"/>
-                <Radio value={types.OTHER} label="Other"/>
-            </RadioGroup>
-        </Field>
-
+        <br/>
+        <InfoLabel info="Select one of the transaction types of the list down below" htmlFor={"transaction-type"}>
+            Type of Transaction
+        </InfoLabel>
+        <Select name={'type'} size={"small"} id={"transaction-type"} style={{ width: '200px' }}>
+            {keysOfTypesOfTransactions.map((option) => (
+                <option key={option.valueOf()} value={types[option]}>
+                    {option.valueOf()}
+                </option>
+            ))}
+        </Select>
         <br/>
         <input type="text"
                placeholder={'notes'}
@@ -102,7 +111,7 @@ export default function Base() {
         <br/>
 
 
-        <Button type={'submit'}>Add
+        <Button type={'submit'} icon={<ReceiptMoneyRegular />}>Add
             Expense</Button>
 
 
@@ -128,12 +137,11 @@ export default function Base() {
             {setUp}
             {h2}
             <br/>
-
             {getExpenseForMonth}
             <br/>
             {yearlySummary}
             <br/>
-            {'Add a transaction'}
+            <h2 style={{color: 'black', fontSize: '24px', margin: '20px 0'}}>Add an expense</h2>
             {form}
         </div>
     );
@@ -150,8 +158,13 @@ function expenseForAMonth(event: React.FormEvent<HTMLFormElement>) {
 function submitData(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const urlData = createUrlParams(event.currentTarget);
+    // log the urlData
+    for (const pair of urlData) {
+        console.log(pair[0], pair[1]);
+    }
+    const url = addOneExpensePath;
 
-    fetch(`http://localhost:8080/addExpense`, { //addExpense
+    fetch(url, { //addExpense
         method: "POST",
         body: urlData,
     }).then(res => {

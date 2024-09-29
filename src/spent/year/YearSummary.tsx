@@ -1,17 +1,18 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {BACKEND_URL} from "../constants";
-import types from "../utils/types";
+import types from "../../utils/types";
+import {fetchExpensesOfATypeForAYearPath, fetchTotalSpentInYearPath} from "../requests/paths";
 import createUrlParams
-    from "../utils/createURLParams";
+    from "../../utils/createURLParams";
 import {
     createListOfExpenses
-} from "./utils/createListOfExpenses";
+} from "../utils/createListOfExpenses";
 import React from "react";
-import fetchTotalEarnedInYear from "./utils/fetchTotalEarnedInYear";
-import fetchBudget from "../budget/requests/fetchBudget";
-import ISetUpForm from "../budget/types/ISetUpForm";
-import typesBudgetTypeDeclaration from "../utils/typesBudgetTypeDeclaration";
+import fetchTotalEarnedInYear from "../requests/fetchTotalEarnedInYear";
+import fetchBudget from "../../budget/requests/fetchBudget";
+import ISetUpForm from "../../budget/types/ISetUpForm";
+import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
+import InternalError from "../../fallback/InternalError";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -35,9 +36,13 @@ export default function YearSummary() {
     useEffect(() => {
         getTotalSpentOnAYear(year, setTotalSpent);
         retrieveTotalEarnedInAYear(year, setTotalEarned);
-        fetchBudget().then((budget) => {
+        fetchBudget().then((responseWrapper) => {
+            const budget = responseWrapper.data;
             setBudget(budget);
-        }).catch((error) => {console.error(error);})
+        }).catch((error) => {
+            console.error(error);
+            return <InternalError url={''} error={error} />;
+        })
     }, [year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => getExpensesOfAType(
@@ -113,7 +118,7 @@ export default function YearSummary() {
 
     </form>
 
-    const returnHome = <a href="/">Return Home</a>;
+    const returnHome = <a href="/public">Return Home</a>;
 
     return (<>
             {seeExpensesOfAType}
@@ -142,7 +147,10 @@ export default function YearSummary() {
  * @param {Function} setTotalSpent - A function to set the total amount spent for the year.
  */
 function getTotalSpentOnAYear(year: string | undefined, setTotalSpent: { (value: React.SetStateAction<number>): void; (arg0: number): void; }) {
-    fetch(`${BACKEND_URL}/expenses/total-spent?year=${year}`, {
+    const yearAsNumber = parseInt(year as string);
+    const url = fetchTotalSpentInYearPath(yearAsNumber);
+
+    fetch(url, {
         method: 'GET',
         credentials: "include",
     }).then(res => {
@@ -186,8 +194,10 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
         throw new Error('No type provided');
     }
     setSingleType(type);
-    console.log(type);
-    fetch(`${BACKEND_URL}/expenses/single-type?year=${year}&type=${type}`, {
+
+    const url = fetchExpensesOfATypeForAYearPath(parseInt(year as string), type);
+
+    fetch(url, {
         method: 'GET',
         credentials: "include",
     }).then(res => {

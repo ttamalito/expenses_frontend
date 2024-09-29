@@ -3,6 +3,16 @@ import OneExpenseSummaryTypeDeclaration
 import {Button, Field, makeStyles } from "@fluentui/react-components";
 import {DatePicker} from "@fluentui/react-datepicker-compat";
 import React from "react";
+import {
+    Dialog,
+    DialogTrigger,
+    DialogSurface,
+    DialogTitle,
+    DialogBody,
+    DialogActions,
+    DialogContent
+} from "@fluentui/react-components";
+import {modifyOneExpensePath} from "./requests/paths";
 interface IExpense {
     expense: OneExpenseSummaryTypeDeclaration
     setShowModifyForm: (cancelModification: boolean) => void
@@ -35,7 +45,31 @@ export default function ModifyExpenseForm({expense, setShowModifyForm}: IExpense
     </form>
 
     const cancelModificationButton = <Button onClick={() => {setShowModifyForm(false)}}>Cancel</Button>
-    return <div>{expenseForm} {cancelModificationButton}</div>
+    //return <div>{expenseForm} {cancelModificationButton}</div>
+    return (
+        <Dialog>
+            <DialogTrigger disableButtonEnhancement>
+                <Button>Open dialog</Button>
+            </DialogTrigger>
+            <DialogSurface>
+                <DialogBody>
+                    <DialogTitle>Dialog title</DialogTitle>
+                    <DialogContent>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+                        exercitationem cumque repellendus eaque est dolor eius expedita
+                        nulla ullam? Tenetur reprehenderit aut voluptatum impedit voluptates
+                        in natus iure cumque eaque?
+                    </DialogContent>
+                    <DialogActions>
+                        <DialogTrigger disableButtonEnhancement>
+                            <Button appearance="secondary">Close</Button>
+                        </DialogTrigger>
+                        <Button appearance="primary">Do Something</Button>
+                    </DialogActions>
+                </DialogBody>
+            </DialogSurface>
+        </Dialog>
+    );
 
 }
 
@@ -51,7 +85,10 @@ function modifyExpense(event: React.FormEvent<HTMLFormElement>, id: string) {
         console.log(pair[0], pair[1]);
         urlData.append(pair[0], pair[1].toString());
     }
-    fetch('http://localhost:8080/expenses/modify' + '?id=' + id, {
+
+    const url = modifyOneExpensePath(id);
+
+    fetch(url, {
         method: 'POST',
         redirect: 'follow',
         body: urlData,

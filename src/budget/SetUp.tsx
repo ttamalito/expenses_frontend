@@ -5,23 +5,36 @@ import typesBudgetTypeDeclaration from "../utils/typesBudgetTypeDeclaration";
 import SetUpForm from "./components/SetUpForm";
 import ISetUpForm from "./types/ISetUpForm";
 import fetchBudget from "./requests/fetchBudget";
+import InternalError from "../fallback/InternalError";
+import {IErrorWrapper, defaultErrorWrapper} from "../wrappers/IErrorWrapper";
 
 export default function SetUp() {
     const [budget, setBudget] = useState<ISetUpForm>({typesBudget: undefined, monthBudget: 0});
+    const [errorWrapper, setErrorWrapper] = useState<IErrorWrapper>(defaultErrorWrapper);
     useEffect(() => {
         fetchBudget().then(
-            (result) => {
+            (responseWrapper) => {
                 console.log('Passing the budget into the state');
-                setBudget(result);
+                if (responseWrapper.response.ok) {
+                    const budget = responseWrapper.data;
+                    setBudget(budget);
+                } else if (responseWrapper.element !== undefined) {
+                    console.error('There was an error querying the budget');
+                    setErrorWrapper({element: responseWrapper.element, error: true});
+                }
+
             }
         ).catch((error) => {
             console.error('There was an error querying the setup');
-            alert("There was an error querying the setup");
+            return <InternalError url={''} error={error} />
         });
     }, [setBudget]);
 
 
     const returnHome = <a href={'/'}>Return Home</a>;
+    if (errorWrapper.error) {
+        return errorWrapper.element;
+    }
     return (
         <>
             {returnHome}
