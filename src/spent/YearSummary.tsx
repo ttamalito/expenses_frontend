@@ -12,6 +12,7 @@ import fetchTotalEarnedInYear from "./utils/fetchTotalEarnedInYear";
 import fetchBudget from "../budget/requests/fetchBudget";
 import ISetUpForm from "../budget/types/ISetUpForm";
 import typesBudgetTypeDeclaration from "../utils/typesBudgetTypeDeclaration";
+import InternalError from "../fallback/InternalError";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -35,9 +36,13 @@ export default function YearSummary() {
     useEffect(() => {
         getTotalSpentOnAYear(year, setTotalSpent);
         retrieveTotalEarnedInAYear(year, setTotalEarned);
-        fetchBudget().then((budget) => {
+        fetchBudget().then((responseWrapper) => {
+            const budget = responseWrapper.data;
             setBudget(budget);
-        }).catch((error) => {console.error(error);})
+        }).catch((error) => {
+            console.error(error);
+            return <InternalError url={''} error={error} />;
+        })
     }, [year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => getExpensesOfAType(
