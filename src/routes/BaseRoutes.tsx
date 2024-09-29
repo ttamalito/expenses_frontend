@@ -1,9 +1,9 @@
 import React from "react";
 import {Route, Routes} from "react-router-dom";
 import Base from "../Base";
-import MonthExpenses from "../MonthExpenses";
+import MonthExpenses from "../spent/month/MonthExpenses";
 import SetUp from "../budget/SetUp";
-import YearSummary from "../spent/YearSummary";
+import YearSummary from "../spent/year/YearSummary";
 
 export default function BaseRoutes() {
 
