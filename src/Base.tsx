@@ -134,7 +134,7 @@ export default function Base() {
             <h1>Expenses Manager</h1>
             {setUp}
             <br/>
-            <GaugeChartBudget expenseType={types.ESSENTIAL_FOOD} />
+            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false} /> {/* all expenses */}
             {h2}
             <br/>
             {getExpenseForMonth}
