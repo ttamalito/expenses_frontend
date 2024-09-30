@@ -25,6 +25,8 @@ export default function SetUp() {
                 console.log('Passing the budget into the state');
                 if (responseWrapper.response.ok) {
                     const budget = responseWrapper.data;
+                    console.log('The budget is: ' + JSON.stringify(budget));
+                    console.log('The month budget is: ' + budget.monthBudget);
                     setBudget(budget);
                 } else if (responseWrapper.element !== undefined) {
                     console.error('There was an error querying the budget');
