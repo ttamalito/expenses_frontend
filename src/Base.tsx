@@ -59,6 +59,10 @@ export default function Base() {
     // add an expense
     const form = <form onSubmit={(event) => {
         submitData(event, setShowAlert)
+        // create a timer for 3 seconds
+        setTimeout(() => {
+            setShowAlert({alert: <></>, show: false});
+        }, 3000);
     }}>
 
 
