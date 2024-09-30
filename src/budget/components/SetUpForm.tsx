@@ -1,16 +1,39 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Label} from "@fluentui/react-components";
 import types from "../../utils/types";
 import createUrlParams from "../../utils/createURLParams";
 import ISetUpForm from "../types/ISetUpForm";
 import {modifyBudget} from "../requests/modifyBudget";
+import {createErrorAlert, defaultShowAlertWrapper, IShowAlertWrapper} from "../../wrappers/IShowAlertWrapper";
+
+/**
+ * SetUpForm component
+ *
+ * @param {Object} props - The properties object
+ * @param {Object} props.typesBudget - The budget types object
+ * @param {number} props.monthBudget - The initial monthly budget value
+ * @returns {JSX.Element} The SetUpForm component
+ */
+export default function SetUpForm({typesBudget, monthBudget}: ISetUpForm): JSX.Element {
+
+    const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
+    console.log('The types budget is: ' + JSON.stringify(typesBudget));
+    console.log('The month budget is: ' + monthBudget);
+    const [monthBudgetValue, setMonthBudgetValue] = useState<number>(monthBudget);
+    console.log('The month budget value is: ' + monthBudgetValue);
 
 
-export default function SetUpForm({typesBudget, monthBudget}: ISetUpForm) {
-
-    const setUpForm = <form onSubmit={(event) => {modifyBudget(event)}}>
+    const setUpForm = <form onSubmit={(event) => {
+        modifyBudget(event, setMonthBudgetValue).then( (responseWrapper) => {
+            setShowAlert(responseWrapper);
+        }).catch((error) => {
+            console.error('There was an error modifying the budget');
+            setShowAlert({show: true, alert: createErrorAlert('There was an error modifying the budget')});
+        });
+    }
+    }>
         {/*<label htmlFor="month_budget">Month Budget:</label>*/}
-        <h3>Your monthly budget is: {monthBudget}</h3>
+        <h3>Your monthly budget is: {monthBudgetValue ? monthBudgetValue : monthBudget}</h3>
         <br/>
         <Label htmlFor="essential_food_budget" weight={"semibold"}>Essential Food:</Label>
         <input type="number" placeholder={'Essential Food buget'} defaultValue={typesBudget?.essential_food}
@@ -88,7 +111,11 @@ export default function SetUpForm({typesBudget, monthBudget}: ISetUpForm) {
         <Button type={'submit'}>Change Budget</Button>
     </form>;
     return (
-        setUpForm
+        <>
+            {showAlert.show && showAlert.alert}
+            <br/>
+            {setUpForm}
+        </>
     );
 } // end of SetUpForm
 
