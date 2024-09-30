@@ -12,3 +12,12 @@ export const fetchAllExpensesForAMonthPath = (year: string, month: string ) => `
 
 export const fetchAllExpensesForAYearPath = (year: string) => `${BACKEND_URL}/expenses/yearly/${year}`;
 
+/**
+ * Fetch the total spent in a month
+ * use type === 'all' to get total spent in a month
+ * otherwise use the type of expense
+ * @param year
+ * @param month
+ * @param type
+ */
+export const fetchTotalSpentInMonthPath = (year: number, month: number, type: string) => `${BACKEND_URL}/expenses/total-spent/monthly?month=${month}&year=${year}&type=${type}`;

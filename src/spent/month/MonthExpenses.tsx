@@ -48,7 +48,7 @@ export default function MonthExpenses() {
             year,
             setExpensesOfATypeList,
             setSingleTypeFLag,
-            setTotalSpentOfASingleType, setSingleType)}}>
+            setTotalSpentOfASingleType, setSingleType, setExpenses)}}>
 
         <input type={'radio'} id={'essential_food'} value={types.ESSENTIAL_FOOD} name={'type'} autoComplete={'off'}/>
         <label htmlFor="essential_food">Essential Food</label>
@@ -230,6 +230,8 @@ function getBudget(year: string | undefined,
  * @param {Function} setExpensesOfATypeList
  * @param {Function} setSingleTypeFLag
  * @param {Function} setTotalSpentOfASingleType
+ * @param setSingleType
+ * @param {Function} setExpenses
  */
 function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
                             month: string | undefined,
@@ -237,7 +239,8 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
                             setExpensesOfATypeList: { (value: React.SetStateAction<React.JSX.Element>): void; (arg0: React.JSX.Element): void; },
                             setSingleTypeFLag: { (value: React.SetStateAction<boolean>): void; (arg0: boolean): void; },
                             setTotalSpentOfASingleType: { (value: React.SetStateAction<number>): void; (arg0: number): void; },
-                            setSingleType: { (value: React.SetStateAction<string>): void; (arg0: string): void; }) {
+                            setSingleType: { (value: React.SetStateAction<string>): void; (arg0: string): void; },
+                            setExpenses: { (value: React.SetStateAction<OneExpenseSummaryTypeDeclaration[]>): void; (arg0: any[]): void; }) {
     // prevent default
     event.preventDefault();
     const urlData = createUrlParams(event.currentTarget);
@@ -251,6 +254,7 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
         res.json().then(data => {
             console.log(data);
             let totalSpent = 0;
+            setExpenses(data.expenses);
 
             const list = <ul>
                 {data.expenses.map( (expense: { amount: any; _id: any; type: string; notes: string; date: string; }) =>

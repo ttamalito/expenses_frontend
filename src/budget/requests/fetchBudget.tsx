@@ -18,6 +18,7 @@ async function fetchBudget(): Promise<IResponseWrapper<ISetUpForm>> {
     const response = await fetch(url, {
         method: 'GET',
     });
+    const alert = undefined;
 
     if (response.ok) {
         const data = await response.json();
@@ -30,7 +31,8 @@ async function fetchBudget(): Promise<IResponseWrapper<ISetUpForm>> {
             response: response,
             data: budgetData,
             error: undefined,
-            element: undefined
+            element: undefined,
+            alert: alert
         }
     } else if (response.status === 404) {
         console.error('Url not found');
@@ -43,7 +45,8 @@ async function fetchBudget(): Promise<IResponseWrapper<ISetUpForm>> {
             response: response,
             data: budgetData,
             error: undefined,
-            element: internalApiNotFound
+            element: internalApiNotFound,
+            alert: alert
         }
     } else if (response.status === 500) {
         console.error('Internal server error');
@@ -57,7 +60,8 @@ async function fetchBudget(): Promise<IResponseWrapper<ISetUpForm>> {
             response: response,
             data: budgetData,
             error: undefined,
-            element: internalApiNotFound
+            element: internalApiNotFound,
+            alert: alert
         }
     }
 
@@ -70,7 +74,8 @@ async function fetchBudget(): Promise<IResponseWrapper<ISetUpForm>> {
         response: response,
         data: budgetData,
         error: error,
-        element: undefined
+        element: undefined,
+        alert: alert
     }
 
 } // end of querySetUP

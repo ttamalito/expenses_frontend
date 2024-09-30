@@ -1,23 +1,20 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
-import React from "react";
-import {
-    Button,
-    Field,
-    makeStyles,
-    Radio,
-    RadioGroup,
-    Dropdown,
-    Input,
-    Option,
-    Select,
-    InfoLabel
-} from "@fluentui/react-components";
-import {ReceiptMoneyRegular, EyeRegular} from "@fluentui/react-icons";
+import React, {useState} from "react";
+import {Button, Field, InfoLabel, makeStyles, Radio, RadioGroup, Select} from "@fluentui/react-components";
+import {EyeRegular, ReceiptMoneyRegular} from "@fluentui/react-icons";
 import useButtonStyles from "./FluentStyles/baseButton";
 import {DatePicker} from "@fluentui/react-datepicker-compat";
 import ExpensesTypesTypesDeclarations from "./utils/expensesTypesTypesDeclarations";
 import {addOneExpensePath} from "./utils/requests/paths";
+import {
+    createErrorAlert,
+    createSuccessAlert,
+    defaultShowAlertWrapper,
+    IShowAlertWrapper
+} from "./wrappers/IShowAlertWrapper";
+import GaugeChartBudget from "./charts/GaugeChartBudget";
+
 const useDateStyles = makeStyles({
     control: {
         maxWidth: "300px",
@@ -25,6 +22,7 @@ const useDateStyles = makeStyles({
 });
 
 export default function Base() {
+    const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
     const buttonStyles = useButtonStyles();
 
     let typeKey: keyof ExpensesTypesTypesDeclarations;
@@ -60,7 +58,7 @@ export default function Base() {
 
     // add an expense
     const form = <form onSubmit={(event) => {
-        submitData(event)
+        submitData(event, setShowAlert)
     }}>
 
 
@@ -135,11 +133,15 @@ export default function Base() {
         <div className="App">
             <h1>Expenses Manager</h1>
             {setUp}
+            <br/>
+            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false} /> {/* all expenses */}
             {h2}
             <br/>
             {getExpenseForMonth}
             <br/>
             {yearlySummary}
+            <br/>
+            {showAlert.show && showAlert.alert}
             <br/>
             <h2 style={{color: 'black', fontSize: '24px', margin: '20px 0'}}>Add an expense</h2>
             {form}
@@ -155,7 +157,7 @@ function expenseForAMonth(event: React.FormEvent<HTMLFormElement>) {
     window.location.href = `/expensesMonth/${month}/${year}`
 }
 
-function submitData(event: React.FormEvent<HTMLFormElement>) {
+function submitData(event: React.FormEvent<HTMLFormElement>, setShowAlert: React.Dispatch<React.SetStateAction<IShowAlertWrapper>>) {
     event.preventDefault();
     const urlData = createUrlParams(event.currentTarget);
     // log the urlData
@@ -172,14 +174,20 @@ function submitData(event: React.FormEvent<HTMLFormElement>) {
 
         // get the data
         res.json().then(data => {
-            console.log(data);
+            //console.log(data);
             if (data.result) {
                 // allgucci
-                alert('Your expense was recorded');
+                // alert('Your expense was recorded');
+                const successAlert = createSuccessAlert('Your expense was successfully recorded');
+                setShowAlert({alert: successAlert, show: true});
                 (event.target as HTMLFormElement).reset();
             }
         })
-    }).catch(err => console.error(err));
+    }).catch(err => {
+        console.error(err)
+        const errorAlert = createErrorAlert('There was an error recording your expense ' + err);
+        setShowAlert({alert: errorAlert, show: true});
+    });
 } // end of submitdata
 
 function createUrlParams(form:

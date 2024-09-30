@@ -1,22 +1,32 @@
 import React, {useEffect, useRef, useState} from "react";
 import expensesTypesTypesDeclarations from "../utils/expensesTypesTypesDeclarations";
 import typesBudgetTypeDeclaration from "../utils/typesBudgetTypeDeclaration";
-
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 import SetUpForm from "./components/SetUpForm";
 import ISetUpForm from "./types/ISetUpForm";
 import fetchBudget from "./requests/fetchBudget";
 import InternalError from "../fallback/InternalError";
 import {IErrorWrapper, defaultErrorWrapper} from "../wrappers/IErrorWrapper";
+import {IShowAlertWrapper, defaultShowAlertWrapper} from "../wrappers/IShowAlertWrapper";
+
+
 
 export default function SetUp() {
     const [budget, setBudget] = useState<ISetUpForm>({typesBudget: undefined, monthBudget: 0});
     const [errorWrapper, setErrorWrapper] = useState<IErrorWrapper>(defaultErrorWrapper);
+    const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
+
+    const successfullUpdateAlert = <Alert severity="success" icon={<CheckIcon fontSize={'inherit'}/>}>The budget was updated successfully </Alert>;
+
     useEffect(() => {
         fetchBudget().then(
             (responseWrapper) => {
                 console.log('Passing the budget into the state');
                 if (responseWrapper.response.ok) {
                     const budget = responseWrapper.data;
+                    console.log('The budget is: ' + JSON.stringify(budget));
+                    console.log('The month budget is: ' + budget.monthBudget);
                     setBudget(budget);
                 } else if (responseWrapper.element !== undefined) {
                     console.error('There was an error querying the budget');
@@ -31,6 +41,8 @@ export default function SetUp() {
     }, [setBudget]);
 
 
+    const showAlertButton = <button onClick={() => setShowAlert({alert: successfullUpdateAlert, show: true})}>Show Alert</button>;
+
     const returnHome = <a href={'/'}>Return Home</a>;
     if (errorWrapper.error) {
         return errorWrapper.element;
@@ -39,6 +51,9 @@ export default function SetUp() {
         <>
             {returnHome}
             <br/>
+            {showAlertButton}
+            <br/>
+            {showAlert.show && showAlert.alert}
             <h2>Modify your monthly budget</h2>
             {<SetUpForm typesBudget={budget.typesBudget} monthBudget={budget.monthBudget}/>}
         </>
