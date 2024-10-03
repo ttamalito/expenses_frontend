@@ -11,6 +11,7 @@ interface IGaugeChartBudgetProps {
     width: number;
     height: number;
     yearFlag: boolean;
+    updateFlag: boolean;
 }
 
 /**
@@ -20,10 +21,12 @@ interface IGaugeChartBudgetProps {
  * @param expenseType - The type of expense for which the budget is being displayed. If not provided, the total spent on the entire month is shown.
  * @param height - The height of the Gauge chart in pixels.
  * @param width - The width of the Gauge chart in pixels.
+ * @param yearFlag - A boolean flag indicating whether the budget is for the entire year or just the month.
+ * @param updateFlag - A boolean flag indicating that the Gauge chart should be updated.
  *
  * @returns A React component displaying the Gauge chart and relevant information.
  */
-function GaugeChartBudget({expenseType, height, width, yearFlag}: IGaugeChartBudgetProps) {
+function GaugeChartBudget({expenseType, height, width, yearFlag, updateFlag}: IGaugeChartBudgetProps) {
     const [budget, setBudget] = React.useState<number>(0);
     const [totalSpent, setTotalSpent] = React.useState<number>(0);
     const [showAlert, setShowAlert] = React.useState<IShowAlertWrapper>(defaultShowAlertWrapper);
@@ -57,7 +60,7 @@ function GaugeChartBudget({expenseType, height, width, yearFlag}: IGaugeChartBud
             }).catch((error) => {console.error(error)});
         }
 
-    }, [expenseType]);
+    }, [updateFlag]);
 
     const spentMoreThanBudgetAlert = createWarningAlert('You have spent ' + Math.floor((totalSpent - budget))  + ' euros more than your budget');
 
