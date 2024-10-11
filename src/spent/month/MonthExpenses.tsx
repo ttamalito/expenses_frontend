@@ -14,6 +14,7 @@ import {ExpensesDataGrid} from "../expensesDataGrid/ExpensesDataGrid";
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
 import {retrieveBudgetForAYear} from "../../budget/requests/paths";
 import {fetchExpensesOfATypeForAMonthPath, fetchAllExpensesForAMonthPath} from "../requests/paths";
+import SelectExpenseTypes from "../shared/SelectExpenseTypes";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -118,6 +119,7 @@ export default function MonthExpenses() {
 
     return (<>
             {seeExpensesOfAType}
+            {<SelectExpenseTypes />}
             <br/>
             {returnHome}
             <br/>
