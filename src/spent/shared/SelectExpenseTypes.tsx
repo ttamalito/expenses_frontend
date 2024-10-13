@@ -20,9 +20,11 @@ const MenuProps = {
 const names: string[] = [
 
 ];
-for (const type in expensesTypes) {
-    names.push(type);
+let type: keyof typeof expensesTypes;
+for (type in expensesTypes) {
+    names.push(expensesTypes[type]);
 }
+
 
 
 export default function SelectExpenseTypes() {
@@ -40,28 +42,26 @@ export default function SelectExpenseTypes() {
 
     return (
         <div>
-            <FormControl sx={{ m: 1, width: 400, height: 200 }} size={"small"}>
-                <InputLabel id="demo-multiple-checkbox-label">Filter Expenses by type</InputLabel>
+                <InputLabel id="demo-multiple-checkbox-label">See Expenses of a Type</InputLabel>
                 <Select
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
-                    name={'type-MUI'}
-                    size={"small"}
+                    name={'type'}
+                    size={"medium"}
                     //multiple
                     value={personName}
                     onChange={handleChange}
-                    input={<OutlinedInput label="Filter Expenses by type" />}
+                    input={<OutlinedInput label="" size={"medium"} />}
                     renderValue={(selected) => selected.join(', ')}
                     MenuProps={MenuProps}
                 >
                     {names.map((name) => (
-                        <MenuItem key={name} value={name} >
-                            <Checkbox checked={personName.includes(name)} />
+                        <MenuItem key={name} value={name}>
+                            <Checkbox checked={personName.includes(name)} size={"small"} />
                             <ListItemText primary={name} />
                         </MenuItem>
                     ))}
                 </Select>
-            </FormControl>
         </div>
     );
 }
