@@ -118,7 +118,7 @@ export default function YearSummary() {
 
     </form>
 
-    const returnHome = <a href="/public">Return Home</a>;
+    const returnHome = <a href="/">Return Home</a>;
 
     return (<>
             {seeExpensesOfAType}
