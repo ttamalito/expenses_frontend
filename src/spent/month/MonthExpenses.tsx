@@ -115,7 +115,7 @@ export default function MonthExpenses() {
 
     </form>
 
-    const returnHome = <a href="/public">Return Home</a>;
+    const returnHome = <a href="/">Return Home</a>;
 
     return (<>
             {seeExpensesOfAType}
