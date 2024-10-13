@@ -88,6 +88,25 @@ const columns: TableColumnDefinition<IExpenseItem>[] = [
             );
         },
     }),
+    createTableColumn<IExpenseItem>({
+        columnId: "notes",
+        compare: (a, b) => {
+            if (a.notes.label < b.notes.label) {
+                return -1;
+            }
+            return 1;
+        },
+        renderHeaderCell: () => {
+            return "Notes";
+        },
+        renderCell: (item) => {
+            return (
+                <TableCellLayout media={item.notes.icon}>
+                    {item.notes.label}
+                </TableCellLayout>
+            );
+        },
+    }),
 
     createTableColumn<IExpenseItem>({
         columnId: "singleAction",

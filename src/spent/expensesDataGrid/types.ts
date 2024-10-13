@@ -19,11 +19,17 @@ export type IDateCell = {
     icon: JSX.Element;
 };
 
+export type INotesCell = {
+    label: string;
+    icon: JSX.Element;
+};
+
 
 export type IExpenseItem = {
     id: string
     amount: IAmount;
     type: ITypeCell;
     date: IDateCell;
+    notes: INotesCell;
     lastUpdated: LastUpdatedCell;
 };
