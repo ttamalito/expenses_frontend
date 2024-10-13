@@ -138,7 +138,7 @@ export const ExpensesDataGrid = ({expenses} : IExpenses) => {
             sortable
             selectionMode="multiselect"
             getRowId={(item) => item.amount.label}
-            onSelectionChange={(e, data) => console.log(data)}
+            //onSelectionChange={(e, data) => console.log(data)}
             style={{ minWidth: "550px" }}
         >
             <DataGridHeader>
@@ -161,7 +161,7 @@ export const ExpensesDataGrid = ({expenses} : IExpenses) => {
                         }}
                     >
                         {({ renderCell, columnId }) => (
-                            <DataGridCell focusMode={getCellFocusMode(columnId)}>
+                            <DataGridCell >
                                 {renderCell(item)}
                             </DataGridCell>
                         )}

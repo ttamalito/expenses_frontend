@@ -1,6 +1,6 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Field, InfoLabel, makeStyles, Radio, RadioGroup, Select} from "@fluentui/react-components";
 import {EyeRegular, ReceiptMoneyRegular} from "@fluentui/react-icons";
 import useButtonStyles from "./FluentStyles/baseButton";
@@ -14,6 +14,7 @@ import {
     IShowAlertWrapper
 } from "./wrappers/IShowAlertWrapper";
 import GaugeChartBudget from "./charts/GaugeChartBudget";
+import fetchTotalSpentInAMonth from "./spent/requests/fetchTotalSpentInAMonth";
 
 const useDateStyles = makeStyles({
     control: {
@@ -23,7 +24,9 @@ const useDateStyles = makeStyles({
 
 export default function Base() {
     const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
+    const [fetchTotalSpentFlag, setFetchTotalSpentFlag] = React.useState<boolean>(false);
     const buttonStyles = useButtonStyles();
+
 
     let typeKey: keyof ExpensesTypesTypesDeclarations;
     const keysOfTypesOfTransactions : (keyof ExpensesTypesTypesDeclarations)[] = [
@@ -58,6 +61,8 @@ export default function Base() {
 
     // add an expense
     const form = <form onSubmit={(event) => {
+        submitData(event, setShowAlert);
+        setFetchTotalSpentFlag(!fetchTotalSpentFlag);
         submitData(event, setShowAlert)
         // create a timer for 3 seconds
         setTimeout(() => {
@@ -138,7 +143,7 @@ export default function Base() {
             <h1>Expenses Manager</h1>
             {setUp}
             <br/>
-            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false} /> {/* all expenses */}
+            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false} updateFlag={fetchTotalSpentFlag} /> {/* all expenses */}
             {h2}
             <br/>
             {getExpenseForMonth}

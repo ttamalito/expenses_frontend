@@ -120,7 +120,6 @@ export default function YearSummary() {
 
     const returnHome = <a href="/">Return Home</a>;
 
-
     return (<>
             {seeExpensesOfAType}
             <br/>
