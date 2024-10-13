@@ -63,7 +63,6 @@ export default function Base() {
     const form = <form onSubmit={(event) => {
         submitData(event, setShowAlert);
         setFetchTotalSpentFlag(!fetchTotalSpentFlag);
-        submitData(event, setShowAlert)
         // create a timer for 3 seconds
         setTimeout(() => {
             setShowAlert({alert: <></>, show: false});
