@@ -22,6 +22,10 @@ const useDateStyles = makeStyles({
     },
 });
 
+/**
+ * The main component of the application
+ * @constructor
+ */
 export default function Base() {
     const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
     const [fetchTotalSpentFlag, setFetchTotalSpentFlag] = React.useState<boolean>(false);
