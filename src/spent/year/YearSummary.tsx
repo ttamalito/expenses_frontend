@@ -14,7 +14,7 @@ import ISetUpForm from "../../budget/types/ISetUpForm";
 import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
 import InternalError from "../../fallback/InternalError";
 /**
- * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
+ * Renders the YearSummary component, displaying all expenses and total spent for a specific year.
  * Allows the user to filter expenses by type and view total spent on a single type.
  *
  * @return {JSX.Element} The JSX element displaying the MonthExpenses component.
