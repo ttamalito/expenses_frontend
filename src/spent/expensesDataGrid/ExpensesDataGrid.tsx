@@ -129,6 +129,11 @@ interface IExpenses {
     expenses: OneExpenseSummaryTypeDeclaration[];
 }
 
+/**
+ * This component displays a data grid of expenses.
+ * @param expenses
+ * @constructor
+ */
 export const ExpensesDataGrid = ({expenses} : IExpenses) => {
     const items = createExpensesForDataGrid(expenses);
     return (
