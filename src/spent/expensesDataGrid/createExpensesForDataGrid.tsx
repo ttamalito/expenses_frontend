@@ -1,7 +1,7 @@
 import React from "react";
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
 import {IExpenseItem} from "./types";
-import {CalendarDateRegular, DocumentRegular, PeopleRegular, MoneyFilled} from "@fluentui/react-icons";
+import {CalendarDateRegular, CommentNoteRegular, PeopleRegular, MoneyFilled} from "@fluentui/react-icons";
 
 /**
  * This function transforms an array of expense summaries into a format suitable for a data grid component.
@@ -28,6 +28,7 @@ export function createExpensesForDataGrid(expenses: OneExpenseSummaryTypeDeclara
                 amount: {label: spent, icon: <MoneyFilled/>},
                 type: {label: expense.type, icon: <PeopleRegular/>},
                 date: {label: expense.date, icon: <CalendarDateRegular/>},
+                notes: {label: expense.notes, icon: <CommentNoteRegular />},
                 lastUpdated: {label: "7h ago", timestamp: 1},
             }
             return item;
