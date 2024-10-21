@@ -37,6 +37,8 @@ export default function YearSummary() {
     const [budget, setBudget] = useState<ISetUpForm>({typesBudget: undefined, monthBudget: 0});
     // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
+
+    const [expenses, setExpenses] = useState<OneExpenseSummaryTypeDeclaration[]>([]);
     useEffect(() => {
         getTotalSpentOnAYear(year, setTotalSpent);
         retrieveTotalEarnedInAYear(year, setTotalEarned);
