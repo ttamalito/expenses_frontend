@@ -13,6 +13,10 @@ import fetchBudget from "../../budget/requests/fetchBudget";
 import ISetUpForm from "../../budget/types/ISetUpForm";
 import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
 import InternalError from "../../fallback/InternalError";
+import ExpensesDataTable from "../expensesDataTable/ExpensesDataTable";
+import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
+import fetchAllExpensesForAYear from "../requests/fetchAllExpensesForAYear";
+
 /**
  * Renders the YearSummary component, displaying all expenses and total spent for a specific year.
  * Allows the user to filter expenses by type and view total spent on a single type.
