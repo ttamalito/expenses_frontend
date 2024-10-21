@@ -91,17 +91,17 @@ function getComparator<Key extends keyof any>(
 
 interface HeadCell {
     disablePadding: boolean;
-    id: keyof Data;
+    id: keyof OneExpenseSummaryTypeDeclaration;
     label: string;
     numeric: boolean;
 }
 
 const headCells: readonly HeadCell[] = [
     {
-        id: 'name',
+        id: 'notes',
         numeric: false,
         disablePadding: true,
-        label: 'Dessert (100g serving)',
+        label: 'Description',
     },
     {
         id: 'calories',
