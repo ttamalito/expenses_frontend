@@ -15,8 +15,7 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
@@ -370,7 +369,15 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
                                         <TableCell align="right">{row.amount}</TableCell>
                                         <TableCell align="right">{row.type}</TableCell>
                                         <TableCell align="right">{row.date}</TableCell>
-                                        <TableCell align="right">{row.notes}</TableCell>
+                                        {/*<TableCell align="right">{row.notes}</TableCell>*/}
+                                        <TableCell align={"right"}>
+                                            <IconButton aria-label={"edit"}>
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton aria-label={"delete"}>
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
