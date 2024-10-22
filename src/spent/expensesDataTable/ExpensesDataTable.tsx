@@ -20,6 +20,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
+import {Divider, Fab} from "@mui/material";
+import EditExpenseDialog from "./dialogs/EditExpenseDialog"
+import DeleteExpenseConfirmationDialog from "./dialogs/DeleteExpenseConfirmationDialog";
 
 interface Data {
     id: number;
