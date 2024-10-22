@@ -47,7 +47,7 @@ export default function EditExpenseDialog({open, setOpen}: IEditExpenseDialogPro
                     },
                 }}
             >
-                <DialogTitle>Subscribe</DialogTitle>
+                <DialogTitle>Edit Expense</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         To subscribe to this website, please enter your email address here. We
