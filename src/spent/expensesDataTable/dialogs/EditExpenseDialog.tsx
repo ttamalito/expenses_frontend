@@ -8,6 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import OneExpenseSummaryTypeDeclaration from "../../../expensesComponents/utils/types/OneExpenseSummaryType";
+import EditExpenseForm from "../forms/EditExpenseForm";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -21,9 +23,10 @@ const Transition = React.forwardRef(function Transition(
 interface IEditExpenseDialogProps {
     open: boolean;
     setOpen: (open: boolean) => void;
+    expense?: OneExpenseSummaryTypeDeclaration;
 }
 
-export default function EditExpenseDialog({open, setOpen}: IEditExpenseDialogProps) {
+export default function EditExpenseDialog({open, setOpen, expense}: IEditExpenseDialogProps) {
 
     const handleClose = () => {
         setOpen(false);
@@ -50,24 +53,25 @@ export default function EditExpenseDialog({open, setOpen}: IEditExpenseDialogPro
                 <DialogTitle>Edit Expense</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
+                        Edit the expense details
                     </DialogContentText>
-                    <TextField
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="name"
-                        name="email"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                    />
+                    {/*<TextField*/}
+                    {/*    autoFocus*/}
+                    {/*    required*/}
+                    {/*    margin="dense"*/}
+                    {/*    id="name"*/}
+                    {/*    name="email"*/}
+                    {/*    label="Email Address"*/}
+                    {/*    type="email"*/}
+                    {/*    fullWidth*/}
+                    {/*    variant="standard"*/}
+                    {/*/>*/}
+
+                     <EditExpenseForm expense={expense} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Subscribe</Button>
+                    <Button type="submit">Edit Expense</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>
