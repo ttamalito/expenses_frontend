@@ -22,9 +22,10 @@ const Transition = React.forwardRef(function Transition(
 interface IEditExpenseDialogProps {
     open: boolean;
     setOpen: (open: boolean) => void;
+    expenseId?: string;
 }
 
-export default function DeleteExpenseConfirmationDialog({open, setOpen}: IEditExpenseDialogProps) {
+export default function DeleteExpenseConfirmationDialog({open, setOpen, expenseId}: IEditExpenseDialogProps) {
 
     const handleClose = () => {
         setOpen(false);
