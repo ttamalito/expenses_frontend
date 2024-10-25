@@ -1,7 +1,7 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
 import React, {useEffect, useState} from "react";
-import {Button, Field, InfoLabel, makeStyles, Radio, RadioGroup, Select} from "@fluentui/react-components";
+import { Field, InfoLabel, makeStyles, Radio, RadioGroup, Select} from "@fluentui/react-components";
 import {EyeRegular, ReceiptMoneyRegular} from "@fluentui/react-icons";
 import useButtonStyles from "./FluentStyles/baseButton";
 import {DatePicker} from "@fluentui/react-datepicker-compat";
@@ -15,6 +15,7 @@ import {
 } from "./wrappers/IShowAlertWrapper";
 import GaugeChartBudget from "./charts/GaugeChartBudget";
 import fetchTotalSpentInAMonth from "./spent/requests/fetchTotalSpentInAMonth";
+import Button from "@mui/material/Button";
 
 const useDateStyles = makeStyles({
     control: {
@@ -59,7 +60,7 @@ export default function Base() {
         <input type="number" placeholder={'year'}
                name={'year'}/>
         <Button
-                type={'submit'} icon={<EyeRegular />}>See
+                type={'submit'} variant={'contained'} color="success">See
             Expenses</Button>
     </form>
 
@@ -121,7 +122,7 @@ export default function Base() {
         <br/>
 
 
-        <Button type={'submit'} icon={<ReceiptMoneyRegular />}>Add
+        <Button type={'submit'} variant={'contained'} color="success">Add
             Expense</Button>
 
 
@@ -136,7 +137,7 @@ export default function Base() {
             <br/>
             <input type="number" placeholder={'year'}
                    name={'year'}/>
-            <Button type={'submit'}> Go to
+            <Button type={'submit'} variant={'contained'}> Go to
                 Summary</Button>
         </form>
 
@@ -182,14 +183,15 @@ function submitData(event: React.FormEvent<HTMLFormElement>, setShowAlert: React
         method: "POST",
         body: urlData,
     }).then(res => {
-        console.log(res);
+        //console.log(res);
 
         // get the data
         res.json().then(data => {
             //console.log(data);
+            //alert('Received response data');
             if (data.result) {
                 // allgucci
-                // alert('Your expense was recorded');
+                //alert('Your expense was recorded');
                 const successAlert = createSuccessAlert('Your expense was successfully recorded');
                 setShowAlert({alert: successAlert, show: true});
                 (event.target as HTMLFormElement).reset();
@@ -197,6 +199,7 @@ function submitData(event: React.FormEvent<HTMLFormElement>, setShowAlert: React
         })
     }).catch(err => {
         console.error(err)
+        //alert('There was an error recording your expense');
         const errorAlert = createErrorAlert('There was an error recording your expense ' + err);
         setShowAlert({alert: errorAlert, show: true});
     });
