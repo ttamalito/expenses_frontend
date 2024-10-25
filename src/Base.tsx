@@ -1,8 +1,7 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
-import React, {useEffect, useState} from "react";
-import { Field, InfoLabel, makeStyles, Radio, RadioGroup, Select} from "@fluentui/react-components";
-import {EyeRegular, ReceiptMoneyRegular} from "@fluentui/react-icons";
+import React, {useState} from "react";
+import {Field, InfoLabel, makeStyles, Select} from "@fluentui/react-components";
 import useButtonStyles from "./FluentStyles/baseButton";
 import {DatePicker} from "@fluentui/react-datepicker-compat";
 import ExpensesTypesTypesDeclarations from "./utils/expensesTypesTypesDeclarations";
@@ -14,8 +13,14 @@ import {
     IShowAlertWrapper
 } from "./wrappers/IShowAlertWrapper";
 import GaugeChartBudget from "./charts/GaugeChartBudget";
-import fetchTotalSpentInAMonth from "./spent/requests/fetchTotalSpentInAMonth";
 import Button from "@mui/material/Button";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl'; // wrap each input within a FormControl, it is used to preserve state
+import FormLabel from '@mui/material/FormLabel';
+
+
 
 const useDateStyles = makeStyles({
     control: {
@@ -34,8 +39,7 @@ export default function Base() {
 
 
     let typeKey: keyof ExpensesTypesTypesDeclarations;
-    const keysOfTypesOfTransactions : (keyof ExpensesTypesTypesDeclarations)[] = [
-    ];
+    const keysOfTypesOfTransactions: (keyof ExpensesTypesTypesDeclarations)[] = [];
     const typesOfTransactions = [];
 
     for (typeKey in types) {
@@ -60,7 +64,7 @@ export default function Base() {
         <input type="number" placeholder={'year'}
                name={'year'}/>
         <Button
-                type={'submit'} variant={'contained'} color="success">See
+            type={'submit'} variant={'contained'} color="success">See
             Expenses</Button>
     </form>
 
@@ -73,8 +77,6 @@ export default function Base() {
             setShowAlert({alert: <></>, show: false});
         }, 3000);
     }}>
-
-
         <input type="text"
                placeholder={'amount'}
                name={'amount'}
@@ -95,19 +97,21 @@ export default function Base() {
             />
         </Field>
         <br/>
-
-        <Field label="Expense of Income?">
-            <RadioGroup layout="horizontal-stacked" name={'transaction'} required={true}>
-                <Radio value="expense" label="Expense"/>
-                <Radio value="income" label="Income"/>
-
-            </RadioGroup>
-        </Field>
+        <FormControl>
+            <FormLabel id="expeseOrIncome">Expense or Income?</FormLabel>
+                <RadioGroup
+                    row
+                    name={'transaction'}
+                >
+                    <FormControlLabel value="expense" control={<Radio/>} label="Expense"/>
+                    <FormControlLabel value="income" control={<Radio/>} label="Income"/>
+                </RadioGroup>
+        </FormControl>
         <br/>
         <InfoLabel info="Select one of the transaction types of the list down below" htmlFor={"transaction-type"}>
             Type of Transaction
         </InfoLabel>
-        <Select name={'type'} size={"small"} id={"transaction-type"} style={{ width: '200px' }}>
+        <Select name={'type'} size={"small"} id={"transaction-type"} style={{width: '200px'}}>
             {keysOfTypesOfTransactions.map((option) => (
                 <option key={option.valueOf()} value={types[option]}>
                     {option.valueOf()}
@@ -124,7 +128,6 @@ export default function Base() {
 
         <Button type={'submit'} variant={'contained'} color="success">Add
             Expense</Button>
-
 
     </form>
 
@@ -147,7 +150,8 @@ export default function Base() {
             <h1>Expenses Manager</h1>
             {setUp}
             <br/>
-            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false} updateFlag={fetchTotalSpentFlag} /> {/* all expenses */}
+            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false}
+                              updateFlag={fetchTotalSpentFlag}/> {/* all expenses */}
             {h2}
             <br/>
             {getExpenseForMonth}
