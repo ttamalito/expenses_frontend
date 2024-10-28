@@ -49,6 +49,10 @@ export default function YearSummary() {
             console.error(error);
             return <InternalError url={''} error={error} />;
         })
+
+        fetchAllExpensesForAYear(year as string).then(expenses => {
+            setExpenses(expenses);
+        }).catch(err => console.error(err));
     }, [year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => getExpensesOfAType(
@@ -130,6 +134,7 @@ export default function YearSummary() {
             {seeExpensesOfAType}
             <br/>
             {returnHome}
+
             <br/>
             <br/>
             {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
@@ -141,6 +146,8 @@ export default function YearSummary() {
             {constructStringToDisplayBudget(singleTypeFlag, singleType, budget)}
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
+            <br/>
+            <ExpensesDataTable expenses={expenses} />
         </>
     );
 
