@@ -74,34 +74,28 @@ const headCells: readonly HeadCell[] = [
         label: 'Description',
     },
     {
-        id: 'calories',
+        id: 'amount',
         numeric: true,
         disablePadding: false,
         label: 'Amount',
     },
     {
-        id: 'fat',
-        numeric: true, // change it to false
+        id: 'type',
+        numeric: false,
         disablePadding: false,
         label: 'Type',
     },
     {
-        id: 'carbs',
-        numeric: true, // change it to false
+        id: 'date',
+        numeric: false,
         disablePadding: false,
         label: 'Date',
-    },
-    {
-        id: 'protein',
-        numeric: true, // change it to false
-        disablePadding: false,
-        label: 'Notes',
-    },
+    }
 ];
 
 interface EnhancedTableProps {
     numSelected: number;
-    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+    onRequestSort: (event: React.MouseEvent<unknown>, property: keyof OneExpenseSummaryTypeDeclaration) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
     orderBy: string;
@@ -112,7 +106,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
         props;
     const createSortHandler =
-        (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+        (property: keyof OneExpenseSummaryTypeDeclaration) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
 
@@ -126,7 +120,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
                         inputProps={{
-                            'aria-label': 'select all desserts',
+                            'aria-label': 'select all expenses',
                         }}
                     />
                 </TableCell>
@@ -151,6 +145,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         </TableSortLabel>
                     </TableCell>
                 ))}
+                <TableCell align={"right"}>Actions</TableCell>
             </TableRow>
         </TableHead>
     );
@@ -189,7 +184,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     id="tableTitle"
                     component="div"
                 >
-                    Nutrition
+                    Expenses
                 </Typography>
             )}
             {numSelected > 0 ? (
@@ -215,20 +210,41 @@ interface IExpenses {
 
 export default function ExpensesDataTable({expenses} : IExpenses) {
     const [order, setOrder] = React.useState<Order>('asc');
-    const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
+    const [orderBy, setOrderBy] = React.useState<keyof OneExpenseSummaryTypeDeclaration>('amount');
     const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [openEditDialog, setOpenEditDialog] = React.useState(false);
+    const [openDeleteExpenseConfirmationDialog, setOpenDeleteExpenseConfirmationDialog] = React.useState(false);
+    const [expenseToEdit, setExpenseToEdit] = React.useState<OneExpenseSummaryTypeDeclaration | undefined>(undefined);
+
+    const handleClickOpenEditDialog = (expense: OneExpenseSummaryTypeDeclaration) => {
+        setOpenEditDialog(true);
+        setExpenseToEdit(expense);
+    };
+
+    const handleClickOpenDeleteExpenseConfirmationDialog = (expense: OneExpenseSummaryTypeDeclaration) => {
+        setOpenDeleteExpenseConfirmationDialog(true);
+        setExpenseToEdit(expense);
+    };
 
     const rows = expenses;
-    console.log(expenses);
 
+    /**
+     * Used when clicking on the arrow of the column to sort the expenses
+     * It only sets the order (ascending | descending) and orderBy
+     * @param event
+     * @param property
+     */
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
-        property: keyof Data,
+        property: keyof OneExpenseSummaryTypeDeclaration,
     ) => {
         const isAsc = orderBy === property && order === 'asc';
+        console.log('isAsc: ', isAsc);
+        console.log('orderBy: ', orderBy);
+        console.log('property: ', property);
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
@@ -281,99 +297,121 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
     const visibleRows = React.useMemo(
         () =>
             [...rows]
-                //.sort(getComparator(order, orderBy))
+                .sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
         [order, orderBy, page, rowsPerPage],
     );
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
-                <TableContainer>
-                    <Table
-                        sx={{ minWidth: 750 }}
-                        aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
-                    >
-                        <EnhancedTableHead
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                        />
-                        <TableBody>
-                            {visibleRows.map((row, index) => {
-                                const isItemSelected = selected.includes(row._id);
-                                const labelId = `enhanced-table-checkbox-${index}`;
+        <>
+            <Box sx={{ width: '100%' }}>
+                <Paper sx={{ width: '100%', mb: 2 }}>
+                    <EnhancedTableToolbar numSelected={selected.length} />
+                    <TableContainer>
+                        <Table
+                            sx={{ minWidth: 750 }}
+                            aria-labelledby="tableTitle"
+                            size={dense ? 'small' : 'medium'}
+                        >
+                            <EnhancedTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={rows.length}
+                            />
+                            <TableBody>
+                                {visibleRows.map((row, index) => {
+                                    const isItemSelected = selected.includes(row._id);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                                return (
-                                    <TableRow
-                                        hover
-                                        onClick={(event) => handleClick(event, row._id)}
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
-                                        tabIndex={-1}
-                                        key={row._id}
-                                        selected={isItemSelected}
-                                        sx={{ cursor: 'pointer' }}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            padding="none"
+                                    return (
+                                        <TableRow
+                                            hover
+                                            // onClick={(event) => handleClick(event, row._id)}
+                                            role="checkbox"
+                                            aria-checked={isItemSelected}
+                                            tabIndex={-1}
+                                            key={row._id}
+                                            selected={isItemSelected}
+                                            sx={{ cursor: 'pointer' }}
                                         >
-                                            {row.notes}
-                                        </TableCell>
-                                        <TableCell align="right">{row.amount}</TableCell>
-                                        <TableCell align="right">{row.type}</TableCell>
-                                        <TableCell align="right">{row.date}</TableCell>
-                                        {/*<TableCell align="right">{row.notes}</TableCell>*/}
-                                        <TableCell align={"right"}>
-                                            <IconButton aria-label={"edit"}>
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton aria-label={"delete"}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </TableCell>
+                                            <TableCell padding="checkbox">
+                                                <Checkbox
+                                                    color="primary"
+                                                    checked={isItemSelected}
+                                                    inputProps={{
+                                                        'aria-labelledby': labelId,
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell
+                                                component="th"
+                                                id={labelId}
+                                                scope="row"
+                                                padding="none"
+                                            >
+                                                {row.notes}
+                                            </TableCell>
+                                            <TableCell align="right">{row.amount}</TableCell>
+                                            <TableCell align="right">{row.type}</TableCell>
+                                            <TableCell align="right">{row.date}</TableCell>
+                                            {/*<TableCell align="right">{row.notes}</TableCell>*/}
+                                            <TableCell align={"right"}>
+                                                {/*<IconButton aria-label={"edit"}>*/}
+                                                {/*    <EditIcon />*/}
+                                                {/*</IconButton>*/}
+                                                {/*<IconButton aria-label={"delete"}>*/}
+                                                {/*    <DeleteIcon />*/}
+                                                {/*</IconButton>*/}
+                                                <Tooltip title="Edit">
+                                                    <IconButton aria-label={"edit"} size={"small"}
+                                                                onClick={() => {
+                                                                    handleClickOpenEditDialog({...row});
+                                                                }} >
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                {/*<Divider orientation="vertical" />*/}
+                                                <Tooltip title={"Delete"}>
+                                                    <IconButton aria-label={"delete"} size={"small"}
+                                                                onClick={() => {
+                                                        handleClickOpenDeleteExpenseConfirmationDialog({...row});
+                                                        }}>
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                                {emptyRows > 0 && (
+                                    <TableRow
+                                        style={{
+                                            height: (dense ? 33 : 53) * emptyRows,
+                                        }}
+                                    >
+                                        <TableCell colSpan={6} />
                                     </TableRow>
-                                );
-                            })}
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: (dense ? 33 : 53) * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </Box>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            </Box>
+            <EditExpenseDialog open={openEditDialog} setOpen={setOpenEditDialog} expense={expenseToEdit} />
+            <DeleteExpenseConfirmationDialog open={openDeleteExpenseConfirmationDialog} setOpen={setOpenDeleteExpenseConfirmationDialog} expenseId={expenseToEdit?._id} />
+        </>
+
     );
 }
