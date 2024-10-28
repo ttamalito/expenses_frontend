@@ -1,9 +1,8 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
 import React, {useState} from "react";
-import {Field, InfoLabel, makeStyles, Select} from "@fluentui/react-components";
+import { InfoLabel, makeStyles, Select} from "@fluentui/react-components";
 import useButtonStyles from "./FluentStyles/baseButton";
-import {DatePicker} from "@fluentui/react-datepicker-compat";
 import ExpensesTypesTypesDeclarations from "./utils/expensesTypesTypesDeclarations";
 import {addOneExpensePath} from "./utils/requests/paths";
 import {
@@ -19,6 +18,10 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl'; // wrap each input within a FormControl, it is used to preserve state
 import FormLabel from '@mui/material/FormLabel';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 
 
 
@@ -89,15 +92,21 @@ export default function Base() {
                placeholder={'year'}
                name={'year'}/>
         <br/>
-        <Field label="Select a date">
-            <DatePicker
-                className={dateStyles.control}
-                placeholder="Select a date..."
-                name={'date'}
-            />
-        </Field>
+        <FormControl required={true}>
+            <FormLabel id="date">Select a Date</FormLabel>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                    <DatePicker
+                        name={'date'}
+                        label="Date of the expense"
+                        // value={value}
+                        // onChange={(newValue) => setValue(newValue)}
+                    />
+                </DemoContainer>
+            </LocalizationProvider>
+        </FormControl>
         <br/>
-        <FormControl>
+        <FormControl required={true}>
             <FormLabel id="expeseOrIncome">Expense or Income?</FormLabel>
                 <RadioGroup
                     row
@@ -199,7 +208,7 @@ function submitData(event: React.FormEvent<HTMLFormElement>, setShowAlert: React
                 const successAlert = createSuccessAlert('Your expense was successfully recorded');
                 setShowAlert({alert: successAlert, show: true});
                 (event.target as HTMLFormElement).reset();
-            }
+            } // check the response code and alert if the response is not ok
         })
     }).catch(err => {
         console.error(err)
