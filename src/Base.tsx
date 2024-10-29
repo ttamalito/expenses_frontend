@@ -32,7 +32,6 @@ import InputLabel from "@mui/material/InputLabel";
 export default function Base() {
     const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
     const [fetchTotalSpentFlag, setFetchTotalSpentFlag] = React.useState<boolean>(false);
-    const buttonStyles = useButtonStyles();
 
 
     let typeKey: keyof ExpensesTypesTypesDeclarations;
@@ -45,7 +44,6 @@ export default function Base() {
     }
 
 
-    const dateStyles = useDateStyles();
     // setup the maximum for expenses and other settings
     const setUp = <a href={'/budget/setup'}>Modify your budget</a>
     // view the expenses
@@ -111,15 +109,23 @@ export default function Base() {
                 </RadioGroup>
         </FormControl>
         <br/>
-        <FormControl required={true}>
+        <FormControl required={true} variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <ToolTip title="Select one of the transaction types of the list down below" placement="top">
-                <FormLabel id="typeOfTransaction">Type of Transaction</FormLabel>
+                {/*<FormLabel id="typeOfTransaction">Type of Transaction</FormLabel>*/}
+                <InputLabel id="typeOfTransaction">Type of Transaction</InputLabel>
             </ToolTip>
-            <Select name={'type'} size={"small"} id={"transaction-type"} style={{width: '200px'}}>
+            <Select
+                name={'type'}
+                labelId="typeOfTransaction"
+                id="select-transaction-type"
+                //value={age}
+                //onChange={handleChange}
+                //label="Helloooooooooooooooooooooooooooooo"
+                variant={"standard"}>
                 {keysOfTypesOfTransactions.map((option) => (
-                    <option key={option.valueOf()} value={types[option]}>
+                    <MenuItem key={option.valueOf()} value={types[option]}>
                         {option.valueOf()}
-                    </option>
+                    </MenuItem>
                 ))}
             </Select>
         </FormControl>
