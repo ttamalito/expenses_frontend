@@ -1,8 +1,6 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
 import React, {useState} from "react";
-import { makeStyles, Select} from "@fluentui/react-components";
-import useButtonStyles from "./FluentStyles/baseButton";
 import ExpensesTypesTypesDeclarations from "./utils/expensesTypesTypesDeclarations";
 import {addOneExpensePath} from "./utils/requests/paths";
 import {
@@ -19,18 +17,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl'; // wrap each input within a FormControl, it is used to preserve state
 import FormLabel from '@mui/material/FormLabel';
 import ToolTip from '@mui/material/Tooltip';
+import Select from '@mui/material/Select';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-
-
-
-const useDateStyles = makeStyles({
-    control: {
-        maxWidth: "300px",
-    },
-});
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 
 /**
  * The main component of the application
