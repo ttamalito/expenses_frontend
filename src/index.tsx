@@ -10,7 +10,7 @@ root.render(
 
     <FluentProvider theme={webLightTheme}>
         <App />
-    </FluentProvider>
+    </FluentProvider> // TODO: close #29 (remove FluentUI)
         // <React.StrictMode>
         //     <App />
         // </React.StrictMode>
