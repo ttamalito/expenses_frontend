@@ -86,49 +86,68 @@ export default function SetUpForm({typesBudget, monthBudget}: ISetUpForm): JSX.E
                        id={'gift'} name={'gift'}/>
             </FormControl>
         <br/>
-        <InputLabel htmlFor={types.RECREATIONAL_PURCHASE} >Recreational Purchases Budget:</InputLabel>
-        <input type="number" placeholder={'recreational_purchase budget'}
-               defaultValue={typesBudget?.recreational_purchase}
-               id={'recreational_purchase'} name={'recreational_purchase'}/>
+        <FormControl>
+            <InputLabel htmlFor={types.RECREATIONAL_PURCHASE} >Recreational Purchases Budget:</InputLabel>
+            <input type="number" placeholder={'recreational_purchase budget'}
+                   defaultValue={typesBudget?.recreational_purchase}
+                   id={'recreational_purchase'} name={'recreational_purchase'}/>
+        </FormControl>
+
         <br/>
-        <InputLabel htmlFor={types.RENT} >Rent Budget:</InputLabel>
-        <input type="number" placeholder={'rent budget'} defaultValue={typesBudget?.rent}
-               id={'rent'} name={'rent'}/>
+        <FormControl>
+            <InputLabel htmlFor={types.RENT} >Rent Budget:</InputLabel>
+            <input type="number" placeholder={'rent budget'} defaultValue={typesBudget?.rent}
+                   id={'rent'} name={'rent'}/>
+        </FormControl>
         <br/>
         <InputLabel htmlFor={types.VACATION} >Vacation Budget:</InputLabel>
         <input type="number" placeholder={'vacation budget'} defaultValue={typesBudget?.vacation}
                id={types.VACATION} name={types.VACATION}/>
         <br/>
-        <InputLabel htmlFor={types.SAVINGS} >Savings Budget:</InputLabel>
-        <input type="number" placeholder={'savings budget'}  defaultValue={typesBudget?.savings}
-               id={types.SAVINGS} name={types.SAVINGS}/>
+        <FormControl>
+            <InputLabel htmlFor={types.SAVINGS} >Savings Budget:</InputLabel>
+            <input type="number" placeholder={'savings budget'}  defaultValue={typesBudget?.savings}
+                   id={types.SAVINGS} name={types.SAVINGS}/>
+        </FormControl>
         <br/>
 
-        <InputLabel htmlFor={types.INVESTMENT} >Investement Budget:</InputLabel>
-        <input type="number" placeholder={'investment budget'} defaultValue={typesBudget?.investment}
-               id={types.INVESTMENT} name={types.INVESTMENT}/>
+        <FormControl>
+            <InputLabel htmlFor={types.INVESTMENT} >Investement Budget:</InputLabel>
+            <input type="number" placeholder={'investment budget'} defaultValue={typesBudget?.investment}
+                   id={types.INVESTMENT} name={types.INVESTMENT}/>
+        </FormControl>
         <br/>
-        <InputLabel htmlFor={types.GYM} >GYM Budget:</InputLabel>
-        <input type="number" placeholder={'gym budget'} defaultValue={typesBudget?.gym}
-               id={types.GYM} name={types.GYM}/>
+        <FormControl>
+            <InputLabel htmlFor={types.GYM} >GYM Budget:</InputLabel>
+            <input type="number" placeholder={'gym budget'} defaultValue={typesBudget?.gym}
+                   id={types.GYM} name={types.GYM}/>
+        </FormControl>
         <br/>
 
-        <InputLabel htmlFor={types.MEDICINE} >Medicine Budget:</InputLabel>
-        <input type="number" placeholder={'medicine budget'} defaultValue={typesBudget?.medicine}
-               id={types.MEDICINE} name={types.MEDICINE}/>
+        <FormControl>
+            <InputLabel htmlFor={types.MEDICINE} >Medicine Budget:</InputLabel>
+            <input type="number" placeholder={'medicine budget'} defaultValue={typesBudget?.medicine}
+                   id={types.MEDICINE} name={types.MEDICINE}/>
+        </FormControl>
         <br/>
 
-        <InputLabel htmlFor={types.CLOTHES} >Clothes Budget:</InputLabel>
-        <input type="number" placeholder={'clothes budget'} defaultValue={typesBudget?.clothes}
-               id={types.CLOTHES} name={types.CLOTHES}/>
+        <FormControl>
+            <InputLabel htmlFor={types.CLOTHES} >Clothes Budget:</InputLabel>
+            <input type="number" placeholder={'clothes budget'} defaultValue={typesBudget?.clothes}
+                   id={types.CLOTHES} name={types.CLOTHES}/>
+        </FormControl>
         <br/>
-        <InputLabel htmlFor={types.UNIVERSITY} >University Budget:</InputLabel>
-        <input type="number" placeholder={'university budget'} defaultValue={typesBudget?.university}
-               id={types.UNIVERSITY} name={types.UNIVERSITY}/>
+        <FormControl>
+            <InputLabel htmlFor={types.UNIVERSITY} >University Budget:</InputLabel>
+            <input type="number" placeholder={'university budget'} defaultValue={typesBudget?.university}
+                   id={types.UNIVERSITY} name={types.UNIVERSITY}/>
+        </FormControl>
         <br/>
-        <InputLabel htmlFor={types.OTHER} >Other Budget:</InputLabel>
-        <input type="number" placeholder={'other budget'} defaultValue={typesBudget?.other}
-               id={'other'} name={'other'}/>
+        <FormControl>
+            <InputLabel htmlFor={types.OTHER} >Other Budget:</InputLabel>
+            <input type="number" placeholder={'other budget'} defaultValue={typesBudget?.other}
+                   id={'other'} name={'other'}/>
+        </FormControl>
         <br/>
         {/*<button type={'submit'}>Change Budget</button>*/}
         <Button type={'submit'}>Change Budget</Button>
