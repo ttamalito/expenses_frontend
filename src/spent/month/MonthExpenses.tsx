@@ -9,8 +9,7 @@ import OneExpenseSummary
     from "../../expensesComponents/OneExpenseSummary";
 import React from "react";
 import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
-//import {ExpensesDataGrid} from "./spent/expensesDataGrid/ExpensesDataGrid";
-import {ExpensesDataGrid} from "../expensesDataGrid/ExpensesDataGrid";
+import ExpensesDataTable from "../expensesDataTable/ExpensesDataTable";
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
 import {retrieveBudgetForAYear} from "../../budget/requests/paths";
 import {fetchExpensesOfATypeForAMonthPath, fetchAllExpensesForAMonthPath} from "../requests/paths";
@@ -135,7 +134,7 @@ export default function MonthExpenses() {
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
             {/*<ExpensesDataGrid />*/}
-            <ExpensesDataGrid expenses={expenses}/>
+            <ExpensesDataTable expenses={expenses}/>
         </>
     );
 

@@ -303,7 +303,7 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
     );
 
     return (
-        <> // TODO: close #6 (sort expenses)
+        <>
             <Box sx={{ width: '100%' }}>
                 <Paper sx={{ width: '100%', mb: 2 }}>
                     <EnhancedTableToolbar numSelected={selected.length} />
