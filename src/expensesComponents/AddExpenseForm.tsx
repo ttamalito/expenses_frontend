@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import { InfoLabel, makeStyles, Select} from "@fluentui/react-components";
 import Button from "@mui/material/Button";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -12,6 +11,10 @@ import types from "../utils/types";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import ToolTip from "@mui/material/Tooltip";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 
 
 
@@ -70,16 +73,26 @@ export default function AddExpenseForm() {
             </RadioGroup>
         </FormControl>
         <br/>
-        <InfoLabel info="Select one of the transaction types of the list down below" htmlFor={"transaction-type"}>
-            Type of Transaction
-        </InfoLabel>
-        <Select name={'type'} size={"small"} id={"transaction-type"} style={{width: '200px'}}>
-            {keysOfTypesOfTransactions.map((option) => (
-                <option key={option.valueOf()} value={types[option]}>
-                    {option.valueOf()}
-                </option>
-            ))}
-        </Select>
+        <FormControl required={true} variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <ToolTip title="Select one of the transaction types of the list down below" placement="top">
+                {/*<FormLabel id="typeOfTransaction">Type of Transaction</FormLabel>*/}
+                <InputLabel id="typeOfTransaction">Type of Transaction</InputLabel>
+            </ToolTip>
+            <Select
+                name={'type'}
+                labelId="typeOfTransaction"
+                id="select-transaction-type"
+                //value={age}
+                //onChange={handleChange}
+                //label="Helloooooooooooooooooooooooooooooo"
+                variant={"standard"}>
+                {keysOfTypesOfTransactions.map((option) => (
+                    <MenuItem key={option.valueOf()} value={types[option]}>
+                        {option.valueOf()}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
         <br/>
         <input type="text"
                placeholder={'notes'}
