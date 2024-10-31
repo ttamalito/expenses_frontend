@@ -3,8 +3,11 @@ import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/typ
 
 
 /**
- * Fetch all expenses for a year
- * @param year
+ * Fetch all expenses for a given year.
+ *
+ * @param {string} year - The year for which to fetch expenses.
+ * @returns {Promise<OneExpenseSummaryTypeDeclaration[]>} - A promise that resolves to an array of expense summaries.
+ * @throws {Error} - Throws an error if the fetch operation fails.
  */
 export default async function fetchAllExpensesForAYear(year: string) {
 
