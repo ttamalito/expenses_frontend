@@ -21,3 +21,5 @@ export const fetchAllExpensesForAYearPath = (year: string) => `${BACKEND_URL}/ex
  * @param type
  */
 export const fetchTotalSpentInMonthPath = (year: number, month: number, type: string) => `${BACKEND_URL}/expenses/total-spent/monthly?month=${month}&year=${year}&type=${type}`;
+
+export const deleteExpensePath = () => `${BACKEND_URL}/expenses/delete`;
