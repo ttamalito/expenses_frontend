@@ -1,10 +1,6 @@
 import types from "./utils/types";
 import {goToLink} from "./utils/goToLinkFromForm";
-import React, {useEffect, useState} from "react";
-import {Button, Field, InfoLabel, makeStyles, Radio, RadioGroup, Select} from "@fluentui/react-components";
-import {EyeRegular, ReceiptMoneyRegular} from "@fluentui/react-icons";
-import useButtonStyles from "./FluentStyles/baseButton";
-import {DatePicker} from "@fluentui/react-datepicker-compat";
+import React, {useState} from "react";
 import ExpensesTypesTypesDeclarations from "./utils/expensesTypesTypesDeclarations";
 import {addOneExpensePath} from "./utils/requests/paths";
 import {
@@ -14,23 +10,32 @@ import {
     IShowAlertWrapper
 } from "./wrappers/IShowAlertWrapper";
 import GaugeChartBudget from "./charts/GaugeChartBudget";
-import fetchTotalSpentInAMonth from "./spent/requests/fetchTotalSpentInAMonth";
+import Button from "@mui/material/Button";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl'; // wrap each input within a FormControl, it is used to preserve state
+import FormLabel from '@mui/material/FormLabel';
+import ToolTip from '@mui/material/Tooltip';
+import Select from '@mui/material/Select';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
 
-const useDateStyles = makeStyles({
-    control: {
-        maxWidth: "300px",
-    },
-});
-
+/**
+ * The main component of the application
+ * @constructor
+ */
 export default function Base() {
     const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
     const [fetchTotalSpentFlag, setFetchTotalSpentFlag] = React.useState<boolean>(false);
-    const buttonStyles = useButtonStyles();
 
 
     let typeKey: keyof ExpensesTypesTypesDeclarations;
-    const keysOfTypesOfTransactions : (keyof ExpensesTypesTypesDeclarations)[] = [
-    ];
+    const keysOfTypesOfTransactions: (keyof ExpensesTypesTypesDeclarations)[] = [];
     const typesOfTransactions = [];
 
     for (typeKey in types) {
@@ -39,7 +44,6 @@ export default function Base() {
     }
 
 
-    const dateStyles = useDateStyles();
     // setup the maximum for expenses and other settings
     const setUp = <a href={'/budget/setup'}>Modify your budget</a>
     // view the expenses
@@ -55,7 +59,7 @@ export default function Base() {
         <input type="number" placeholder={'year'}
                name={'year'}/>
         <Button
-                type={'submit'} icon={<EyeRegular />}>See
+            type={'submit'} variant={'contained'} color="success">See
             Expenses</Button>
     </form>
 
@@ -68,8 +72,6 @@ export default function Base() {
             setShowAlert({alert: <></>, show: false});
         }, 3000);
     }}>
-
-
         <input type="text"
                placeholder={'amount'}
                name={'amount'}
@@ -82,33 +84,52 @@ export default function Base() {
                placeholder={'year'}
                name={'year'}/>
         <br/>
-        <Field label="Select a date">
-            <DatePicker
-                className={dateStyles.control}
-                placeholder="Select a date..."
-                name={'date'}
-            />
-        </Field>
+        <FormControl required={true}>
+            <FormLabel id="date">Select a Date</FormLabel>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                    <DatePicker
+                        name={'date'}
+                        label="Date of the expense"
+                        // value={value}
+                        // onChange={(newValue) => setValue(newValue)}
+                    />
+                </DemoContainer>
+            </LocalizationProvider>
+        </FormControl>
         <br/>
-
-        <Field label="Expense of Income?">
-            <RadioGroup layout="horizontal-stacked" name={'transaction'} required={true}>
-                <Radio value="expense" label="Expense"/>
-                <Radio value="income" label="Income"/>
-
-            </RadioGroup>
-        </Field>
+        <FormControl required={true}>
+            <FormLabel id="expeseOrIncome">Expense or Income?</FormLabel>
+                <RadioGroup
+                    row
+                    name={'transaction'}
+                >
+                    <FormControlLabel value="expense" control={<Radio/>} label="Expense"/>
+                    <FormControlLabel value="income" control={<Radio/>} label="Income"/>
+                </RadioGroup>
+        </FormControl>
         <br/>
-        <InfoLabel info="Select one of the transaction types of the list down below" htmlFor={"transaction-type"}>
-            Type of Transaction
-        </InfoLabel>
-        <Select name={'type'} size={"small"} id={"transaction-type"} style={{ width: '200px' }}>
-            {keysOfTypesOfTransactions.map((option) => (
-                <option key={option.valueOf()} value={types[option]}>
-                    {option.valueOf()}
-                </option>
-            ))}
-        </Select>
+        <FormControl required={true} variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <ToolTip title="Select one of the transaction types of the list down below" placement="top">
+                {/*<FormLabel id="typeOfTransaction">Type of Transaction</FormLabel>*/}
+                <InputLabel id="typeOfTransaction">Type of Transaction</InputLabel>
+            </ToolTip>
+            <Select
+                name={'type'}
+                labelId="typeOfTransaction"
+                id="select-transaction-type"
+                //value={age}
+                //onChange={handleChange}
+                //label="Helloooooooooooooooooooooooooooooo"
+                variant={"standard"}>
+                {keysOfTypesOfTransactions.map((option) => (
+                    <MenuItem key={option.valueOf()} value={types[option]}>
+                        {option.valueOf()}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
+
         <br/>
         <input type="text"
                placeholder={'notes'}
@@ -117,9 +138,8 @@ export default function Base() {
         <br/>
 
 
-        <Button type={'submit'} icon={<ReceiptMoneyRegular />}>Add
+        <Button type={'submit'} variant={'contained'} color="success">Add
             Expense</Button>
-
 
     </form>
 
@@ -132,7 +152,7 @@ export default function Base() {
             <br/>
             <input type="number" placeholder={'year'}
                    name={'year'}/>
-            <Button type={'submit'}> Go to
+            <Button type={'submit'} variant={'contained'}> Go to
                 Summary</Button>
         </form>
 
@@ -142,7 +162,8 @@ export default function Base() {
             <h1>Expenses Manager</h1>
             {setUp}
             <br/>
-            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false} updateFlag={fetchTotalSpentFlag} /> {/* all expenses */}
+            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false}
+                              updateFlag={fetchTotalSpentFlag}/> {/* all expenses */}
             {h2}
             <br/>
             {getExpenseForMonth}
@@ -169,30 +190,32 @@ function submitData(event: React.FormEvent<HTMLFormElement>, setShowAlert: React
     event.preventDefault();
     const urlData = createUrlParams(event.currentTarget);
     // log the urlData
-    for (const pair of urlData) {
-        console.log(pair[0], pair[1]);
-    }
+    // for (const pair of urlData) {
+    //     console.log(pair[0], pair[1]);
+    // }
     const url = addOneExpensePath;
 
     fetch(url, { //addExpense
         method: "POST",
         body: urlData,
     }).then(res => {
-        console.log(res);
+        //console.log(res);
 
         // get the data
         res.json().then(data => {
             //console.log(data);
+            //alert('Received response data');
             if (data.result) {
                 // allgucci
-                // alert('Your expense was recorded');
+                //alert('Your expense was recorded');
                 const successAlert = createSuccessAlert('Your expense was successfully recorded');
                 setShowAlert({alert: successAlert, show: true});
                 (event.target as HTMLFormElement).reset();
-            }
+            } // check the response code and alert if the response is not ok
         })
     }).catch(err => {
         console.error(err)
+        //alert('There was an error recording your expense');
         const errorAlert = createErrorAlert('There was an error recording your expense ' + err);
         setShowAlert({alert: errorAlert, show: true});
     });
@@ -206,7 +229,6 @@ function createUrlParams(form:
     // create the urlParams
     const urlData = new URLSearchParams();
     for (const pair of formData) {
-        console.log(pair[0], pair[1]);
         const pair1 = pair[1].toString();
         urlData.append(pair[0], pair1);
     }

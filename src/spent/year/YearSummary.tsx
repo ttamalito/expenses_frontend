@@ -13,8 +13,12 @@ import fetchBudget from "../../budget/requests/fetchBudget";
 import ISetUpForm from "../../budget/types/ISetUpForm";
 import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
 import InternalError from "../../fallback/InternalError";
+import ExpensesDataTable from "../expensesDataTable/ExpensesDataTable";
+import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
+import fetchAllExpensesForAYear from "../requests/fetchAllExpensesForAYear";
+
 /**
- * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
+ * Renders the YearSummary component, displaying all expenses and total spent for a specific year.
  * Allows the user to filter expenses by type and view total spent on a single type.
  *
  * @return {JSX.Element} The JSX element displaying the MonthExpenses component.
@@ -33,6 +37,8 @@ export default function YearSummary() {
     const [budget, setBudget] = useState<ISetUpForm>({typesBudget: undefined, monthBudget: 0});
     // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
+
+    const [expenses, setExpenses] = useState<OneExpenseSummaryTypeDeclaration[]>([]);
     useEffect(() => {
         getTotalSpentOnAYear(year, setTotalSpent);
         retrieveTotalEarnedInAYear(year, setTotalEarned);
@@ -43,6 +49,10 @@ export default function YearSummary() {
             console.error(error);
             return <InternalError url={''} error={error} />;
         })
+
+        fetchAllExpensesForAYear(year as string).then(expenses => {
+            setExpenses(expenses);
+        }).catch(err => console.error(err));
     }, [year]);
 
     const seeExpensesOfAType = <form onSubmit={(event) => getExpensesOfAType(
@@ -124,6 +134,7 @@ export default function YearSummary() {
             {seeExpensesOfAType}
             <br/>
             {returnHome}
+
             <br/>
             <br/>
             {!singleTypeFlag ? 'All Expenses:' : 'All Expenses of a Type'}
@@ -135,6 +146,8 @@ export default function YearSummary() {
             {constructStringToDisplayBudget(singleTypeFlag, singleType, budget)}
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
+            <br/>
+            <ExpensesDataTable expenses={expenses} />
         </>
     );
 
@@ -154,16 +167,12 @@ function getTotalSpentOnAYear(year: string | undefined, setTotalSpent: { (value:
         method: 'GET',
         credentials: "include",
     }).then(res => {
-        console.log('Getting the total spent');
-        console.log(res);
         if (res.status === 500) {
-            console.log('Failed to get the total spent');
             alert('Failed to get the total spent');
             setTotalSpent(0);
         }
         if (res.status === 200) {
             res.json().then(data => {
-                console.log(data);
                 setTotalSpent(data.totalSpent);
             })
         }

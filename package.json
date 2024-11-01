@@ -5,8 +5,6 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@fluentui/react-components": "^9.54.13",
-    "@fluentui/react-datepicker-compat": "^0.4.50",
     "@fontsource/roboto": "^5.1.0",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
@@ -19,6 +17,7 @@
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "ajv": "^8.17.1",
+    "dayjs": "^1.11.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.0",

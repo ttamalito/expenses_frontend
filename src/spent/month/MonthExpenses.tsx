@@ -5,12 +5,9 @@ import createUrlParams
     from "../../utils/createURLParams";
 import types from "../../utils/types";
 import monthBudgetType from "../../utils/types/monthBudgetType";
-import OneExpenseSummary
-    from "../../expensesComponents/OneExpenseSummary";
 import React from "react";
 import typesBudgetTypeDeclaration from "../../utils/typesBudgetTypeDeclaration";
-//import {ExpensesDataGrid} from "./spent/expensesDataGrid/ExpensesDataGrid";
-import {ExpensesDataGrid} from "../expensesDataGrid/ExpensesDataGrid";
+import ExpensesDataTable from "../expensesDataTable/ExpensesDataTable";
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
 import {retrieveBudgetForAYear} from "../../budget/requests/paths";
 import {fetchExpensesOfATypeForAMonthPath, fetchAllExpensesForAMonthPath} from "../requests/paths";
@@ -39,7 +36,7 @@ export default function MonthExpenses() {
     // used to keep track to the selected type when displaying the expenses of a single type
     const [singleType, setSingleType]= useState('');
     useEffect(() => {
-        getAllExpenses(month, year, setAllExpensesList, setTotalSpent, setTotalEarned, setExpenses);
+        getAllExpenses(month, year, setTotalSpent, setTotalEarned, setExpenses);
         getBudget(year, setBudget);
     }, [month, year]);
 
@@ -135,7 +132,7 @@ export default function MonthExpenses() {
             <br/>
             {!singleTypeFlag && `You earned/received: ${totalEarned} euros`};
             {/*<ExpensesDataGrid />*/}
-            <ExpensesDataGrid expenses={expenses}/>
+            <ExpensesDataTable expenses={expenses}/>
         </>
     );
 
@@ -150,17 +147,14 @@ export default function MonthExpenses() {
  * @param {Function} setTotalSpent - A function to set the total spent.
  * @param {Function} setTotalEarned - A function to set the total earned.
  */
-function getAllExpenses(month: string | undefined, year: string | undefined, setAllExpensesList: {
-    (value: React.SetStateAction<React.JSX.Element>): void;
-    (arg0: React.JSX.Element): void;
-}, setTotalSpent: { (value: React.SetStateAction<number[]>): void; (arg0: any[]): void; },
+function getAllExpenses(month: string | undefined, year: string | undefined, setTotalSpent: { (value: React.SetStateAction<number[]>): void; (arg0: any[]): void; },
                         setTotalEarned: { (value: React.SetStateAction<number>): void; (arg0: number): void; },
                         setExpenses: { (value: React.SetStateAction<OneExpenseSummaryTypeDeclaration[]>): void; (arg0: any[]): void; }) {
 
 
     const url = fetchAllExpensesForAMonthPath(year as string, month as string);
     fetch(url).then(res => {
-        console.log(res);
+        //console.log(res);
         // get the data
         res.json().then(data => {
             // console.log(data);
@@ -173,13 +167,7 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
                         // add it to the total spent
                         const spent = parseFloat(expense.amount);
                         totalSpent += spent;
-                        // const total = `Amount: ${expense.amount}`;
-                        // const type = `Type: ${expense.type}`;
-                        // const notes = `Notes: ${expense.notes}`;
-                        // const date = `Date: ${expense.date}`;
-                        // const div = <div>{total} {type} {notes} {date}</div>
-                        const expenseSummary = <OneExpenseSummary expense={expense} />
-                        return <li key={expense._id}>{expenseSummary}</li>}
+                        return <li key={expense._id}>{expense.amount}</li>}
                 )}
             </ul>;
             // get the amount of money received in the month
@@ -187,12 +175,39 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
             for (const value of data.incomes) {
                 income += parseFloat(value.amount);
             }
-
-            setAllExpensesList(list);
             // set the total spent
             setTotalSpent([totalSpent, data.monthBudget]);
             // setTotal Received
             setTotalEarned(income)
+        })
+    }).catch(err => console.error(err))
+    // set the total spent
+
+} // end of getExpenses
+
+/**
+ * Retrieves all expenses for a specific month and updates the total spent and total earned.
+ *
+ * @param {string} month - The month for which expenses are to be retrieved.
+ * @param {string} year - The year for which expenses are to be retrieved.
+ * @param {Function} setAllExpensesList - A function to set the list of all expenses.
+ * @param {Function} setTotalSpent - A function to set the total spent.
+ * @param {Function} setTotalEarned - A function to set the total earned.
+ */
+function fetchAllExpensesForAMonth(month: string | undefined, year: string | undefined,
+                        setExpenses: { (value: React.SetStateAction<OneExpenseSummaryTypeDeclaration[]>): void; (arg0: any[]): void; }) {
+
+
+    const url = fetchAllExpensesForAMonthPath(year as string, month as string);
+    fetch(url).then(res => {
+        //console.log(res);
+        // get the data
+        res.json().then(data => {
+            // console.log(data);
+            let totalSpent = 0;
+            setExpenses(data.expenses);
+            console.log('Expeses have been set');
+            console.log(data.expenses);
         })
     }).catch(err => console.error(err))
     // set the total spent
@@ -213,11 +228,9 @@ function getBudget(year: string | undefined,
     fetch(url, {
         method: 'GET',
     }).then(res => {
-        console.log(res);
         // get the data
         res.json().then(data => {
             if (data.result) {
-                console.log(data.setUp);
                 setBudget(data.setUp);
             } // the query was successful
 
@@ -255,10 +268,8 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
         method: 'POST',
         body: urlData
     }).then(res => {
-        console.log(res);
         // get the data
         res.json().then(data => {
-            console.log(data);
             let totalSpent = 0;
             setExpenses(data.expenses);
 
@@ -269,13 +280,11 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
                         // add it to the total spent
                         const spent = parseFloat(expense.amount);
                         totalSpent += spent;
-                        console.log(expense.amount);
-                        console.log(expense._id);
                         // const total = `Amount: ${expense.amount}`;
                         // const type = `Type: ${expense.type}`;
                         // const notes = `Notes: ${expense.notes}`;
                         // const date = `Date: ${expense.date}`;
-                        const div = <OneExpenseSummary expense={expense} />//<div>{total} {type} {notes} {date}</div>
+                        const div = <div>{expense.amount} {expense.type} {expense.notes} {expense.date} <br/> </div>
                         return <li key={expense._id}>{div}</li>}
                 )}
             </ul>;
