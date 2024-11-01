@@ -302,11 +302,24 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
 
     const handleOnDelete = (deletedId: string) => {
         // remove it from the rows
-        const someNewRows = rows.filter((row) => row._id !== deletedId);
-        rows = someNewRows;
-        setAllExpenses(rows);
+        const newRows = rows.filter((row) => row._id !== deletedId);
+        setAllExpenses(newRows);
 
     };
+
+    const handleOnEdit = (editedExpense: OneExpenseSummaryTypeDeclaration) => {
+        // remove it from the rows
+        const someNewRows = rows.map((row) => {
+            if (row._id === editedExpense._id) {
+                console.log('editedExpense', editedExpense);
+                return editedExpense;
+            } else {
+                return row;
+            }
+        });
+        rows = someNewRows;
+        setAllExpenses(rows);
+    }
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -429,7 +442,7 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
                     />
                 </Paper>
             </Box>
-            <EditExpenseDialog open={openEditDialog} setOpen={setOpenEditDialog} expense={expenseToEdit}/>
+            <EditExpenseDialog open={openEditDialog} setOpen={setOpenEditDialog} expense={expenseToEdit} handleOnEdit={handleOnEdit}/>
             <DeleteExpenseConfirmationDialog open={openDeleteExpenseConfirmationDialog}
                                              setOpen={setOpenDeleteExpenseConfirmationDialog}
                                              expenseId={expenseToEdit?._id}
