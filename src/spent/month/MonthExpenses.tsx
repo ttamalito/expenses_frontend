@@ -154,7 +154,7 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
 
     const url = fetchAllExpensesForAMonthPath(year as string, month as string);
     fetch(url).then(res => {
-        console.log(res);
+        //console.log(res);
         // get the data
         res.json().then(data => {
             // console.log(data);
@@ -186,6 +186,35 @@ function getAllExpenses(month: string | undefined, year: string | undefined, set
 } // end of getExpenses
 
 /**
+ * Retrieves all expenses for a specific month and updates the total spent and total earned.
+ *
+ * @param {string} month - The month for which expenses are to be retrieved.
+ * @param {string} year - The year for which expenses are to be retrieved.
+ * @param {Function} setAllExpensesList - A function to set the list of all expenses.
+ * @param {Function} setTotalSpent - A function to set the total spent.
+ * @param {Function} setTotalEarned - A function to set the total earned.
+ */
+function fetchAllExpensesForAMonth(month: string | undefined, year: string | undefined,
+                        setExpenses: { (value: React.SetStateAction<OneExpenseSummaryTypeDeclaration[]>): void; (arg0: any[]): void; }) {
+
+
+    const url = fetchAllExpensesForAMonthPath(year as string, month as string);
+    fetch(url).then(res => {
+        //console.log(res);
+        // get the data
+        res.json().then(data => {
+            // console.log(data);
+            let totalSpent = 0;
+            setExpenses(data.expenses);
+            console.log('Expeses have been set');
+            console.log(data.expenses);
+        })
+    }).catch(err => console.error(err))
+    // set the total spent
+
+} // end of getExpenses
+
+/**
  * Retrieves the budget for a specific year and updates the budget state.
  *
  * @param {string} year - The year for which the budget is to be retrieved.
@@ -199,11 +228,9 @@ function getBudget(year: string | undefined,
     fetch(url, {
         method: 'GET',
     }).then(res => {
-        console.log(res);
         // get the data
         res.json().then(data => {
             if (data.result) {
-                console.log(data.setUp);
                 setBudget(data.setUp);
             } // the query was successful
 
@@ -241,10 +268,8 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
         method: 'POST',
         body: urlData
     }).then(res => {
-        console.log(res);
         // get the data
         res.json().then(data => {
-            console.log(data);
             let totalSpent = 0;
             setExpenses(data.expenses);
 
@@ -255,8 +280,6 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
                         // add it to the total spent
                         const spent = parseFloat(expense.amount);
                         totalSpent += spent;
-                        console.log(expense.amount);
-                        console.log(expense._id);
                         // const total = `Amount: ${expense.amount}`;
                         // const type = `Type: ${expense.type}`;
                         // const notes = `Notes: ${expense.notes}`;

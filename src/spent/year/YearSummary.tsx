@@ -167,16 +167,12 @@ function getTotalSpentOnAYear(year: string | undefined, setTotalSpent: { (value:
         method: 'GET',
         credentials: "include",
     }).then(res => {
-        console.log('Getting the total spent');
-        console.log(res);
         if (res.status === 500) {
-            console.log('Failed to get the total spent');
             alert('Failed to get the total spent');
             setTotalSpent(0);
         }
         if (res.status === 200) {
             res.json().then(data => {
-                console.log(data);
                 setTotalSpent(data.totalSpent);
             })
         }

@@ -190,9 +190,9 @@ function submitData(event: React.FormEvent<HTMLFormElement>, setShowAlert: React
     event.preventDefault();
     const urlData = createUrlParams(event.currentTarget);
     // log the urlData
-    for (const pair of urlData) {
-        console.log(pair[0], pair[1]);
-    }
+    // for (const pair of urlData) {
+    //     console.log(pair[0], pair[1]);
+    // }
     const url = addOneExpensePath;
 
     fetch(url, { //addExpense
@@ -229,7 +229,6 @@ function createUrlParams(form:
     // create the urlParams
     const urlData = new URLSearchParams();
     for (const pair of formData) {
-        console.log(pair[0], pair[1]);
         const pair1 = pair[1].toString();
         urlData.append(pair[0], pair1);
     }
