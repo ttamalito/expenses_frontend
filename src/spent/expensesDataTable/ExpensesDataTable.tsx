@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { alpha } from '@mui/material/styles';
+import {useEffect} from 'react';
+import {alpha} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -18,9 +19,8 @@ import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { visuallyHidden } from '@mui/utils';
+import {visuallyHidden} from '@mui/utils';
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
-import {Divider, Fab} from "@mui/material";
 import EditExpenseDialog from "./dialogs/EditExpenseDialog"
 import DeleteExpenseConfirmationDialog from "./dialogs/DeleteExpenseConfirmationDialog";
 
@@ -33,15 +33,13 @@ import DeleteExpenseConfirmationDialog from "./dialogs/DeleteExpenseConfirmation
  */
 function descendingComparator(a: OneExpenseSummaryTypeDeclaration, b: OneExpenseSummaryTypeDeclaration, orderBy: keyof OneExpenseSummaryTypeDeclaration) {
 
-        console.log("Comparing two values");
-        console.log('Key: ', orderBy);
-        if (b[orderBy] < a[orderBy]) {
-            return -1;
-        }
-        if (b[orderBy] > a[orderBy]) {
-            return 1;
-        }
-        return 0;
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
 
 }
 
@@ -103,7 +101,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+    const {onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} =
         props;
     const createSortHandler =
         (property: keyof OneExpenseSummaryTypeDeclaration) => (event: React.MouseEvent<unknown>) => {
@@ -150,17 +148,19 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         </TableHead>
     );
 }
+
 interface EnhancedTableToolbarProps {
     numSelected: number;
 }
+
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected } = props;
+    const {numSelected} = props;
     return (
         <Toolbar
             sx={[
                 {
-                    pl: { sm: 2 },
-                    pr: { xs: 1, sm: 1 },
+                    pl: {sm: 2},
+                    pr: {xs: 1, sm: 1},
                 },
                 numSelected > 0 && {
                     bgcolor: (theme) =>
@@ -170,7 +170,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         >
             {numSelected > 0 ? (
                 <Typography
-                    sx={{ flex: '1 1 100%' }}
+                    sx={{flex: '1 1 100%'}}
                     color="inherit"
                     variant="subtitle1"
                     component="div"
@@ -179,7 +179,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                 </Typography>
             ) : (
                 <Typography
-                    sx={{ flex: '1 1 100%' }}
+                    sx={{flex: '1 1 100%'}}
                     variant="h6"
                     id="tableTitle"
                     component="div"
@@ -190,13 +190,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
                     <IconButton>
-                        <DeleteIcon />
+                        <DeleteIcon/>
                     </IconButton>
                 </Tooltip>
             ) : (
                 <Tooltip title="Filter list">
                     <IconButton>
-                        <FilterListIcon />
+                        <FilterListIcon/>
                     </IconButton>
                 </Tooltip>
             )}
@@ -206,9 +206,16 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
 interface IExpenses {
     expenses: OneExpenseSummaryTypeDeclaration[];
+    // fetchExpenses: undefined | ((month: string, year: string, setExpenses: {
+    //     (value:
+    //          (((prevState: OneExpenseSummaryTypeDeclaration[]) => OneExpenseSummaryTypeDeclaration[]) | OneExpenseSummaryTypeDeclaration[])): void
+    // })
+    //     => void);
+    // month: string | undefined;
+    // year: string | undefined;
 }
 
-export default function ExpensesDataTable({expenses} : IExpenses) {
+export default function ExpensesDataTable({expenses}: IExpenses) {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof OneExpenseSummaryTypeDeclaration>('amount');
     const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -218,6 +225,13 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
     const [openDeleteExpenseConfirmationDialog, setOpenDeleteExpenseConfirmationDialog] = React.useState(false);
     const [expenseToEdit, setExpenseToEdit] = React.useState<OneExpenseSummaryTypeDeclaration | undefined>(undefined);
+    const [expensesFetched, setExpensesFetched] = React.useState<OneExpenseSummaryTypeDeclaration[]>([]);
+
+    // useEffect(() => {
+    //     if (fetchExpenses) {
+    //         fetchExpenses(month!, year!, setExpensesFetched);
+    //     }
+    // }, [fetchExpenses, month, year]);
 
     const handleClickOpenEditDialog = (expense: OneExpenseSummaryTypeDeclaration) => {
         setOpenEditDialog(true);
@@ -299,17 +313,17 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
             [...rows]
                 .sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-        [order, orderBy, page, rowsPerPage],
+        [order, orderBy, page, rowsPerPage, rows],
     );
 
     return (
         <>
-            <Box sx={{ width: '100%' }}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
-                    <EnhancedTableToolbar numSelected={selected.length} />
+            <Box sx={{width: '100%'}}>
+                <Paper sx={{width: '100%', mb: 2}}>
+                    <EnhancedTableToolbar numSelected={selected.length}/>
                     <TableContainer>
                         <Table
-                            sx={{ minWidth: 750 }}
+                            sx={{minWidth: 750}}
                             aria-labelledby="tableTitle"
                             size={dense ? 'small' : 'medium'}
                         >
@@ -335,7 +349,7 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
                                             tabIndex={-1}
                                             key={row._id}
                                             selected={isItemSelected}
-                                            sx={{ cursor: 'pointer' }}
+                                            sx={{cursor: 'pointer'}}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
@@ -369,17 +383,17 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
                                                     <IconButton aria-label={"edit"} size={"small"}
                                                                 onClick={() => {
                                                                     handleClickOpenEditDialog({...row});
-                                                                }} >
-                                                        <EditIcon />
+                                                                }}>
+                                                        <EditIcon/>
                                                     </IconButton>
                                                 </Tooltip>
                                                 {/*<Divider orientation="vertical" />*/}
                                                 <Tooltip title={"Delete"}>
                                                     <IconButton aria-label={"delete"} size={"small"}
                                                                 onClick={() => {
-                                                        handleClickOpenDeleteExpenseConfirmationDialog({...row});
-                                                        }}>
-                                                        <DeleteIcon />
+                                                                    handleClickOpenDeleteExpenseConfirmationDialog({...row});
+                                                                }}>
+                                                        <DeleteIcon/>
                                                     </IconButton>
                                                 </Tooltip>
                                             </TableCell>
@@ -392,7 +406,7 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
                                             height: (dense ? 33 : 53) * emptyRows,
                                         }}
                                     >
-                                        <TableCell colSpan={6} />
+                                        <TableCell colSpan={6}/>
                                     </TableRow>
                                 )}
                             </TableBody>
@@ -409,8 +423,10 @@ export default function ExpensesDataTable({expenses} : IExpenses) {
                     />
                 </Paper>
             </Box>
-            <EditExpenseDialog open={openEditDialog} setOpen={setOpenEditDialog} expense={expenseToEdit} />
-            <DeleteExpenseConfirmationDialog open={openDeleteExpenseConfirmationDialog} setOpen={setOpenDeleteExpenseConfirmationDialog} expenseId={expenseToEdit?._id} />
+            <EditExpenseDialog open={openEditDialog} setOpen={setOpenEditDialog} expense={expenseToEdit}/>
+            <DeleteExpenseConfirmationDialog open={openDeleteExpenseConfirmationDialog}
+                                             setOpen={setOpenDeleteExpenseConfirmationDialog}
+                                             expenseId={expenseToEdit?._id}/>
         </>
 
     );
