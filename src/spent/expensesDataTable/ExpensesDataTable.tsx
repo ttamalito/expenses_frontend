@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useEffect} from 'react';
+import {useEffect, useRef} from 'react';
 import {alpha} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -226,12 +226,11 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
     const [openDeleteExpenseConfirmationDialog, setOpenDeleteExpenseConfirmationDialog] = React.useState(false);
     const [expenseToEdit, setExpenseToEdit] = React.useState<OneExpenseSummaryTypeDeclaration | undefined>(undefined);
     const [expensesFetched, setExpensesFetched] = React.useState<OneExpenseSummaryTypeDeclaration[]>([]);
+    const [allExpenses, setAllExpenses] = React.useState<OneExpenseSummaryTypeDeclaration[]>([]);
 
-    // useEffect(() => {
-    //     if (fetchExpenses) {
-    //         fetchExpenses(month!, year!, setExpensesFetched);
-    //     }
-    // }, [fetchExpenses, month, year]);
+    useEffect(() => {
+        setAllExpenses(expenses);
+    }, [expenses]);
 
     const handleClickOpenEditDialog = (expense: OneExpenseSummaryTypeDeclaration) => {
         setOpenEditDialog(true);
@@ -243,7 +242,7 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
         setExpenseToEdit(expense);
     };
 
-    const rows = expenses;
+    let rows = allExpenses;
 
     /**
      * Used when clicking on the arrow of the column to sort the expenses
@@ -256,9 +255,6 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
         property: keyof OneExpenseSummaryTypeDeclaration,
     ) => {
         const isAsc = orderBy === property && order === 'asc';
-        console.log('isAsc: ', isAsc);
-        console.log('orderBy: ', orderBy);
-        console.log('property: ', property);
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
@@ -304,15 +300,26 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
         setDense(event.target.checked);
     };
 
+    const handleOnDelete = (deletedId: string) => {
+        // remove it from the rows
+        const someNewRows = rows.filter((row) => row._id !== deletedId);
+        rows = someNewRows;
+        setAllExpenses(rows);
+
+    };
+
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const visibleRows = React.useMemo(
         () =>
-            [...rows]
+        {
+            rows = allExpenses;
+           return [...rows]
                 .sort(getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        },
         [order, orderBy, page, rowsPerPage, rows],
     );
 
@@ -338,8 +345,7 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
                             <TableBody>
                                 {visibleRows.map((row, index) => {
                                     const isItemSelected = selected.includes(row._id);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
-
+                                    const labelId = `enhanced-table-checkbox-${row._id}`;
                                     return (
                                         <TableRow
                                             hover
@@ -426,7 +432,9 @@ export default function ExpensesDataTable({expenses}: IExpenses) {
             <EditExpenseDialog open={openEditDialog} setOpen={setOpenEditDialog} expense={expenseToEdit}/>
             <DeleteExpenseConfirmationDialog open={openDeleteExpenseConfirmationDialog}
                                              setOpen={setOpenDeleteExpenseConfirmationDialog}
-                                             expenseId={expenseToEdit?._id}/>
+                                             expenseId={expenseToEdit?._id}
+                                             handleOnDelete={handleOnDelete}
+            />
         </>
 
     );
