@@ -73,18 +73,6 @@ export default function EditExpenseDialog({open, setOpen, expense, handleOnEdit}
                     <DialogContentText>
                         Edit the expense details
                     </DialogContentText>
-                    {/*<TextField*/}
-                    {/*    autoFocus*/}
-                    {/*    required*/}
-                    {/*    margin="dense"*/}
-                    {/*    id="name"*/}
-                    {/*    name="email"*/}
-                    {/*    label="Email Address"*/}
-                    {/*    type="email"*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="standard"*/}
-                    {/*/>*/}
-
                      <AddOrEditExpenseForm expense={expense} edit={true} />
                 </DialogContent>
                 <DialogActions>
