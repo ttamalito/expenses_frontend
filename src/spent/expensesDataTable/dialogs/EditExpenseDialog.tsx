@@ -35,6 +35,14 @@ interface IEditExpenseDialogProps {
     handleOnEdit(expense: OneExpenseSummaryTypeDeclaration): void;
 }
 
+/**
+ * Dialog to edit an expense
+ * @param open
+ * @param setOpen
+ * @param expense
+ * @param handleOnEdit
+ * @constructor
+ */
 export default function EditExpenseDialog({open, setOpen, expense, handleOnEdit}: IEditExpenseDialogProps) {
 
     const [showAlert, setShowAlert] = React.useState<IShowAlertWrapper>(defaultShowAlertWrapper);
