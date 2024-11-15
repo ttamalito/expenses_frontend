@@ -26,6 +26,7 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import Container from '@mui/material/Container';
 import HomeNavBar from "./shared/HomeNavBar";
+import HomeGridComponent from "./home/HomeGridComponent";
 
 /**
  * The main component of the application
@@ -160,23 +161,30 @@ export default function Base() {
 
 
     return (
+
         <div className="App">
             <HomeNavBar></HomeNavBar>
-            <h1>Expenses Manager</h1>
-            <br/>
-            <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false}
-                              updateFlag={fetchTotalSpentFlag}/> {/* all expenses */}
-            {h2}
-            <br/>
-            {getExpenseForMonth}
-            <br/>
-            {yearlySummary}
-            <br/>
-            {showAlert.show && showAlert.alert}
-            <br/>
-            <h2 style={{color: 'black', fontSize: '24px', margin: '20px 0'}}>Add an expense</h2>
-            {form}
+            <Container>
+                <br/>
+                <h1>Expenses Manager</h1>
+                <HomeGridComponent fetchTotalSpentFlag={fetchTotalSpentFlag}></HomeGridComponent>
+
+                <br/>
+                {/*<GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false}*/}
+                {/*                  updateFlag={fetchTotalSpentFlag}/> /!* all expenses *!/*/}
+                {h2}
+                <br/>
+                {getExpenseForMonth}
+                <br/>
+                {yearlySummary}
+                <br/>
+                {showAlert.show && showAlert.alert}
+                <br/>
+                <h2 style={{color: 'black', fontSize: '24px', margin: '20px 0'}}>Add an expense</h2>
+                {form}
+            </Container>
         </div>
+
     );
 }
 
