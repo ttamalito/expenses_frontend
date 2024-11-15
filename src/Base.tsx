@@ -24,6 +24,8 @@ import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
+import Container from '@mui/material/Container';
+import HomeNavBar from "./shared/HomeNavBar";
 
 /**
  * The main component of the application
@@ -45,7 +47,7 @@ export default function Base() {
 
 
     // setup the maximum for expenses and other settings
-    const setUp = <a href={'/budget/setup'}>Modify your budget</a>
+    // const setUp = <a href={'/budget/setup'}>Modify your budget</a>
     // view the expenses
     const h2 = <h2>See expenses for a specific
         month</h2>
@@ -159,8 +161,8 @@ export default function Base() {
 
     return (
         <div className="App">
+            <HomeNavBar></HomeNavBar>
             <h1>Expenses Manager</h1>
-            {setUp}
             <br/>
             <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false}
                               updateFlag={fetchTotalSpentFlag}/> {/* all expenses */}
