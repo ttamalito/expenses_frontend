@@ -12,6 +12,9 @@ import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/typ
 import {retrieveBudgetForAYear} from "../../budget/requests/paths";
 import {fetchExpensesOfATypeForAMonthPath, fetchAllExpensesForAMonthPath} from "../requests/paths";
 import SelectExpenseTypes from "../shared/SelectExpenseTypes";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid2";
+import PieChartForSummary from "../../charts/PieChartForSummary";
 /**
  * Renders the MonthExpenses component, displaying all expenses and total spent for a specific month.
  * Allows the user to filter expenses by type and view total spent on a single type.
@@ -116,7 +119,18 @@ export default function MonthExpenses() {
     const returnHome = <a href="/">Return Home</a>;
 
     return (<>
-            {seeExpensesOfAType}
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, md: 6, sm: 6 }}>
+                        {seeExpensesOfAType}
+                    </Grid>
+
+                    <Grid size={{xs: 12, md: 6, sm: 6}}>
+                        <h3>Six highest percentages</h3>
+                        <PieChartForSummary expenses={expenses}></PieChartForSummary>
+                    </Grid>
+                </Grid>
+            </Box>
             {/*{<SelectExpenseTypes />}*/}
             <br/>
             {returnHome}

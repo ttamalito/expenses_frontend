@@ -16,6 +16,9 @@ import InternalError from "../../fallback/InternalError";
 import ExpensesDataTable from "../expensesDataTable/ExpensesDataTable";
 import OneExpenseSummaryTypeDeclaration from "../../expensesComponents/utils/types/OneExpenseSummaryType";
 import fetchAllExpensesForAYear from "../requests/fetchAllExpensesForAYear";
+import Grid from '@mui/material/Grid2';
+import Box from "@mui/material/Box";
+import PieChartForSummary from "../../charts/PieChartForSummary";
 
 /**
  * Renders the YearSummary component, displaying all expenses and total spent for a specific year.
@@ -131,7 +134,18 @@ export default function YearSummary() {
     const returnHome = <a href="/">Return Home</a>;
 
     return (<>
-            {seeExpensesOfAType}
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, md: 4, sm: 4 }}>
+                        {seeExpensesOfAType}
+                    </Grid>
+                    <Grid size={{xs: 12, md: 8, sm: 8}}>
+                        <h3>Six highest percentages</h3>
+                        <PieChartForSummary expenses={expenses}></PieChartForSummary>
+                    </Grid>
+                </Grid>
+            </Box>
+
             <br/>
             {returnHome}
 
