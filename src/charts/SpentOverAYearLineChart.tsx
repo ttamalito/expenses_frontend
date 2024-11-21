@@ -2,6 +2,7 @@ import * as React from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 import fetchTotalSpentInAMonth from "../spent/requests/fetchTotalSpentInAMonth";
 import {useEffect} from "react";
+import {fetchTotalEarnedEachMonth} from "../spent/requests/fetchTotalEarnedEachMonth";
 
 
 
@@ -13,6 +14,7 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
 
     const [monthlyData, setMonthlyData] = React.useState<number[]>([]);
     const [essentialFoodData, setEssentialFoodData] = React.useState<number[]>([]);
+    const [totalEarnedData, setTotalEarnedData] = React.useState<number[]>([]);
 
     useEffect(() => {
         fetchAllDataForLineChart(upToMonthNumber, 'all').then((data) => {
@@ -27,8 +29,19 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
             alert('There was an error fetching the monthly spent data');
             console.log(error);
         });
+        fetchTotalEarnedEachMonthForLineChart(2024).then((data) => {
+                console.log(data);
+                let tempResult = [];
+                for (let i = 0; i < data.length; i++) {
+                    tempResult.push(data[i].total);
+                }
+                setTotalEarnedData(tempResult);
+            }
+        ).catch((error) => {
+            console.error(error);
+            });
 
-    }, [upToMonthNumber]);
+    }, [upToMonthNumber, totalEarnedData]);
 
 
     return (
@@ -48,10 +61,12 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
                     label: 'Spent in Essential Food',
                     data: essentialFoodData,
                 },
-                // {
-                //     data: [7, 8, 5, 4, null, null, 2, 5.5, 1],
-                //     valueFormatter: (value) => (value == null ? '?' : value.toString()),
-                // },
+                {
+                    id: 'total_earned',
+                    label: 'Earned Monthly',
+                    data: totalEarnedData,
+                    valueFormatter: (value) => (value == null ? '0' : value.toString()),
+                },
                 // {
                 //     data: [25, 8, 5, 4, null, null, 2, 5.5, 1],
                 //     valueFormatter: (value) => (value == null ? '?' : value.toString()),
@@ -75,4 +90,8 @@ async function fetchAllDataForLineChart(upToMonthNumber: number, type: string) {
     }
 
     return spentMonthly;
+}
+
+async function fetchTotalEarnedEachMonthForLineChart(year: number) {
+    return await fetchTotalEarnedEachMonth(year);
 }
