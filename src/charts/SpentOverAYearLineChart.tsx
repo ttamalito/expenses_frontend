@@ -20,13 +20,13 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
         fetchAllDataForLineChart(upToMonthNumber, 'all').then((data) => {
             setMonthlyData(data);
         }).catch((error) => {
-            alert('There was an error fetching the monthly spent data');
+            //alert('There was an error fetching the monthly spent data');
             console.log(error);
         });
         fetchAllDataForLineChart(upToMonthNumber, 'essential_food').then((data) => {
             setEssentialFoodData(data);
         }).catch((error) => {
-            alert('There was an error fetching the monthly spent data');
+            //alert('There was an error fetching the monthly spent data');
             console.log(error);
         });
         fetchTotalEarnedEachMonthForLineChart(2024).then((data) => {
@@ -41,7 +41,7 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
             console.error(error);
             });
 
-    }, [upToMonthNumber, totalEarnedData]);
+    }, [upToMonthNumber]);
 
 
     return (
