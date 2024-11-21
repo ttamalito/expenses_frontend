@@ -2,7 +2,8 @@ import {BrowserRouter} from "react-router-dom";
 import BaseRoutes from "./routes/BaseRoutes";
 import React from "react";
 import FallBackRoutes from "./routes/FallBackRoutes";
-
+import { theme } from "./theme";
+import { ThemeProvider, CssBaseline } from "@mui/material";
 
 function App() {
   // how to change the title of the webpage
@@ -13,9 +14,13 @@ function App() {
     document.head.appendChild(responsiveMetaTag);
 
   return (
-      <BrowserRouter>
-        <BaseRoutes />
-        <FallBackRoutes />
-      </BrowserRouter>);
+      // <ThemeProvider theme={theme}>
+      //     <CssBaseline/>
+          <BrowserRouter>
+              <BaseRoutes/>
+              <FallBackRoutes/>
+          </BrowserRouter>
+      // </ThemeProvider>
+          );
 }
 export default App;
