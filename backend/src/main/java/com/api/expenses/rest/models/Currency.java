@@ -1,6 +1,10 @@
 package com.api.expenses.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "currencies")
@@ -13,6 +17,14 @@ public class Currency {
     private String name;
     @Column(nullable = false)
     private String symbol;
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "currency",
+            targetEntity = User.class,
+            fetch = FetchType.LAZY
+    )
+    private Set<User> users = new HashSet<>();
 
     public Currency() {
     }
@@ -27,25 +39,15 @@ public class Currency {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String description) {
-        this.name = description;
     }
 
     public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
 
 
 
