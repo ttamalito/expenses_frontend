@@ -13,7 +13,8 @@ public class Expense extends Transaction {
         super();
     }
 
-    public Expense(int id, User user,
+    public Expense(int id,
+                   User user,
                    AbstractCategory category,
                    float amount,
                    Date date,
@@ -22,5 +23,17 @@ public class Expense extends Transaction {
                    int year,
                    int week) {
         super(id, user, category, amount, date,  description, month, year, week);
+    }
+
+    public Expense(
+                   User user,
+                   AbstractCategory category,
+                   float amount,
+                   Date date,
+                   String description,
+                   int month,
+                   int year,
+                   int week) {
+        super( user, category, amount, date,  description, month, year, week);
     }
 }
