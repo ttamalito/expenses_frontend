@@ -109,19 +109,50 @@ public class ExpensesController {
     @GetMapping("/total-spent")
     public ResponseEntity<String> getTotalSpentOnAYear(@RequestParam int year) {
         // Get total spent on a year
-        return null;
+        UUID userId = getUserId();
+        try {
+            float totalSpent = expenseService.getTotalSpentForAYearOfAUser(userId, year);
+            return ResponseEntity.ok().body(String.valueOf(totalSpent));
+        } catch (Exception e) {
+            return handleException(e);
+        }
     }
     @PostMapping("/modify")
-    public void modifySingleExpense(@RequestBody String expense, @RequestParam String id) {
+    public ResponseEntity<String> modifySingleExpense(@RequestBody Expense expense) {
+        UUID userId = getUserId();
+        try {
+            expenseService.updateExpense(expense);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return handleException(e);
+        }
     }
     @GetMapping("/total-spent/monthly")
-    public void getTotalSpentOnAMonth(@RequestParam String month, @RequestParam String year, @RequestParam String type) {
-        // Get total spent on a month
+    public ResponseEntity<String> getTotalSpentOnAMonth(@RequestParam int month, @RequestParam int year) {
+         // in the js implementation we used a query param type=all to denote that we want to get all the expenses
+        // TODO: please introduce a new endpoint to fetch total spend on a month for a specific category
+        UUID userId = getUserId();
+        try {
+            float totalSpent = expenseService.getTotalSpentForAMonthOfAUser(userId, month, year);
+            return ResponseEntity.ok().body(String.valueOf(totalSpent));
+        } catch (Exception e) {
+            return handleException(e);
+        }
     }
 
     @DeleteMapping("/delete")
-    public void deleteExpense(@RequestBody String expenseId, @RequestParam String month, @RequestParam String year) {
-        // Delete expense
+    public ResponseEntity<String> deleteExpense(@RequestParam int expenseId) {
+        UUID userId = getUserId();
+        Expense expense = expenseService.getExpenseById(expenseId).get();
+        if (!expense.getUser().getId().equals(userId)) {
+            try {
+                throw new TransactionException(TransactionException.TransactionExceptionType.UNAUTHORIZED);
+            } catch (TransactionException e) {
+                return ResponseEntity.badRequest().body(e.getMessage());
+            }
+        }
+        expenseService.deleteExpense(expenseId);
+        return ResponseEntity.noContent().build();
     }
 
     // options this could be deleted, as spring boot handles this automatically
