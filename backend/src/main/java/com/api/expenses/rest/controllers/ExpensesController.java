@@ -2,21 +2,32 @@ package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.ControllersHelper;
 import com.api.expenses.rest.exceptions.TransactionException;
+import com.api.expenses.rest.exceptions.UserException;
+import com.api.expenses.rest.models.Expense;
 import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.models.requestsModels.AddExpenseRequest;
 import com.api.expenses.rest.services.ExpenseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.transaction.TransactionalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/expenses", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class ExpensesController {
 
     private final ExpenseService expenseService;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public ExpensesController(ExpenseService expenseService) {
@@ -40,26 +51,65 @@ public class ExpensesController {
         }
 
     }
+
     @GetMapping("/monthly/{month}/{year}")
-    public void getExpensesForAMonth(@PathVariable String month, @PathVariable String year) {
-        // Get expenses for a month
+    public ResponseEntity<String> getExpensesForAMonth(@PathVariable int month, @PathVariable int year) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try {
+            List<Expense> expenses = expenseService.getExpensesForAMonthOfAUser(user.getId(), (month), (year));
+            String expensesJson = objectMapper.writeValueAsString(expenses);
+            return ResponseEntity.ok().body(expensesJson);
+        } catch (UserException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+
     @PostMapping("/single-type/{month}/{year}")
-    public void getExpensesOfATypeForAMonth(@PathVariable String month, @PathVariable String year, @RequestBody String type) {
-        // Get expenses of a type for a month
+    public ResponseEntity<String> getExpensesOfATypeForAMonth(@PathVariable int month, @PathVariable int year, @RequestParam int categoryId) {
+        UUID userId = getUserId();
+
+        try {
+            List<Expense> expenses = expenseService.getExpensesForAMonthOfAUserByCategory(userId, month, year, categoryId);
+            String expensesJson = objectMapper.writeValueAsString(expenses);
+            return ResponseEntity.ok().body(expensesJson);
+        } catch (TransactionException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/yearly/{year}")
-    public void getExpensesForAYear(@PathVariable String year) {
-        // Get expenses for a year
+    public ResponseEntity<String> getExpensesForAYear(@PathVariable int year) {
+        UUID userId = getUserId();
+
+        try {
+            List<Expense> expenses = expenseService.getExpensesForAYearOfAUser(userId, (year));
+            String expensesJson = objectMapper.writeValueAsString(expenses);
+            return ResponseEntity.ok().body(expensesJson);
+        } catch (Exception e) {
+            return handleException(e);
+        }
     }
     @GetMapping("/single-type")
-    public void getExpensesForAYearOfAType(@RequestParam String year, @RequestParam String type) {
-        // Get expenses for a year of a type
+    public ResponseEntity<String> getExpensesForAYearOfAType(@RequestParam int year, @RequestParam int categoryId) {
+        UUID userId = getUserId();
+
+        try {
+            List<Expense> expenses = expenseService.getExpensesForAYearOfAUserByCategory(userId, year, categoryId);
+            String expensesJson = objectMapper.writeValueAsString(expenses);
+            return ResponseEntity.ok().body(expensesJson);
+        } catch (Exception e) {
+            return handleException(e);
+        }
     }
     @GetMapping("/total-spent")
-    public void getTotalSpentOnAYear(@RequestParam String year) {
+    public ResponseEntity<String> getTotalSpentOnAYear(@RequestParam int year) {
         // Get total spent on a year
+        return null;
     }
     @PostMapping("/modify")
     public void modifySingleExpense(@RequestBody String expense, @RequestParam String id) {
@@ -82,5 +132,14 @@ public class ExpensesController {
                 .ok()
                 .allow(HttpMethod.GET, HttpMethod.DELETE, HttpMethod.PUT, HttpMethod.OPTIONS)
                 .build();
+    }
+
+    private UUID getUserId() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getId();
+    }
+
+    private ResponseEntity<String> handleException(Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
