@@ -1,5 +1,12 @@
 package com.api.expenses.rest.controllers;
 
+import com.api.expenses.rest.controllers.utils.ControllersHelper;
+import com.api.expenses.rest.exceptions.TransactionException;
+import com.api.expenses.rest.models.User;
+import com.api.expenses.rest.models.requestsModels.AddExpenseRequest;
+import com.api.expenses.rest.services.ExpenseService;
+import jakarta.transaction.TransactionalException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +16,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/expenses", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class ExpensesController {
 
+    private final ExpenseService expenseService;
+
+    @Autowired
+    public ExpensesController(ExpenseService expenseService) {
+        this.expenseService = expenseService;
+    }
+
     @PostMapping("/add")
-    public void addExpense(@RequestBody String expense) {
-        // Add expense
+    public ResponseEntity<String> addExpense(@RequestBody AddExpenseRequest expense) {
+        User user = null;
+        try {
+            user = ControllersHelper.getUserFromSecurityContextHolder().orElseThrow(() -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND));
+        } catch (TransactionException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        try {
+            expenseService.saveExpense(expense, user.getId());
+            return ResponseEntity.ok().build();
+        } catch (TransactionException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
     @GetMapping("/monthly/{month}/{year}")
     public void getExpensesForAMonth(@PathVariable String month, @PathVariable String year) {
