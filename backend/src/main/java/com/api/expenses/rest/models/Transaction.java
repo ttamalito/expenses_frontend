@@ -62,6 +62,25 @@ public abstract class Transaction {
         this.week = week;
     }
 
+    public Transaction(User user,
+                       AbstractCategory category,
+                       float amount,
+                       Date date,
+                       String description,
+                       int month,
+                       int year,
+                       int week) {
+        this.id = id;
+        this.user = user;
+        this.category = category;
+        this.amount = amount;
+        this.date = date;
+        this.description = description;
+        this.month = month;
+        this.year = year;
+        this.week = week;
+    }
+
     public int getId() {
         return id;
     }
