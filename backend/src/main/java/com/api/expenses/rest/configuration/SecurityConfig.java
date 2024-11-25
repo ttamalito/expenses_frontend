@@ -44,7 +44,9 @@ public class SecurityConfig {
 
     // Reduced whitelist for simplicity
     private static final String[] WHITE_LIST_URL = {
-            "/ping/not"
+            "/ping/not",
+            "/auth/login",
+            "/auth/signup"
     };
 
     @Bean
