@@ -69,9 +69,30 @@ public class UserService implements UserDetailsService {
      * @param password
      * @return true if the user has been successfully authenticated, false otherwise
      */
-    public boolean authenticateUser(String username, String password) {
+    public Optional<User> authenticateUserByUsername(String username, String password) {
         Optional<User> user = userRepository.findByUsername(username);
-        return user.isPresent() && passwordEncoder.matches(password, user.get().getPassword());
+        return user.isPresent() && passwordEncoder.matches(password, user.get().getPassword()) ? user : Optional.empty();
+    }
+
+    /**
+     * Authenticates a user by checking if the email exists and the password matches
+     * @param email
+     * @param password
+     * @return
+     */
+    public Optional<User> authenticateUserByEmail(String email, String password) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.isPresent() && passwordEncoder.matches(password, user.get().getPassword()) ? user : Optional.empty();
+    }
+
+    /**
+     * Checks if a user can be created by checking if the username and email are unique
+     * @param username
+     * @param email
+     * @return
+     */
+    public boolean userCanBeCreated(String username, String email) {
+        return userRepository.findByUsername(username).isEmpty() && userRepository.findByEmail(email).isEmpty();
     }
 
     public boolean updateUser(User user) {
@@ -87,8 +108,14 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
-
-
+    /**
+     * Checks if a user exists by id
+     * @param id
+     * @return true if the user exists, false otherwise
+     */
+    public boolean userExists(UUID id) {
+        return userRepository.existsById(id);
+    }
 
 
     @Override
