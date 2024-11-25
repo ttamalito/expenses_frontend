@@ -1,20 +1,15 @@
 package com.api.expenses.rest.controllers;
 
-import com.api.expenses.rest.controllers.utils.UserLoginRequest;
-import com.api.expenses.rest.controllers.utils.UserSignupRequest;
-import com.api.expenses.rest.exceptions.UserException;
+import com.api.expenses.rest.models.requestsModels.UserLoginRequest;
+import com.api.expenses.rest.models.requestsModels.UserSignupRequest;
 import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.services.JwtService;
 import com.api.expenses.rest.services.UserService;
-import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
-import org.springframework.web.servlet.function.ServerResponse;
 
 import java.util.Optional;
 import java.util.UUID;
