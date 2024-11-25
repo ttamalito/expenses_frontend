@@ -85,11 +85,20 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, String email, String role) {
+    public User(
+            String username,
+            String password,
+            String email,
+            String role,
+            Currency currency,
+            String profilePicture
+                ) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.currency = currency;
+        this.profilePicture = profilePicture;
     }
 
 

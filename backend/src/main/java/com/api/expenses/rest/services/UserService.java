@@ -1,6 +1,7 @@
 package com.api.expenses.rest.services;
 
 import com.api.expenses.rest.models.Currency;
+import com.api.expenses.rest.models.ExpenseCategory;
 import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.repositories.CurrencyRepository;
 import com.api.expenses.rest.repositories.UserRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,12 +20,16 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final ExpenseCategoryService expenseCategoryService;
     private final CurrencyRepository currencyRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, CurrencyRepository currencyRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       ExpenseCategoryService expenseCategoryService,
+                       CurrencyRepository currencyRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.expenseCategoryService = expenseCategoryService;
         this.currencyRepository = currencyRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -115,6 +121,17 @@ public class UserService implements UserDetailsService {
      */
     public boolean userExists(UUID id) {
         return userRepository.existsById(id);
+    }
+
+    public List<ExpenseCategory> getUserExpenseCategories(UUID userId) {
+        List<ExpenseCategory> categories = expenseCategoryService.getCategoriesForUser(userId);
+        return categories;
+    }
+
+    public void saveExpenseCategories(List<ExpenseCategory> categories) {
+        for (ExpenseCategory category : categories) {
+            expenseCategoryService.saveCategory(category);
+        }
     }
 
 
