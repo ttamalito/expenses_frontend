@@ -1,5 +1,6 @@
 package com.api.expenses.rest.services;
 
+import com.api.expenses.rest.models.User;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
@@ -42,12 +43,12 @@ public class JwtService {
         return true; // TODO: add custom return value
     }
 
-    public String generateToken(String user) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-//        claims.put("id", user.getId());
+            claims.put("userId", user.getId());
 //        claims.put("email", user.getEmail());
 //        claims.put("roles", user.getAuthorities());
-        return createToken(claims, user);
+        return createToken(claims, user.getUsername());
     }
 
     /**
