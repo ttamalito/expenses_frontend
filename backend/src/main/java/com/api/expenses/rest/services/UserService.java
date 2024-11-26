@@ -6,6 +6,8 @@ import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.repositories.CurrencyRepository;
 import com.api.expenses.rest.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Primary
 @Service
 public class UserService implements UserDetailsService {
 
@@ -27,7 +30,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     public UserService(UserRepository userRepository,
                        ExpenseCategoryService expenseCategoryService,
-                       CurrencyRepository currencyRepository, PasswordEncoder passwordEncoder) {
+                       CurrencyRepository currencyRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.expenseCategoryService = expenseCategoryService;
         this.currencyRepository = currencyRepository;
