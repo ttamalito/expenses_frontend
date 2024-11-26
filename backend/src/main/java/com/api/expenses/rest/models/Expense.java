@@ -1,39 +1,59 @@
 package com.api.expenses.rest.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "expenses")
 public class Expense extends Transaction {
+
+    @ManyToOne(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "category_id",
+            referencedColumnName = "id",
+            nullable = false
+    )
+    private ExpenseCategory category;
+
     public Expense() {
         super();
     }
 
     public Expense(int id,
                    User user,
-                   AbstractCategory category,
+                   ExpenseCategory category,
                    float amount,
                    Date date,
                    String description,
                    int month,
                    int year,
                    int week) {
-        super(id, user, category, amount, date,  description, month, year, week);
+        super(id, user, amount, date,  description, month, year, week);
+        this.category =  category;
     }
 
     public Expense(
                    User user,
-                   AbstractCategory category,
+                   ExpenseCategory category,
                    float amount,
                    Date date,
                    String description,
                    int month,
                    int year,
                    int week) {
-        super( user, category, amount, date,  description, month, year, week);
+        super( user, amount, date,  description, month, year, week);
+        this.category =  category;
+    }
+
+    public ExpenseCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(ExpenseCategory expenseCategory) {
+        this.category = expenseCategory;
     }
 }

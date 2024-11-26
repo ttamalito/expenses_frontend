@@ -2,6 +2,7 @@ package com.api.expenses.rest.services;
 
 import com.api.expenses.rest.models.ExpenseCategory;
 import com.api.expenses.rest.repositories.ExpenseCategoryRepository;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class ExpenseCategoryService {
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
 
-    public ExpenseCategoryService(ExpenseCategoryRepository expenseCategoryRepository) {
+    public ExpenseCategoryService(@Lazy ExpenseCategoryRepository expenseCategoryRepository) {
         this.expenseCategoryRepository = expenseCategoryRepository;
     }
 
@@ -26,7 +27,7 @@ public class ExpenseCategoryService {
     }
 
     public List<ExpenseCategory> getCategoriesForUser(UUID userId) {
-        return expenseCategoryRepository.findAllByUserId(userId);
+        return expenseCategoryRepository.findByUserId(userId);
     }
 
     public ExpenseCategory saveCategory(ExpenseCategory category) {
