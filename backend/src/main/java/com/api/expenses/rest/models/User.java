@@ -52,7 +52,7 @@ public class User implements UserDetails {
     )
     private Set<Income> incomes = new HashSet<>();
 
-    @ManyToOne(
+    @ManyToOne( // many to one means that this entity will have the foreign key column
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
@@ -65,7 +65,7 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @OneToMany(
-            mappedBy = "user",
+            mappedBy = "user", // is the instance variable name we'll use in the ExpenseCategory entitiy to point to the associated User
             targetEntity = ExpenseCategory.class,
             fetch = FetchType.LAZY,
             orphanRemoval = true
@@ -73,7 +73,7 @@ public class User implements UserDetails {
     private Set<ExpenseCategory> expenseCategories = new HashSet<>();
     @JsonIgnore
     @OneToMany(
-            mappedBy = "user",
+            mappedBy = "user", // is the instance variable name we'll use in the IncomeCategory entity to point to the associated User
             targetEntity = IncomeCategory.class,
             fetch = FetchType.LAZY,
             orphanRemoval = true
