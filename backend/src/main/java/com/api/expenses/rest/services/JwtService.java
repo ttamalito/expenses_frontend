@@ -14,6 +14,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Service to handle the jwt token
@@ -31,10 +32,11 @@ public class JwtService {
     public boolean validateToken(String token) {
 
         try {
-            Jwt<?, ?> jwtToken =  Jwts.parser()
+            UUID userId = (UUID) Jwts.parser()
                     .verifyWith(getSignKey())
                     .build()
-                    .parse(token);
+                    .parseSignedClaims(token).getPayload().get("userId");
+
         } catch (ExpiredJwtException e) {
             return false; // TODO: add custom return value
         } catch (Exception e) {
@@ -43,9 +45,17 @@ public class JwtService {
         return true; // TODO: add custom return value
     }
 
+    public UUID extractUserId(String token) {
+        return (UUID) Jwts.parser()
+                .verifyWith(getSignKey())
+                .build()
+                .parseSignedClaims(token).getPayload().get("userId");
+    }
+
+
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-            claims.put("userId", user.getId());
+        claims.put("userId", user.getId());
 //        claims.put("email", user.getEmail());
 //        claims.put("roles", user.getAuthorities());
         return createToken(claims, user.getUsername());

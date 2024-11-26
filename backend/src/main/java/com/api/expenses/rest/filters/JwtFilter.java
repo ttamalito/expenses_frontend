@@ -1,6 +1,8 @@
 package com.api.expenses.rest.filters;
 
+import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.services.JwtService;
+import com.api.expenses.rest.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +16,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -22,9 +26,12 @@ public class JwtFilter extends OncePerRequestFilter {
     private final Logger LOG = LogManager.getLogger();
     private final JwtService jwtService;
 
+    private final UserService userService;
+
     @Autowired // Inject the JwtService
-    public JwtFilter(JwtService jwtService) {
+    public JwtFilter(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
+        this.userService = userService;
     }
 
     /**
@@ -44,12 +51,19 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                String user = "load the data from the user";
+
                 if (jwtService.validateToken(token)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            user, "password?", null ); // no authories i.e., roles
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    Optional<User> user = userService.getUserById(jwtService.extractUserId(token));
+                    if (!user.isEmpty()) {
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                user.get(), user.get().getId(), null ); // no authories i.e., roles
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    } else {
+                        LOG.info("User sent a valid token but the user was not found in the database");
+                        filterChain.doFilter(request, response);
+                    }
+
                 }
             }
         }
