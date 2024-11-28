@@ -51,7 +51,7 @@ public class AuthenticationController {
     public ResponseEntity<String> signup(@RequestBody UserSignupRequest userData) {
 
         if (userService.userCanBeCreated(userData.getUsername(), userData.getEmail())) {
-            UUID userId = userService.createUser(userData.getUsername(), userData.getPassword(), userData.getEmail(), 1, "USER");
+            UUID userId = userService.createUser(userData.getUsername(), userData.getPassword(), userData.getEmail(), 1, "USER"); // make sure that there is a currency with id 1
             User user = userService.getUserById(userId).get();
             String jwtToken = jwtService.generateToken(user);
 
