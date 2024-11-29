@@ -18,9 +18,17 @@ public class Currency {
     @Column(nullable = false)
     private String symbol;
 
+    @Column(nullable = false)
+    private String code;
+
+    /*
+    Here the Currency class owns the relationship.
+    It has a set of all users that use this currency.
+
+     */
     @JsonIgnore
     @OneToMany(
-            mappedBy = "currency",
+            mappedBy = "currency", // is the instance variable name we'll use in User entity to point to the associated Currency
             targetEntity = User.class,
             fetch = FetchType.LAZY
     )

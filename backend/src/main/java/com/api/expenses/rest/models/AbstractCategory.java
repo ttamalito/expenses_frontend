@@ -2,6 +2,7 @@ package com.api.expenses.rest.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -25,6 +26,8 @@ public abstract class AbstractCategory {
     @Column(nullable = false)
     private String name;
     private String description;
+
+
 
     public AbstractCategory() {
     }
