@@ -18,17 +18,13 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-
+import { tokens } from "../theme"
 
 export default function HomeSideBar() {
 
+    const colors = tokens();
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const [selected, setSelected] = React.useState('home');
-
-    const sidePanel = <div>Side Panel</div>;
-    const mainContent = <div>Main Content</div>;
-    const footer = <div>Footer</div>;
-    const header = <div>Header</div>;
 
     interface ItemProps {
         title: string;
@@ -45,7 +41,7 @@ export default function HomeSideBar() {
             <MenuItem
                 active={selected === title}
                 style={{
-                    // color: colors.grey[100],
+                    color: colors.grey[100],
                 }}
                 onClick={() => setSelected(title)}
                 icon={icon}
@@ -58,10 +54,11 @@ export default function HomeSideBar() {
 
 
 
-    const stack = <Stack direction="row" spacing={2}></Stack>
-
     return (<>
         <Box sx={{
+            "& .pro-sidebar-inner": {
+                background: `${colors.primary[400]} !important`,
+            },
             "& .pro-icon-wrapper" : {
                 backgroundColor: "transparent !important",
             },
@@ -76,7 +73,7 @@ export default function HomeSideBar() {
             }
         }}>
 
-            <Sidebar collapsed={isCollapsed}>
+            <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[400]}>
                 <Menu>  {/* iconShape="square" */}
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -84,6 +81,7 @@ export default function HomeSideBar() {
                         icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
                         style={{
                             margin: "10px 0 20px 0",
+                            color: colors.grey[100],
                         }}
                     >
                         {!isCollapsed && (
@@ -117,14 +115,14 @@ export default function HomeSideBar() {
                             <Box textAlign="center">
                                 <Typography
                                     variant="h2"
-                                    // color={colors.grey[100]}
+                                    color={colors.grey[100]}
                                     fontWeight="bold"
                                     sx={{ m: "10px 0 0 0" }}
                                 >
-                                    Ed Roh
+                                    Tamalito
                                 </Typography>
-                                <Typography variant="h5">
-                                    VP Fancy Admin
+                                <Typography variant="h5" color={colors.grey[100]}>
+                                    User
                                 </Typography>
                             </Box>
                         </Box>
@@ -170,7 +168,7 @@ export default function HomeSideBar() {
 
                         <Typography
                             variant="h6"
-                            // color={colors.grey[300]}
+                            color={colors.grey[300]}
                             sx={{ m: "15px 0 5px 20px" }}
                         >
                             Pages
@@ -199,7 +197,7 @@ export default function HomeSideBar() {
 
                         <Typography
                             variant="h6"
-                            // color={colors.grey[300]}
+                            color={colors.grey[300]}
                             sx={{ m: "15px 0 5px 20px" }}
                         >
                             Charts

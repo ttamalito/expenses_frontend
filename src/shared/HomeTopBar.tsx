@@ -11,7 +11,8 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
 import {InputBase} from "@mui/material";
-
+import { tokens } from "../theme"
+import Tooltip from "@mui/material/Tooltip";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -25,6 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
     }),
 }));
 export default function HomeTopBar() {
+    const colors = tokens();
 
     const expensesManagerLogo = <p>Expenses Manager</p>
     const modifyBudget = <a href={'/budget/setup'}>Modify your budget</a>
@@ -60,20 +62,32 @@ export default function HomeTopBar() {
 
             {/* ICONS */}
             <Box display={'flex'}>
-                <IconButton>
-                    <NotificationsOutlinedIcon />
-                </IconButton>
-                <IconButton>
-                    <SettingsOutlinedIcon/>
-                </IconButton>
-                <IconButton>
-                    <PersonOutlinedIcon/>
-                </IconButton>
-                <IconButton>
-                    <LightModeOutlinedIcon/>
-                </IconButton>
+                <Tooltip title={'Notifications'}>
+                    <IconButton>
+                        <NotificationsOutlinedIcon />
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip title={'Profile'}>
+                    <IconButton>
+                        <PersonOutlinedIcon/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={'Light Mode (NOT SUPPORTED)'}>
+                    <IconButton>
+                        <LightModeOutlinedIcon/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={'Settings'}>
+                    <IconButton>
+                        <SettingsOutlinedIcon/>
+                    </IconButton>
+                </Tooltip>
+
             </Box>
 
         </Box>
     );
 }
+
+
