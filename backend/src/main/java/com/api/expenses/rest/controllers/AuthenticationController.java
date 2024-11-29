@@ -28,6 +28,21 @@ public class AuthenticationController {
         this.jwtService = jwtService;
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("Pong");
+    }
+
+    @PostMapping("/ping")
+    public ResponseEntity<String> pingPost(@RequestBody String hello) {
+        return ResponseEntity.ok(hello);
+    }
+
+    @PostMapping("/ping/not")
+    public ResponseEntity<String> pingNot() {
+        return ResponseEntity.ok("Pong");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest userData) {
         Optional<User> user = Optional.empty();
