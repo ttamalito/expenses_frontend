@@ -17,6 +17,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import OneExpenseSummaryTypeDeclaration from "./utils/types/OneExpenseSummaryType";
 import dayjs from "dayjs";
+import { tokens } from "../theme";
+import Typography from "@mui/material/Typography";
 
 interface IAddOrEditExpenseFormProps {
     expense?: OneExpenseSummaryTypeDeclaration,
@@ -27,6 +29,7 @@ interface IAddOrEditExpenseFormProps {
 
 export default function AddOrEditExpenseForm({expense, submitData, edit}: IAddOrEditExpenseFormProps) {
 
+    const colors = tokens();
     let typeKey: keyof ExpensesTypesTypesDeclarations;
     const keysOfTypesOfTransactions: (keyof ExpensesTypesTypesDeclarations)[] = [];
     const typesOfTransactions = [];
@@ -56,13 +59,21 @@ export default function AddOrEditExpenseForm({expense, submitData, edit}: IAddOr
                     name={'date'}
                     label="Date of the expense"
                     defaultValue={expense?.date ? dayjs(expense.date) : undefined}
+                    sx={{
+                        color: colors.grey[100]
+                    }}
                     // onChange={(newValue) => setValue(newValue)}
                 />
             </DemoContainer>
         </LocalizationProvider>
     </FormControl>
     const transactionInputField = <FormControl required={true}>
-        <FormLabel id="expeseOrIncome">Expense or Income?</FormLabel>
+        <FormLabel id="expeseOrIncome">
+            <Typography variant={'h3'}>
+                Expense or Income?
+            </Typography>
+
+        </FormLabel>
         <RadioGroup
             row
             name={'transaction'}
@@ -74,7 +85,12 @@ export default function AddOrEditExpenseForm({expense, submitData, edit}: IAddOr
     const typeInputField = <FormControl required={true} variant="standard" sx={{m: 1, minWidth: 120}}>
         <ToolTip title="Select one of the transaction types of the list down below" placement="top">
             {/*<FormLabel id="typeOfTransaction">Type of Transaction</FormLabel>*/}
-            <InputLabel id="typeOfTransaction">Type of Transaction</InputLabel>
+            <InputLabel id="typeOfTransaction">
+                <Typography variant={'h3'}>
+                    Type of Transaction
+                </Typography>
+
+            </InputLabel>
         </ToolTip>
         <Select
             name={'type'}
