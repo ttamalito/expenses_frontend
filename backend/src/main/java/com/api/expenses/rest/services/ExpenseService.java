@@ -14,6 +14,7 @@ import com.api.expenses.rest.repositories.UserRepository;
 import com.api.expenses.rest.utils.DateUtils;
 import jakarta.transaction.TransactionalException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -30,20 +31,17 @@ public class ExpenseService {
     private final ExpenseCategoryRepository expenseCategoryRepository;
 
     private final CurrencyRepository currencyRepository;
-    private final UserRepository userRepository;
 
     private final UserService userService;
 
     @Autowired
     public ExpenseService(ExpenseRepository expenseRepository,
-                          ExpenseCategoryRepository expenseCategoryRepository,
-                          CurrencyRepository currencyRepository,
-                          UserRepository userRepository,
-                          UserService userService) {
+                          @Lazy ExpenseCategoryRepository expenseCategoryRepository,
+                          @Lazy CurrencyRepository currencyRepository,
+                          @Lazy UserService userService) {
         this.expenseRepository = expenseRepository;
         this.expenseCategoryRepository = expenseCategoryRepository;
         this.currencyRepository = currencyRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
