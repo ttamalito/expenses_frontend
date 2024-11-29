@@ -46,12 +46,14 @@ public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = {
             "/ping/not",
             "/auth/login",
-            "/auth/signup"
+            "/auth/signup",
+            "/auth/ping",
+            "/auth/ping/not"
     };
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(Customizer.withDefaults())
+        http.csrf(csrf -> csrf.disable()) // Disable CSRF. to enable do Customizer.withDefaults()
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
                     authorizeHttpRequests.requestMatchers(WHITE_LIST_URL).permitAll() // do not apply to the whitelist
                             .anyRequest().authenticated(); // apply to all other requests

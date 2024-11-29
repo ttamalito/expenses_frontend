@@ -22,8 +22,7 @@ public abstract class Transaction {
             nullable = false
     )
     private User user;
-    @Transient
-    private AbstractCategory category;
+
     @Column(nullable = false)
     private float amount;
 
@@ -44,7 +43,6 @@ public abstract class Transaction {
     }
 
     public Transaction(int id, User user,
-                       AbstractCategory category,
                        float amount,
                        Date date,
                        String description,
@@ -53,7 +51,6 @@ public abstract class Transaction {
                        int week) {
         this.id = id;
         this.user = user;
-        this.category = category;
         this.amount = amount;
         this.date = date;
         this.description = description;
@@ -63,7 +60,6 @@ public abstract class Transaction {
     }
 
     public Transaction(User user,
-                       AbstractCategory category,
                        float amount,
                        Date date,
                        String description,
@@ -72,7 +68,6 @@ public abstract class Transaction {
                        int week) {
         this.id = id;
         this.user = user;
-        this.category = category;
         this.amount = amount;
         this.date = date;
         this.description = description;
@@ -95,14 +90,6 @@ public abstract class Transaction {
 
     public void setUser(User userId) {
         this.user = userId;
-    }
-
-    public AbstractCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(AbstractCategory category) {
-        this.category = category;
     }
 
     public float getAmount() {
