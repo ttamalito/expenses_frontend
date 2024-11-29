@@ -25,14 +25,20 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import Container from '@mui/material/Container';
-import HomeNavBar from "./shared/HomeNavBar";
+import HomeTopBar from "./shared/HomeTopBar";
 import HomeGridComponent from "./home/HomeGridComponent";
+import HomeSideBar from "./shared/HomeSideBar";
+import Box from "@mui/material/Box";
+import { tokens } from "./theme"
+import Typography from "@mui/material/Typography";
+import GoToYearlySummaryForm from "./home/GoToYearlySummaryForm";
 
 /**
  * The main component of the application
  * @constructor
  */
 export default function Base() {
+    const colors = tokens();
     const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(defaultShowAlertWrapper);
     const [fetchTotalSpentFlag, setFetchTotalSpentFlag] = React.useState<boolean>(false);
 
@@ -50,8 +56,14 @@ export default function Base() {
     // setup the maximum for expenses and other settings
     // const setUp = <a href={'/budget/setup'}>Modify your budget</a>
     // view the expenses
-    const h2 = <h2>See expenses for a specific
-        month</h2>
+    const h2 = <Typography
+        variant={'h2'}
+
+    >
+        See expenses for a specific
+            month
+    </Typography>
+
     const getExpenseForMonth = <form
         onSubmit={(event) => {
             expenseForAMonth(event)
@@ -62,7 +74,9 @@ export default function Base() {
         <input type="number" placeholder={'year'}
                name={'year'}/>
         <Button
-            type={'submit'} variant={'contained'} color="success">See
+            type={'submit'} variant={'contained'} sx={{
+                color: colors.grey[100]
+        }}>See
             Expenses</Button>
     </form>
 
@@ -101,8 +115,15 @@ export default function Base() {
             </LocalizationProvider>
         </FormControl>
         <br/>
-        <FormControl required={true}>
-            <FormLabel id="expeseOrIncome">Expense or Income?</FormLabel>
+        <FormControl required={true} sx={{
+            color: "white"
+        }}>
+            <FormLabel id="expeseOrIncome">
+                <Typography variant={'h3'}>
+                    Expense or Income?
+                </Typography>
+
+            </FormLabel>
                 <RadioGroup
                     row
                     name={'transaction'}
@@ -115,7 +136,9 @@ export default function Base() {
         <FormControl required={true} variant="standard" sx={{ m: 1, minWidth: 120 }}>
             <ToolTip title="Select one of the transaction types of the list down below" placement="top">
                 {/*<FormLabel id="typeOfTransaction">Type of Transaction</FormLabel>*/}
-                <InputLabel id="typeOfTransaction">Type of Transaction</InputLabel>
+                <InputLabel id="typeOfTransaction" sx={{color: "white"}}>
+                        Type of Transaction
+                </InputLabel>
             </ToolTip>
             <Select
                 name={'type'}
@@ -126,7 +149,9 @@ export default function Base() {
                 //label="Helloooooooooooooooooooooooooooooo"
                 variant={"standard"}>
                 {keysOfTypesOfTransactions.map((option) => (
-                    <MenuItem key={option.valueOf()} value={types[option]}>
+                    <MenuItem key={option.valueOf()} value={types[option]} sx={{
+                        color: "white"
+                    }}>
                         {option.valueOf()}
                     </MenuItem>
                 ))}
@@ -142,32 +167,29 @@ export default function Base() {
         <br/>
 
 
-        <Button type={'submit'} variant={'contained'} color="success">Add
+        <Button type={'submit'} variant={'contained'}
+        sx={{
+            backgroundColor: colors.blueAccent[400]
+        }}
+        >Add
             Expense</Button>
 
     </form>
 
-    const yearlySummary =
-        <form onSubmit={(event) => {
-            goToLink(event, 'year', 'summary');
-        }}>
-            <label htmlFor="year">Go To Yearly
-                Summary</label>
-            <br/>
-            <input type="number" placeholder={'year'}
-                   name={'year'}/>
-            <Button type={'submit'} variant={'contained'}> Go to
-                Summary</Button>
-        </form>
-
 
     return (
 
-        <div className="App">
-            <HomeNavBar></HomeNavBar>
-            <Container>
+        // <div className="app">
+        //     <HomeSideBar></HomeSideBar>
+        //
+        //     <main className={'content'}>
+        //         <HomeTopBar></HomeTopBar>
+
+            <Container> {/* Could be container */}
                 <br/>
-                <h1>Expenses Manager</h1>
+                <Typography variant={'h1'}>
+                    Expenses Manager
+                </Typography>
                 <HomeGridComponent fetchTotalSpentFlag={fetchTotalSpentFlag}></HomeGridComponent>
 
                 <br/>
@@ -177,14 +199,17 @@ export default function Base() {
                 <br/>
                 {getExpenseForMonth}
                 <br/>
-                {yearlySummary}
+                <GoToYearlySummaryForm></GoToYearlySummaryForm>
                 <br/>
                 {showAlert.show && showAlert.alert}
                 <br/>
-                <h2 style={{color: 'black', fontSize: '24px', margin: '20px 0'}}>Add an expense</h2>
+                <Typography variant={'h2'}>
+                    Add an expense
+                </Typography>
                 {form}
             </Container>
-        </div>
+        //     </main>
+        // </div>
 
     );
 }
