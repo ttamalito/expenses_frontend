@@ -5,6 +5,7 @@ import com.api.expenses.rest.services.IncomeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class IncomesController {
     private final IncomeService incomeService;
 
     @Autowired
-    public IncomesController(IncomeService incomeService) {
+    public IncomesController(@Lazy IncomeService incomeService) {
         this.incomeService = incomeService;
     }
 
