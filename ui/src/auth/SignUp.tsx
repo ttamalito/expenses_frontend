@@ -16,6 +16,8 @@ import { styled } from '@mui/material/styles';
 // import AppTheme from '../shared-theme/AppTheme';
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect'; // TODO: revise AppTheme
+import signUpRequest from "./requests/signUpRequest";
+import { tokens } from "../theme"
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -60,6 +62,10 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
+
+    const colors = tokens();
+
+
     const [emailError, setEmailError] = React.useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
     const [passwordError, setPasswordError] = React.useState(false);
@@ -70,7 +76,8 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     const validateInputs = () => {
         const email = document.getElementById('email') as HTMLInputElement;
         const password = document.getElementById('password') as HTMLInputElement;
-        const name = document.getElementById('name') as HTMLInputElement;
+        const name = document.getElementById('username') as HTMLInputElement;
+        const confirmPassword = document.getElementById('confirmPassword') as HTMLInputElement;
 
         let isValid = true;
 
@@ -92,9 +99,38 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             setPasswordErrorMessage('');
         }
 
+        if (!confirmPassword.value || confirmPassword.value.length < 6) {
+            setPasswordError(true);
+            setPasswordErrorMessage('Password must be at least 6 characters long.');
+            isValid = false;
+        } else {
+            setPasswordError(false);
+            setPasswordErrorMessage('');
+        }
+
+        if (password.value !== confirmPassword.value) {
+            setPasswordError(true);
+            setPasswordErrorMessage('Passwords do not match.');
+            isValid = false;
+        } else {
+            setPasswordError(false);
+            setPasswordErrorMessage('');
+        }
+
+
         if (!name.value || name.value.length < 1) {
             setNameError(true);
             setNameErrorMessage('Name is required.');
+            isValid = false;
+        } else {
+            setNameError(false);
+            setNameErrorMessage('');
+        }
+
+        // check if name has whitespace
+        if (name.value.includes(' ')) {
+            setNameError(true);
+            setNameErrorMessage('Name cannot contain whitespace.');
             isValid = false;
         } else {
             setNameError(false);
@@ -109,13 +145,12 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             event.preventDefault();
             return;
         }
-        const data = new FormData(event.currentTarget);
-        console.log({
-            name: data.get('name'),
-            lastName: data.get('lastName'),
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        event.preventDefault();
+        try {
+            signUpRequest(event.currentTarget);
+        } catch (error) {
+            console.error('Probably a bad request', error);
+        }
     };
 
     return (
@@ -139,17 +174,18 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                         sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
                     >
                         <FormControl>
-                            <FormLabel htmlFor="name">Full name</FormLabel>
+                            <FormLabel htmlFor="username">User name</FormLabel>
                             <TextField
                                 autoComplete="name"
-                                name="name"
+                                name="username"
                                 required
                                 fullWidth
-                                id="name"
-                                placeholder="Jon Snow"
+                                id="username"
+                                placeholder="someUsername"
                                 error={nameError}
                                 helperText={nameErrorMessage}
                                 color={nameError ? 'error' : 'primary'}
+                                sx={{ input: { color: colors.grey[100]} }}
                             />
                         </FormControl>
                         <FormControl>
@@ -165,6 +201,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                                 error={emailError}
                                 helperText={emailErrorMessage}
                                 color={passwordError ? 'error' : 'primary'}
+                                sx={{ input: { color: colors.grey[100]} }}
                             />
                         </FormControl>
                         <FormControl>
@@ -181,12 +218,30 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                                 error={passwordError}
                                 helperText={passwordErrorMessage}
                                 color={passwordError ? 'error' : 'primary'}
+                                sx={{ input: { color: colors.grey[100]} }}
                             />
                         </FormControl>
-                        <FormControlLabel
-                            control={<Checkbox value="allowExtraEmails" color="primary" />}
-                            label="I want to receive updates via email."
-                        />
+                        <FormControl>
+                            <FormLabel htmlFor="password">Confirm Password</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                name="confirmPassword"
+                                placeholder="••••••"
+                                type="password"
+                                id="confirmPassword"
+                                autoComplete="new-password"
+                                variant="outlined"
+                                error={passwordError}
+                                helperText={passwordErrorMessage}
+                                color={passwordError ? 'error' : 'primary'}
+                                sx={{ input: { color: colors.grey[100]} }}
+                            />
+                        </FormControl>
+                        {/*<FormControlLabel*/}
+                        {/*    control={<Checkbox value="allowExtraEmails" color="primary" />}*/}
+                        {/*    label="I want to receive updates via email."*/}
+                        {/*/>*/}
                         <Button
                             type="submit"
                             fullWidth
@@ -200,14 +255,14 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                         <Typography sx={{ color: 'text.secondary' }}>or</Typography>
                     </Divider>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            onClick={() => alert('Sign up with Google')}
-                            // startIcon={<GoogleIcon />}
-                        >
-                            Sign up with Google
-                        </Button>
+                        {/*<Button*/}
+                        {/*    fullWidth*/}
+                        {/*    variant="outlined"*/}
+                        {/*    onClick={() => alert('Sign up with Google')}*/}
+                        {/*    // startIcon={<GoogleIcon />}*/}
+                        {/*>*/}
+                        {/*    Sign up with Google*/}
+                        {/*</Button>*/}
                         <Button
                             fullWidth
                             variant="outlined"
@@ -216,14 +271,14 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                         >
                             Sign up with Facebook
                         </Button>
-                        <Typography sx={{ textAlign: 'center' }}>
+                        <Typography sx={{ textAlign: 'center', color: colors.grey[100] }} >
                             Already have an account?{' '}
                             <Link
                                 href="/material-ui/getting-started/templates/sign-in/"
                                 variant="body2"
-                                sx={{ alignSelf: 'center' }}
+                                sx={{ alignSelf: 'center', color: colors.blueAccent[600] }}
                             >
-                                Sign in
+                                Log in
                             </Link>
                         </Typography>
                     </Box>

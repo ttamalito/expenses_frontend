@@ -65,13 +65,20 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody UserSignupRequest userData) {
 
+        String password = userData.getPassword();
+        String confirmPassword = userData.getConfirmPassword();
+        if (!password.equals(confirmPassword)) {
+            return ResponseEntity.badRequest().body("Passwords do not match");
+        }
+
         if (userService.userCanBeCreated(userData.getUsername(), userData.getEmail())) {
             UUID userId = userService.createUser(userData.getUsername(), userData.getPassword(), userData.getEmail(), 1, "USER"); // make sure that there is a currency with id 1
             User user = userService.getUserById(userId).get();
             String jwtToken = jwtService.generateToken(user);
 
-            String cookie = "access_token=" + jwtToken + "; Max-Age=3600;";
-            return ResponseEntity.ok().header("Set-Cookie",cookie).build();
+//            String cookie = "access_token=" + jwtToken + "; Max-Age=3600;";
+            String accessTokenJson = "{\"access_token\": \"" + jwtToken + "\"}";
+            return ResponseEntity.ok().body(accessTokenJson);
         }
 
         return ResponseEntity.badRequest().body("User already exists");
