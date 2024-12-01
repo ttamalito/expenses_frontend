@@ -24,7 +24,10 @@ public class WebConfig implements WebMvcConfigurer {
                         "OPTIONS")
                 .allowedHeaders(
                         "Authorization",
-                        "content-type"
+                        "authorization",
+                        "content-type",
+                        "Access-Control-Allow-Origin",
+                        "Access-Control-Allow-Headers"
                 )
                 .allowCredentials(true); // TODO: Add maxAge
 
