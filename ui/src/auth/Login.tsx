@@ -13,7 +13,10 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-// import ForgotPassword from './ForgotPassword';
+import { tokens } from '../theme';
+import logInRequest from "./requests/loginRequest";
+import {Simulate} from "react-dom/test-utils";
+import canPlayThrough = Simulate.canPlayThrough;
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -58,7 +61,9 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
     },
 }));
 
-export default function Login(props: { disableCustomTheme?: boolean }) {
+export default function Login(props: { disableCustomTheme?: boolean}) {
+
+    const colors = tokens();
     const [emailError, setEmailError] = React.useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
     const [passwordError, setPasswordError] = React.useState(false);
@@ -78,11 +83,15 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
             event.preventDefault();
             return;
         }
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+
+        event.preventDefault();
+        const form = event.currentTarget;
+        try {
+            logInRequest(form);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Probably a bad request');
+        }
     };
 
     const validateInputs = () => {
@@ -122,7 +131,7 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
                         variant="h4"
                         sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
                     >
-                        Sign in
+                        Log in
                     </Typography>
                     <Box
                         component="form"
@@ -169,10 +178,10 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
                                 color={passwordError ? 'error' : 'primary'}
                             />
                         </FormControl>
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
+                        {/*<FormControlLabel*/}
+                        {/*    control={<Checkbox value="remember" color="primary" />}*/}
+                        {/*    label="Remember me"*/}
+                        {/*/>*/}
                         {/*<ForgotPassword open={open} handleClose={handleClose} />*/}
                         <Button
                             type="submit"
@@ -180,7 +189,7 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
                             variant="contained"
                             onClick={validateInputs}
                         >
-                            Sign in
+                            Log in
                         </Button>
                         <Link
                             component="button"
@@ -210,12 +219,12 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
                         >
                             Sign in with Facebook
                         </Button>
-                        <Typography sx={{ textAlign: 'center' }}>
+                        <Typography sx={{ textAlign: 'center', color: colors.grey[100] }}>
                             Don&apos;t have an account?{' '}
                             <Link
                                 href="/material-ui/getting-started/templates/sign-in/"
                                 variant="body2"
-                                sx={{ alignSelf: 'center' }}
+                                sx={{ alignSelf: 'center', color: colors.blueAccent[600] }}
                             >
                                 Sign up
                             </Link>
