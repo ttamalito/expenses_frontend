@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import Base from "../Base";
 import MonthExpenses from "../spent/month/MonthExpenses";
 import SetUp from "../budget/SetUp";
+import Budget from "../budget/Budget";
 import YearSummary from "../spent/year/YearSummary";
 import Login from "../auth/Login";
 import SignUp from "../auth/SignUp";
@@ -20,7 +21,7 @@ export default function BaseRoutes() {
         {/*<Route element={<ProtectedRoutes />} >*/}
             <Route path='/home' element={<Base />}/>
             <Route path={'/expensesMonth/:month/:year'} element={<MonthExpenses />} />
-            <Route path={'/budget/setup'} element={<SetUp />} />
+            <Route path={'/budget'} element={<Budget />} />
             <Route path={'/summary/:year'} element={<YearSummary />} />
             <Route path={'/profile'} element={<Profile username={'test'}/>} />
         {/*</Route>*/}
