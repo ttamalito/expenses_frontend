@@ -35,31 +35,6 @@ export default function CategoryCard() {
                 direction={'row'}
                 spacing={3}
                 sx={{display: {xs: 'none', md: 'flex'}, my: 1}}>
-                {/*<Stack direction="column" spacing={1}>*/}
-                {/*    /!* PROFILE PICTURE*!/*/}
-                {/*    /!*<StyledBadge*!/*/}
-                {/*    /!*    overlap="circular"*!/*/}
-                {/*    /!*    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}*!/*/}
-                {/*    /!*    variant="dot"*!/*/}
-                {/*    /!*>*!/*/}
-                {/*    /!*    <Avatar sx={{ width: 105, height: 105 }} alt="Logo" src="/tamalito.jpg" />*!/*/}
-                {/*    /!* </StyledBadge> *!/*/}
-                {/*    <IconButton*/}
-                {/*        aria-label="upload new picture"*/}
-                {/*        size="small"*/}
-                {/*        sx={{*/}
-                {/*            bgcolor: 'background.body',*/}
-                {/*            position: 'absolute',*/}
-                {/*            zIndex: 2,*/}
-                {/*            borderRadius: '50%',*/}
-                {/*            left: 100,*/}
-                {/*            top: 170,*/}
-                {/*            boxShadow: 'sm',*/}
-                {/*        }}*/}
-                {/*    >*/}
-                {/*        <EditRoundedIcon />*/}
-                {/*    </IconButton>*/}
-                {/*</Stack> /!* PROFILE PICTURE (STACK) END*!/*/}
                 <Stack spacing={2} sx={{flexGrow: 1}}>
                     <Stack spacing={1}>
                         <FormLabel>Category Name</FormLabel>
