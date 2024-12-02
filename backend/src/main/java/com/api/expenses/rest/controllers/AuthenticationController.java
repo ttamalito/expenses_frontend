@@ -43,7 +43,7 @@ public class AuthenticationController {
         return ResponseEntity.ok("Pong");
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest userData) {
         Optional<User> user = Optional.empty();
 
@@ -55,8 +55,8 @@ public class AuthenticationController {
 
         if (user.isPresent()) {
             String jwtToken = jwtService.generateToken(user.get());
-            String cookie = "access_token=" + jwtToken + "; Max-Age=3600;";
-            return ResponseEntity.noContent().header("Set-Cookie",cookie).build();
+            String accessTokenJson = "{\"accessToken\": \"" + jwtToken + "\"}";
+            return ResponseEntity.ok().body(accessTokenJson);
         } else
             return ResponseEntity.badRequest().body("Invalid credentials");
 
@@ -77,11 +77,20 @@ public class AuthenticationController {
             String jwtToken = jwtService.generateToken(user);
 
 //            String cookie = "access_token=" + jwtToken + "; Max-Age=3600;";
-            String accessTokenJson = "{\"access_token\": \"" + jwtToken + "\"}";
+            String accessTokenJson = "{\"accessToken\": \"" + jwtToken + "\"}";
             return ResponseEntity.ok().body(accessTokenJson);
         }
 
         return ResponseEntity.badRequest().body("User already exists");
+    }
+
+    @GetMapping("/loggedIn")
+    public ResponseEntity<String> loggedIn() {
+        User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (user != null) {
+            return ResponseEntity.ok().body("User is logged in");
+        }
+        return ResponseEntity.badRequest().body("No user is logged in");
     }
 
     @PostMapping("/logout")
