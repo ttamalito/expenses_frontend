@@ -19,12 +19,13 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import { tokens } from "../theme"
+import goTo from "../utils/goTo";
 
 export default function HomeSideBar() {
 
     const colors = tokens();
     const [isCollapsed, setIsCollapsed] = React.useState(false);
-    const [selected, setSelected] = React.useState('home');
+    const [selected, setSelected] = React.useState('profile');
 
     interface ItemProps {
         title: string;
@@ -43,7 +44,10 @@ export default function HomeSideBar() {
                 style={{
                     color: colors.grey[100],
                 }}
-                onClick={() => setSelected(title)}
+                onClick={() => {
+                    setSelected(title)
+                    goTo(to)
+                }}
                 icon={icon}
             >
                 <Typography>{title}</Typography>
@@ -73,7 +77,9 @@ export default function HomeSideBar() {
             }
         }}>
 
-            <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[400]}>
+            <Sidebar collapsed={isCollapsed} backgroundColor={colors.primary[400]}
+            rootStyles={{  height: "100vh", zIndex: 1000 }}
+            >
                 <Menu>  {/* iconShape="square" */}
                     {/* LOGO AND MENU ICON */}
                     <MenuItem
@@ -130,8 +136,8 @@ export default function HomeSideBar() {
 
                     <Box paddingLeft={isCollapsed ? undefined : "10%"}>
                         <Item
-                            title="Dashboard"
-                            to="/"
+                            title="Dashboard/Home"
+                            to="/home"
                             icon={<HomeOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
@@ -144,23 +150,23 @@ export default function HomeSideBar() {
                         >
                             Data
                         </Typography>
+                        {/*<Item*/}
+                        {/*    title="Manage Team"*/}
+                        {/*    to="/team"*/}
+                        {/*    icon={<PeopleOutlinedIcon />}*/}
+                        {/*    selected={selected}*/}
+                        {/*    setSelected={setSelected}*/}
+                        {/*/>*/}
+                        {/*<Item*/}
+                        {/*    title="Contacts Information"*/}
+                        {/*    to="/contacts"*/}
+                        {/*    icon={<ContactsOutlinedIcon />}*/}
+                        {/*    selected={selected}*/}
+                        {/*    setSelected={setSelected}*/}
+                        {/*/>*/}
                         <Item
-                            title="Manage Team"
-                            to="/team"
-                            icon={<PeopleOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Contacts Information"
-                            to="/contacts"
-                            icon={<ContactsOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Invoices Balances"
-                            to="/invoices"
+                            title="Summaries"
+                            to="/summaries"
                             icon={<ReceiptOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
@@ -174,15 +180,15 @@ export default function HomeSideBar() {
                             Pages
                         </Typography>
                         <Item
-                            title="Profile Form"
-                            to="/form"
+                            title="Profile Page"
+                            to="/profile"
                             icon={<PersonOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
                         <Item
-                            title="Calendar"
-                            to="/calendar"
+                            title="Budget"
+                            to="/budget"
                             icon={<CalendarTodayOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
@@ -223,13 +229,13 @@ export default function HomeSideBar() {
                             selected={selected}
                             setSelected={setSelected}
                         />
-                        <Item
-                            title="Geography Chart"
-                            to="/geography"
-                            icon={<MapOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
+                        {/*<Item*/}
+                        {/*    title="Geography Chart"*/}
+                        {/*    to="/geography"*/}
+                        {/*    icon={<MapOutlinedIcon />}*/}
+                        {/*    selected={selected}*/}
+                        {/*    setSelected={setSelected}*/}
+                        {/*/>*/}
                     </Box>
                 </Menu>
             </Sidebar>
