@@ -1,6 +1,8 @@
 package com.api.expenses.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +36,7 @@ public class User implements UserDetails {
     @Transient
     private String role;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     @OneToMany(
             mappedBy = "user",
@@ -43,6 +46,7 @@ public class User implements UserDetails {
     )
     private Set<Expense> expenses = new HashSet<>();
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     @OneToMany(
             mappedBy = "user",
@@ -52,6 +56,10 @@ public class User implements UserDetails {
     )
     private Set<Income> incomes = new HashSet<>();
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    //@JsonIgnore
+    // @JsonIdentityReference(alwaysAsId = true) // this is used to return the id only in foreign key relationships... iguess
     @ManyToOne( // many to one means that this entity will have the foreign key column
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
@@ -63,6 +71,7 @@ public class User implements UserDetails {
     )
     private Currency currency;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     @OneToMany(
             mappedBy = "user", // is the instance variable name we'll use in the ExpenseCategory entitiy to point to the associated User
@@ -71,6 +80,8 @@ public class User implements UserDetails {
             orphanRemoval = true
     )
     private Set<ExpenseCategory> expenseCategories = new HashSet<>();
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
     @OneToMany(
             mappedBy = "user", // is the instance variable name we'll use in the IncomeCategory entity to point to the associated User
@@ -129,12 +140,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "password";
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return "user";
+        return this.username;
     }
 
     public UUID getId() {
