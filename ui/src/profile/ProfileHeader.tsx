@@ -6,8 +6,11 @@ import Typography from "@mui/material/Typography";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import Tabs from "@mui/material/Tabs";
 
-import Tab from "@mui/material/Tab";
-export default function ProfileHeader() {
+interface IProfileProps {
+    username: string;
+}
+
+export default function ProfileHeader({username}: IProfileProps) {
     return (
         <Box sx={{ flex: 1, width: '100%' }}>
             <Box
@@ -41,11 +44,11 @@ export default function ProfileHeader() {
                             Users
                         </a>
                         <Typography color="primary" sx={{ fontWeight: 500, fontSize: 12 }}>
-                            My profile
+                            {username}
                         </Typography>
                     </Breadcrumbs>
                     <Typography variant="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
-                        My profile
+                        {username}
                     </Typography>
                 </Box>
                 <Tabs defaultValue={0} sx={{ bgcolor: 'transparent' }}>
