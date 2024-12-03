@@ -33,6 +33,10 @@ public class User implements UserDetails {
     @CreationTimestamp
     @Column(name = "creation_date")
     private Date creationDate;
+    @Column(name= "firstName")
+    private String firstName;
+    @Column(name= "lastName")
+    private String lastName;
     @Transient
     private String role;
 
@@ -110,6 +114,8 @@ public class User implements UserDetails {
         this.role = role;
         this.currency = currency;
         this.profilePicture = profilePicture;
+        this.firstName = "";
+        this.lastName = "";
     }
 
 
@@ -190,5 +196,13 @@ public class User implements UserDetails {
 
     public Set<IncomeCategory> getIncomeCategories() {
         return incomeCategories;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }

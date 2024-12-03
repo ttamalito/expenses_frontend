@@ -59,6 +59,10 @@ public class Currency {
         return symbol;
     }
 
+    public String getCode() {
+        return code;
+    }
+
 
 
 
