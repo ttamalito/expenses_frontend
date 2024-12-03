@@ -4,7 +4,7 @@ import {isLoggedInPath} from "./paths";
 export default async function IsLoggedInRequest() {
     const name = 'accessToken=';
     let decodedCookie = decodeURIComponent(document.cookie);
-    console.log(decodedCookie);
+    //console.log(decodedCookie);
     let cookies = decodedCookie.split(';');
     let accessToken = '';
     for(let i = 0; i < cookies.length; i++) {
@@ -20,8 +20,8 @@ export default async function IsLoggedInRequest() {
     if (accessToken === '') {
         return false;
     }
-    console.log('Access token: ', accessToken);
-    console.log('About to send request to: ', isLoggedInPath);
+    //console.log('Access token: ', accessToken);
+    //console.log('About to send request to: ', isLoggedInPath);
 
     const response = await fetch(isLoggedInPath, {
         method: 'GET',
@@ -29,7 +29,7 @@ export default async function IsLoggedInRequest() {
             'Authorization': `Bearer ${accessToken}`,
             }
     });
-    console.log('Response: ', response);
+    //console.log('Response: ', response);
 
     if (response.ok) {
         return true;
