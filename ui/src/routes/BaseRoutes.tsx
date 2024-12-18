@@ -23,7 +23,7 @@ export default function BaseRoutes() {
             <Route path={'/expensesMonth/:month/:year'} element={<MonthExpenses />} />
             <Route path={'/budget'} element={<Budget />} />
             <Route path={'/summary/:year'} element={<YearSummary />} />
-            <Route path={'/profile'} element={<Profile username={'test'}/>} />
+            <Route path={'/profile'} element={<Profile username={'tamalito'}/>} />
         {/*</Route>*/}
 
 
