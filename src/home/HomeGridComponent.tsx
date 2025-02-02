@@ -27,7 +27,7 @@ export default function HomeGridComponent({fetchTotalSpentFlag}: IHomeGridCompon
             <Grid container spacing={2}>
                 <Grid size={{ xs: 8, md: 8, sm: 8 }} >
                     <h5>Monthly Spent over a year</h5>
-                    <SpentOverAYearLineChart upToMonthNumber={11}></SpentOverAYearLineChart>
+                    <SpentOverAYearLineChart upToMonthNumber={12}></SpentOverAYearLineChart>
                 </Grid>
                 <Grid size={{ xs: 4, md: 4, sm: 4 }}>
                     <GaugeChartBudget expenseType={undefined} width={200} height={200} yearFlag={false}
