@@ -280,7 +280,8 @@ function getExpensesOfAType(event: React.FormEvent<HTMLFormElement>,
     const url = fetchExpensesOfATypeForAMonthPath(year as string, month as string)
     fetch(url, {
         method: 'POST',
-        body: urlData
+        body: urlData,
+        credentials: 'include',
     }).then(res => {
         // get the data
         res.json().then(data => {

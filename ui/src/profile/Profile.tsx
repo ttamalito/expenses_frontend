@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ProfileHeader from "./ProfileHeader";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -19,6 +19,7 @@ import Button from "@mui/material/Button";
 import {tokens } from "../theme";
 import CategoryCard from "./profileCards/CategoryCard";
 import UserInformationCard from "./profileCards/UserInformationCard";
+import fetchUserData from "./requests/fetchUserData";
 
 
 
@@ -27,12 +28,32 @@ interface IProfileProps {
 }
 
 export default function Profile({ username }: IProfileProps) {
-    const colors = tokens();
+    const [userData, setUserData] = React.useState<User>({
+        id: 0,
+        username: '',
+        email: 'helloooooo',
+        firstName: '',
+        lastName: '',
+        profilePicture: '',
+        monthlyBudget: 0,
+        currency: {
+            id: 0,
+            name: '',
+            symbol: '',
+            code: '',
+            selected: false
+        }
+    });
+    useEffect(() => {
+        fetchUserData(username).then((data) => {
+            console.log('Data: ', data);
+            setUserData(data);
+        }).catch((error) => {
+            console.error('Error fetching user data: ', error);
+        });
 
-    const sidePanel = <div>Side Panel</div>;
-    const mainContent = <div>Main Content</div>;
-    const footer = <div>Footer</div>;
-    const header = <div>Header</div>;
+    }, [username]);
+    const colors = tokens();
 
 
     return (
@@ -48,7 +69,7 @@ export default function Profile({ username }: IProfileProps) {
                         px: { xs: 2, md: 6 },
                         py: { xs: 2, md: 3 },
                     }}>
-                        <UserInformationCard />
+                        <UserInformationCard userData={userData} />
 
 
                         <CategoryCard />

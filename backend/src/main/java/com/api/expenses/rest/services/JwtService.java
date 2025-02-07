@@ -7,6 +7,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ import java.util.UUID;
 @Service
 public class JwtService {
 
+    Logger LOG = LoggerFactory.getLogger(JwtService.class);
+
+
     @Value("${application.security.jwt.secret-key}")
     private String secretKey; // read the value from application.properties
 
@@ -32,10 +37,11 @@ public class JwtService {
     public boolean validateToken(String token) {
 
         try {
-            UUID userId = (UUID) Jwts.parser()
+            String userIdAsString = (String) Jwts.parser()
                     .verifyWith(getSignKey())
                     .build()
                     .parseSignedClaims(token).getPayload().get("userId");
+            UUID userId = UUID.fromString(userIdAsString);
 
         } catch (ExpiredJwtException e) {
             return false; // TODO: add custom return value
@@ -46,10 +52,13 @@ public class JwtService {
     }
 
     public UUID extractUserId(String token) {
-        return (UUID) Jwts.parser()
+       String userIdA = (String) Jwts.parser()
                 .verifyWith(getSignKey())
                 .build()
                 .parseSignedClaims(token).getPayload().get("userId");
+       LOG.info("Extracted userId for authentication: {}", userIdA);
+
+        return UUID.fromString(userIdA);
     }
 
 

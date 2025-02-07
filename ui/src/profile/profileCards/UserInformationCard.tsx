@@ -47,7 +47,19 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
-export default function UserInformationCard() {
+interface IUserInformationCardProps {
+    userData: User;
+}
+
+export default function UserInformationCard({userData}: IUserInformationCardProps) {
+
+    const [emailValue, setEmailValue] = React.useState(userData.email);
+
+    // const onChange = (event: ) => {
+    //     setValue(event.target.value);
+    // };
+
+    console.log('Received in user information card: ', userData);
 
     const colors = tokens();
 
@@ -93,7 +105,7 @@ export default function UserInformationCard() {
                         <FormControl
                             sx={{display: {sm: 'flex-column', md: 'flex-row'}, gap: 2}}
                         >
-                            <Input size="small" placeholder="First name"/>
+                            <Input size="small" placeholder="First name" defaultValue={userData.firstName}/>
                             <Input size="small" placeholder="Last name" sx={{flexGrow: 1}}/>
                         </FormControl>
                     </Stack> {/* NAME (STACK) END*/}
@@ -103,20 +115,23 @@ export default function UserInformationCard() {
                             <Input size="small" defaultValue="UI Developer"/>
                         </FormControl>
                         <FormControl sx={{flexGrow: 1}}>
+
                             <FormLabel>Email</FormLabel>
                             <Input
                                 size="small"
                                 type="email"
                                 // startDecorator={<EmailRoundedIcon />}
                                 placeholder="email"
-                                defaultValue="siriwatk@test.com"
+                                defaultValue={`${userData.email}`}
+                                value={emailValue}
+                                onChange={(event) => setEmailValue(event.target.value)}
                                 sx={{flexGrow: 1}}
                             />
                         </FormControl>
                     </Stack> {/* ROLE AND EMAIL (STACK) END*/}
 
                     <Stack direction="row" spacing={2} sx={{flexGrow: 1}}>
-                        <SelectCurrencyComponent />
+                        <SelectCurrencyComponent selectedCurrency={userData.currency} />
                     </Stack> {/* Select currency for transactions */}
 
 
