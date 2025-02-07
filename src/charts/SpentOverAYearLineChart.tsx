@@ -29,7 +29,9 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
             //alert('There was an error fetching the monthly spent data');
             console.log(error);
         });
-        fetchTotalEarnedEachMonthForLineChart(2024).then((data) => {
+        const actualDate = Date.now();
+        const actualYear = new Date(actualDate).getFullYear();
+        fetchTotalEarnedEachMonthForLineChart(actualYear).then((data) => {
                 console.log(data);
                 let tempResult = [];
                 for (let i = 0; i < data.length; i++) {
