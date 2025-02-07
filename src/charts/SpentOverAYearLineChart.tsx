@@ -17,6 +17,8 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
     const [totalEarnedData, setTotalEarnedData] = React.useState<number[]>([]);
 
     useEffect(() => {
+        const actualDate = Date.now();
+        const actualYear = new Date(actualDate).getFullYear();
         fetchAllDataForLineChart(upToMonthNumber, 'all').then((data) => {
             setMonthlyData(data);
         }).catch((error) => {
@@ -29,8 +31,6 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
             //alert('There was an error fetching the monthly spent data');
             console.log(error);
         });
-        const actualDate = Date.now();
-        const actualYear = new Date(actualDate).getFullYear();
         fetchTotalEarnedEachMonthForLineChart(actualYear).then((data) => {
                 console.log(data);
                 let tempResult = [];
@@ -83,10 +83,13 @@ export default function SpentOverAYearLineChart({upToMonthNumber} : ISpentOverAY
 
 async function fetchAllDataForLineChart(upToMonthNumber: number, type: string) {
 
+    const actualDate = Date.now();
+    const actualYear = new Date(actualDate).getFullYear();
+
     const spentMonthly = [];
 
     for (let i = 1; i <= upToMonthNumber; i++) {
-        const response = await fetchTotalSpentInAMonth(2024, i, type);
+        const response = await fetchTotalSpentInAMonth(actualYear, i, type);
         const positiveNumber = Math.abs(response.data);
         spentMonthly.push(positiveNumber);
     }
