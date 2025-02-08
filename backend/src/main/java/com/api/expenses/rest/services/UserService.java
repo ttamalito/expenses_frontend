@@ -148,6 +148,10 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
+
     private Currency getCurrencyById(int currencyId) {
         return currencyRepository.findById(currencyId).
                 orElseThrow(() -> new RuntimeException("Currency not found")); // TODO: create a custom exception

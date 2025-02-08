@@ -60,4 +60,19 @@ public class UserController implements Serializable {
         }
     }
 
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<String> deleteUser(@PathVariable String username) {
+        Optional<User> fetchedUser = userService.getUserByUsername(username);
+        if (fetchedUser.isEmpty()) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
+        User user = fetchedUser.get();
+        User userMakingRequest = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!userMakingRequest.getUsername().equals(user.getUsername())) {
+            return ResponseEntity.badRequest().body("You are not allowed to delete this user");
+        }
+        userService.deleteUser(user);
+        return ResponseEntity.ok().body("User deleted successfully");
+    }
+
 }
