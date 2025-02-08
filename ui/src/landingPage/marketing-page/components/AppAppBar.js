@@ -85,7 +85,7 @@ export default function AppAppBar() {
             }}
           >
             <Button color="primary" variant="text" size="small">
-              Sign in
+              <a href={'/login'}>Sign in</a>
             </Button>
             <Button color="primary" variant="contained" size="small">
               Sign up
