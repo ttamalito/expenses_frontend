@@ -65,7 +65,7 @@ public class User implements UserDetails {
     //@JsonIgnore
     // @JsonIdentityReference(alwaysAsId = true) // this is used to return the id only in foreign key relationships... iguess
     @ManyToOne( // many to one means that this entity will have the foreign key column
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
     )
     @JoinColumn(

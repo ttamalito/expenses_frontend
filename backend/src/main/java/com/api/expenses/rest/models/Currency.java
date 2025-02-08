@@ -29,13 +29,13 @@ public class Currency {
     It has a set of all users that use this currency.
 
      */
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "currency", // is the instance variable name we'll use in User entity to point to the associated Currency
-            targetEntity = User.class,
-            fetch = FetchType.LAZY
-    )
-    private Set<User> users = new HashSet<>();
+//    @JsonIgnore
+//    @OneToMany(
+//            mappedBy = "currency", // is the instance variable name we'll use in User entity to point to the associated Currency
+//            targetEntity = User.class,
+//            fetch = FetchType.LAZY
+//    )
+//    private Set<User> users = new HashSet<>();
 
     public Currency() {
     }
