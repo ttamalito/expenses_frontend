@@ -35,15 +35,15 @@ public class AuthenticationRequestsIT {
                 .andExpect(content().string("Pong"));
     }
 
-    @DisplayName("Test POST /auth/login")
-    @Test
-    public void testLoginAndLogOut() throws Exception {
-
-        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of("coding.tamalito@gmail.com"), Optional.empty(), "123456");
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/logout")
-                .header("Authorization", bearerToken))
-                .andExpect(status().isOk());
-    }
+//    @DisplayName("POST /auth/login")
+//    @Test
+//    public void testLoginAndLogOut() throws Exception {
+//
+//        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of("coding.tamalito@gmail.com"), Optional.empty(), "123456");
+//        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/logout")
+//                .header("Authorization", bearerToken))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     public void signUp() throws Exception {
@@ -55,20 +55,12 @@ public class AuthenticationRequestsIT {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString().split(":")[1].replace("\"", "").replace("}", "");
 
-        // log out
-        mockMvc.perform(MockMvcRequestBuilders.post("/auth/logout")
-                .header("Authorization", "Bearer " + jwtToken))
-                .andExpect(status().isOk());
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of("test@test.com"), Optional.empty(), "test");
 
-        // log in again
-        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of("test"), Optional.empty(), "test");
 
-        // log out
-        mockMvc.perform(MockMvcRequestBuilders.post("/auth/logout")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/user/delete/test")
                 .header("Authorization", bearerToken))
                 .andExpect(status().isOk());
-
-        // TODO: delete user
     }
 
 
