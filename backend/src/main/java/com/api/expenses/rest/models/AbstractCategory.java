@@ -13,7 +13,7 @@ public abstract class AbstractCategory {
     private int id;
 
     @ManyToOne(
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST, // when a category is deleted, the user will NOT be deleted
             fetch = FetchType.LAZY
     )
     @JoinColumn(
