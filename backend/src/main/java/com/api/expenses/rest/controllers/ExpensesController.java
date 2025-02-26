@@ -45,8 +45,8 @@ public class ExpensesController {
         }
 
         try {
-            expenseService.saveExpense(expense, user.getId());
-            return ResponseEntity.ok().build();
+            int expenseID = expenseService.saveExpense(expense, user.getId());
+            return ResponseEntity.ok().body(String.valueOf(expenseID));
         } catch (TransactionException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -64,7 +64,7 @@ public class ExpensesController {
         } catch (UserException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (JsonProcessingException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -131,10 +131,23 @@ public class ExpensesController {
     @GetMapping("/total-spent/monthly")
     public ResponseEntity<String> getTotalSpentOnAMonth(@RequestParam int month, @RequestParam int year) {
          // in the js implementation we used a query param type=all to denote that we want to get all the expenses
-        // TODO: please introduce a new endpoint to fetch total spend on a month for a specific category
+        // this is done now by getTotalSpentOnAMonthForACategory
         UUID userId = getUserId();
         try {
             float totalSpent = expenseService.getTotalSpentForAMonthOfAUser(userId, month, year);
+            return ResponseEntity.ok().body(String.valueOf(totalSpent));
+        } catch (Exception e) {
+            return handleException(e);
+        }
+    }
+
+    @GetMapping("/total-spent/monthly/{category}")
+    public ResponseEntity<String> getTotalSpentOnAMonthForACategory(@RequestParam int month,
+                                                                    @RequestParam int year,
+                                                                    @PathVariable int category) {
+        UUID userId = getUserId();
+        try {
+            float totalSpent = expenseService.getTotalSpentForAMonthOfAUserByCategory(userId, month, year, category);
             return ResponseEntity.ok().body(String.valueOf(totalSpent));
         } catch (Exception e) {
             return handleException(e);

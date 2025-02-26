@@ -56,9 +56,10 @@ public class ExpenseService {
      * Saves an expense
      * @param expenseFromRequest
      * @param userId
+     * @return the id of the saved expense
      * @throws TransactionException
      */
-    public void saveExpense(AddExpenseRequest expenseFromRequest, UUID userId) throws TransactionException {
+    public int saveExpense(AddExpenseRequest expenseFromRequest, UUID userId) throws TransactionException {
         User user = userService.getUserById(userId).orElseThrow(() -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND));
 
         ExpenseCategory expenseCategory = expenseCategoryRepository.findById(expenseFromRequest.getCategoryId()).orElseThrow(() ->
@@ -75,6 +76,10 @@ public class ExpenseService {
         final int month = DateUtils.getMonthOfTheYear(date);
         final int year = DateUtils.getYearOfTheDate(date);
 
+        if (expenseFromRequest.getAmount() < 0) {
+            throw new TransactionException(TransactionException.TransactionExceptionType.NEGATIVE_AMOUNT);
+        }
+
 
         Expense expense = new Expense(
 
@@ -89,7 +94,7 @@ public class ExpenseService {
         );
 
 
-        expenseRepository.save(expense).getId();
+        return expenseRepository.save(expense).getId();
     }
 
     public List<Expense> getExpensesForAYearOfAUser(UUID userId, int year) throws TransactionException {
