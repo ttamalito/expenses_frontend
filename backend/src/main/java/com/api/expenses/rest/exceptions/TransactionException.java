@@ -5,6 +5,7 @@ public class TransactionException extends Exception {
         USER_NOT_FOUND("User not found in the database for the transaction"),
         CATEGORY_NOT_FOUND("Category not found in the database for the transaction"),
         CURRENCY_NOT_FOUND("Currency not found in the database for the transaction"),
+        NEGATIVE_AMOUNT("Amount cannot be negative"),
 
         UNAUTHORIZED("User is trying to modify an expense that does not belong to him"),
         EXPENSE_NOT_FOUND("Expense not found in the database");
