@@ -1,7 +1,7 @@
 package com.api.expenses.rest.utils;
 
 import java.time.format.DateTimeFormatter;
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,13 +9,12 @@ import java.util.Calendar;
 public class DateUtils {
 
     public static int getWeekOfTheYear(Date inputDate) {
-        String format = "yyyyMMdd"; // BASIC_ISO_DATE
-        String dateAsString = inputDate.toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
-
+        String format = "yyyy-MM-dd"; // ISO 8601 date format
         SimpleDateFormat df = new SimpleDateFormat(format);
+        String dateAsString = df.format(inputDate);
         Date date = null;
         try {
-            date = (Date) df.parse(dateAsString);
+            date = df.parse(dateAsString);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
