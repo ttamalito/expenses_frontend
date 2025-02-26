@@ -9,7 +9,7 @@ import java.sql.Date;
 public class Expense extends Transaction {
 
     @ManyToOne(
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
     )
     @JoinColumn(

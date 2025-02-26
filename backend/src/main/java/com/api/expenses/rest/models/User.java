@@ -65,7 +65,7 @@ public class User implements UserDetails {
     //@JsonIgnore
     // @JsonIdentityReference(alwaysAsId = true) // this is used to return the id only in foreign key relationships... iguess
     @ManyToOne( // many to one means that this entity will have the foreign key column
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.PERSIST, // when the user is deleted, the currency will not be deleted
             fetch = FetchType.LAZY
     )
     @JoinColumn(
@@ -75,25 +75,25 @@ public class User implements UserDetails {
     )
     private Currency currency;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "user", // is the instance variable name we'll use in the ExpenseCategory entitiy to point to the associated User
-            targetEntity = ExpenseCategory.class,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private Set<ExpenseCategory> expenseCategories = new HashSet<>();
-
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "user", // is the instance variable name we'll use in the IncomeCategory entity to point to the associated User
-            targetEntity = IncomeCategory.class,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private Set<IncomeCategory> incomeCategories = new HashSet<>();
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    @JsonIgnore
+//    @OneToMany(
+//            mappedBy = "user", // is the instance variable name we'll use in the ExpenseCategory entitiy to point to the associated User
+//            targetEntity = ExpenseCategory.class,
+//            fetch = FetchType.LAZY,
+//            orphanRemoval = true
+//    )
+//    private Set<ExpenseCategory> expenseCategories = new HashSet<>();
+//
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    @JsonIgnore
+//    @OneToMany(
+//            mappedBy = "user", // is the instance variable name we'll use in the IncomeCategory entity to point to the associated User
+//            targetEntity = IncomeCategory.class,
+//            fetch = FetchType.LAZY,
+//            orphanRemoval = true
+//    )
+//    private Set<IncomeCategory> incomeCategories = new HashSet<>();
 
 
 
@@ -190,13 +190,13 @@ public class User implements UserDetails {
         return creationDate;
     }
 
-    public Set<ExpenseCategory> getExpenseCategories() {
-        return expenseCategories;
-    }
-
-    public Set<IncomeCategory> getIncomeCategories() {
-        return incomeCategories;
-    }
+//    public Set<ExpenseCategory> getExpenseCategories() {
+//        return expenseCategories;
+//    }
+//
+//    public Set<IncomeCategory> getIncomeCategories() {
+//        return incomeCategories;
+//    }
 
     public String getFirstName() {
         return firstName;
