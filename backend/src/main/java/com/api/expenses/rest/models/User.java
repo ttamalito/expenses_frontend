@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements UserDetails {
 
     @Id

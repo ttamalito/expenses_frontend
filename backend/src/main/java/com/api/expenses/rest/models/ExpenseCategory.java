@@ -1,14 +1,16 @@
 package com.api.expenses.rest.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "expense_categories")
-public class ExpenseCategory extends AbstractCategory {
+public class ExpenseCategory extends AbstractCategory implements Serializable {
     @Column(nullable = false)
     private float budget;
 

@@ -3,11 +3,12 @@ package com.api.expenses.rest.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name = "incomes")
-public class Income extends Transaction {
+public class Income extends Transaction implements Serializable {
 
     @ManyToOne(
             cascade = CascadeType.PERSIST,
