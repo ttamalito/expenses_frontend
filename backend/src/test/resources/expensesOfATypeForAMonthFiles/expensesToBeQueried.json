@@ -1,0 +1,16 @@
+[
+  {
+    "categoryId": 8,
+    "amount": 102,
+    "currencyId": 1,
+    "date": "2025-01-15",
+    "description": "Should be queried 1"
+  },
+  {
+    "categoryId": 8,
+    "amount": 107,
+    "currencyId": 1,
+    "date": "2025-01-01",
+    "description": "Should be queried 2"
+  }
+]

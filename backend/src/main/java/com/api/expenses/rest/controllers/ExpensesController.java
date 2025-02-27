@@ -36,7 +36,7 @@ public class ExpensesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addExpense(@RequestBody AddExpenseRequest expense) {
+    public ResponseEntity<String> addExpense(@RequestBody AddExpenseRequest expense) { // Tested
         User user = null;
         try {
             user = ControllersHelper.getUserFromSecurityContextHolder().orElseThrow(() -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND));
@@ -54,7 +54,7 @@ public class ExpensesController {
     }
 
     @GetMapping("/monthly/{month}/{year}")
-    public ResponseEntity<String> getExpensesForAMonth(@PathVariable int month, @PathVariable int year) {
+    public ResponseEntity<String> getExpensesForAMonth(@PathVariable int month, @PathVariable int year) { // Tested
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try {
@@ -68,7 +68,7 @@ public class ExpensesController {
         }
     }
 
-    @PostMapping("/single-type/{month}/{year}")
+    @GetMapping("/single-type/{month}/{year}")
     public ResponseEntity<String> getExpensesOfATypeForAMonth(@PathVariable int month, @PathVariable int year, @RequestParam int categoryId) {
         UUID userId = getUserId();
 
