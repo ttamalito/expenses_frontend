@@ -68,7 +68,7 @@ public class ExpensesController {
         }
     }
 
-    @GetMapping("/single-type/{month}/{year}")
+    @GetMapping("/single-type/{month}/{year}") // Tested
     public ResponseEntity<String> getExpensesOfATypeForAMonth(@PathVariable int month, @PathVariable int year, @RequestParam int categoryId) {
         UUID userId = getUserId();
 
