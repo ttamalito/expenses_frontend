@@ -214,6 +214,64 @@ public class ExpensesRequestsIT {
         }
     }
 
+    @DisplayName("Expenses of a type for a single year")
+    @Test
+    public void getExpensesOfATypeForAYear() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<AddExpenseRequest> expensesToBeQueried = new ArrayList<>();
+        List<Integer> expenseIds = sendAndSaveExpenses(bearerToken,
+                "src/test/resources/expensesForAYearOfAType/expensesToBeQueried.json", expensesToBeQueried);
+
+        // add expenses that should not be queried
+        List<AddExpenseRequest> expensesToSendAndIgnore = new ArrayList<>();
+        List<Integer> expenseIdsToIgnore = sendAndSaveExpenses(bearerToken,
+                "src/test/resources/expensesForAYearOfAType/expensesOfATypeForAYear.json", expensesToSendAndIgnore);
+
+        // query the expenses
+        ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/expenses/single-type?year=2025&categoryId=8")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk());
+        String expensesJson = savedExpense.andReturn().getResponse().getContentAsString();
+        List<Expense> expensesFromServer = objectMapper.readValue(expensesJson, objectMapper.getTypeFactory().constructCollectionType(List.class, Expense.class));
+        assertEquals(expensesToBeQueried.size(), expensesFromServer.size()); // should be 2
+
+        // compare the expeses that were sent to the server with the ones that were received
+        for (int i = 0; i < expensesToBeQueried.size(); i++) {
+            int expenseId = expenseIds.get(i);
+            AddExpenseRequest sentExpense = expensesToBeQueried.get(i);
+            Optional<Expense> receivedExpenseOptional = expensesFromServer.stream().filter(expense -> expense.getId() == expenseId).findAny();
+            assertTrue(receivedExpenseOptional.isPresent());
+            Expense receivedExpense = receivedExpenseOptional.get();
+            assertEquals(sentExpense.getAmount(), receivedExpense.getAmount());
+            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategory().getId());
+            assertEquals(sentExpense.getDate().toString(), receivedExpense.getDate().toString());
+            assertEquals(sentExpense.getDescription(), receivedExpense.getDescription());
+            if (sentExpense.getAmount() == 102) {
+                assertEquals(9, receivedExpense.getMonth());
+            } else {
+                assertEquals(11, receivedExpense.getMonth());
+            }
+            assertEquals(2025, receivedExpense.getYear());
+        }
+
+        // delete the expenses
+        for (int expenseId : expenseIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+        for (int expenseId : expenseIdsToIgnore) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+    }
+
 
     /**
      * Reads the expenses from a file and sends them to the server

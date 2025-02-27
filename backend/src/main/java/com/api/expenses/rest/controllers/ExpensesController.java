@@ -83,7 +83,7 @@ public class ExpensesController {
         }
     }
 
-    @GetMapping("/yearly/{year}")
+    @GetMapping("/yearly/{year}") // Tested
     public ResponseEntity<String> getExpensesForAYear(@PathVariable int year) {
         UUID userId = getUserId();
 
@@ -95,7 +95,7 @@ public class ExpensesController {
             return handleException(e);
         }
     }
-    @GetMapping("/single-type")
+    @GetMapping("/single-type") // Tested
     public ResponseEntity<String> getExpensesForAYearOfAType(@RequestParam int year, @RequestParam int categoryId) {
         UUID userId = getUserId();
 
