@@ -6,6 +6,8 @@ import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.services.JwtService;
 import com.api.expenses.rest.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +19,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
+
+    private Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     private final UserService userService;
 
