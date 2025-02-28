@@ -53,6 +53,23 @@ public class ExpensesRequestsIT {
                 .andExpect(status().isOk());
         String expenseId = result.andReturn().getResponse().getContentAsString();
 
+        ResultActions expenseResult = mockMvc.perform(MockMvcRequestBuilders.get("/expenses/get/" + expenseId)
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk());
+        String expenseJson = expenseResult.andReturn().getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Expense expense = objectMapper.readValue(expenseJson, Expense.class);
+        assertEquals(100f, expense.getAmount());
+        assertEquals(expenseId, String.valueOf(expense.getId()));
+        assertEquals("Test expense description", expense.getDescription());
+        assertEquals(6, expense.getCategoryId());
+        assertEquals(1, expense.getCurrencyId());
+        assertEquals("d229217c-d721-4116-9cd2-3dfe03360439", expense.getUserId().toString());
+        assertEquals(1, expense.getMonth());
+        assertEquals(2025, expense.getYear());
+        assertTrue(expense.getWeek() > 0);
+        assertEquals("2025-01-05", expense.getDate().toString());
+
         mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
                         .header("Authorization", bearerToken))
                 .andExpect(status().isNoContent());

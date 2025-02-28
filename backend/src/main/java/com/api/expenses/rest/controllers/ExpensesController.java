@@ -53,6 +53,20 @@ public class ExpensesController {
 
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<String> getExpenseById(@PathVariable int id) {
+        try {
+            Expense expense = expenseService.getExpenseById(id)
+                    .orElseThrow(() -> new TransactionException(TransactionException.TransactionExceptionType.EXPENSE_NOT_FOUND));
+            String expenseJson = objectMapper.writeValueAsString(expense);
+            return ResponseEntity.ok().body(expenseJson);
+        } catch (TransactionException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/monthly/{month}/{year}")
     public ResponseEntity<String> getExpensesForAMonth(@PathVariable int month, @PathVariable int year) { // Tested
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
