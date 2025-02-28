@@ -61,7 +61,7 @@ public class User implements UserDetails {
     )
     private Set<Income> incomes = new HashSet<>();
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     //@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     //@JsonIgnore
     // @JsonIdentityReference(alwaysAsId = true) // this is used to return the id only in foreign key relationships... iguess
@@ -75,6 +75,9 @@ public class User implements UserDetails {
             nullable = false
     )
     private Currency currency;
+
+    @Column(name = "currency_id", insertable = false, updatable = false)
+    private int currencyId;
 
 //    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 //    @JsonIgnore
@@ -205,5 +208,13 @@ public class User implements UserDetails {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public int getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
     }
 }

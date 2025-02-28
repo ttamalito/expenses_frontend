@@ -10,9 +10,10 @@ import java.sql.Date;
 @Table(name = "expenses")
 public class Expense extends Transaction {
 
+    @JsonIgnore
     @ManyToOne(
             cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinColumn(
             name = "category_id",
@@ -20,6 +21,9 @@ public class Expense extends Transaction {
             nullable = false
     )
     private ExpenseCategory category;
+
+    @Column(name = "category_id", insertable = false, updatable = false)
+    private int categoryId;
 
     public Expense() {
         super();
@@ -58,4 +62,13 @@ public class Expense extends Transaction {
     public void setCategory(ExpenseCategory expenseCategory) {
         this.category = expenseCategory;
     }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
 }

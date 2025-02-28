@@ -1,5 +1,8 @@
 package com.api.expenses.rest.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +15,7 @@ public abstract class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @JsonIgnore
     @ManyToOne(
             cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
@@ -22,6 +26,9 @@ public abstract class Transaction {
             nullable = false
     )
     private User user;
+
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private UUID userId; // the user of a transaction cannot be changed
 
     @Column(nullable = false)
     private float amount;
@@ -146,6 +153,14 @@ public abstract class Transaction {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
 

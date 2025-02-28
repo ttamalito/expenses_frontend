@@ -22,8 +22,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     public List<Expense> findByUserId(UUID userId);
 
+    @Query(value = "SELECT * FROM expenses WHERE user_id = ?1 AND year = ?2 AND category_id = ?3", nativeQuery = true)
     public List<Expense> findByUserIdAndYearAndCategoryId(UUID userId, int year, int categoryId);
 
+    @Query(value = "SELECT * FROM expenses WHERE user_id = ?1 AND week = ?2 AND year = ?3 AND category_id = ?4", nativeQuery = true)
     public List<Expense> findByUserIdAndWeekAndYearAndCategoryId(UUID userId, int week, int year, int categoryId);
 
 }

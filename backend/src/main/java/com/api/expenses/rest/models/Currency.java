@@ -40,10 +40,11 @@ public class Currency {
     public Currency() {
     }
 
-    public Currency(int id, String name, String symbol) {
+    public Currency(int id, String name, String symbol, String code) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
+        this.code = code;
     }
 
     public int getId() {

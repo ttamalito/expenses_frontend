@@ -13,8 +13,10 @@ public abstract class AbstractCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Access(AccessType.PROPERTY)
     private int id;
 
+    @JsonIgnore
     @ManyToOne(
             cascade = CascadeType.PERSIST, // when a category is deleted, the user will NOT be deleted
             fetch = FetchType.LAZY
@@ -26,6 +28,10 @@ public abstract class AbstractCategory {
             //foreignKey = @ForeignKey(name = "fk_category_user_id_"), fk must be unique
     )
     private User user;
+
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private UUID userId;
+
     @Column(nullable = false)
     private String name;
     private String description;
@@ -51,8 +57,8 @@ public abstract class AbstractCategory {
         this.id = id;
     }
 
-    public User getUserId() {
-        return user;
+    public UUID getUserId() {
+        return userId;
     }
 
     public String getName() {
