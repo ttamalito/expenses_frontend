@@ -331,6 +331,34 @@ public class ExpensesRequestsIT {
         }
     }
 
+    @DisplayName("Total spent on a month with decimals")
+    @Test
+    public void getTotalSpentOnAMonthWithDecimals() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+        List<AddExpenseRequest> expensesSentToServer = new ArrayList<>();
+        List<Integer> expenseIds = sendAndSaveExpenses(bearerToken,
+                "src/test/resources/totalSpentMonthlyWithDecimals.json", expensesSentToServer);
+
+        ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/expenses/total-spent/monthly?year=2025&month=6")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json("{\"totalSpent\": 409.81}"));
+
+        String totalSpentJson = savedExpense.andReturn().getResponse().getContentAsString();
+        assertEquals("{\"totalSpent\":409.81}", totalSpentJson);
+
+        // delete the expenses
+        for (int expenseId : expenseIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+    }
 
 
 

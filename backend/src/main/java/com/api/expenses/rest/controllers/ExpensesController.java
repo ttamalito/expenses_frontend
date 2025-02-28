@@ -107,7 +107,7 @@ public class ExpensesController {
             return handleException(e);
         }
     }
-    @GetMapping("/total-spent")
+    @GetMapping("/total-spent") // Tested
     public ResponseEntity<String> getTotalSpentOnAYear(@RequestParam int year) {
         // Get total spent on a year
         UUID userId = getUserId();
@@ -129,14 +129,15 @@ public class ExpensesController {
             return handleException(e);
         }
     }
-    @GetMapping("/total-spent/monthly")
+    @GetMapping("/total-spent/monthly") // Tested
     public ResponseEntity<String> getTotalSpentOnAMonth(@RequestParam int month, @RequestParam int year) {
          // in the js implementation we used a query param type=all to denote that we want to get all the expenses
         // this is done now by getTotalSpentOnAMonthForACategory
         UUID userId = getUserId();
         try {
             float totalSpent = expenseService.getTotalSpentForAMonthOfAUser(userId, month, year);
-            return ResponseEntity.ok().body(String.valueOf(totalSpent));
+            String totalSpentJson = "{\"totalSpent\":" + totalSpent + "}";
+            return ResponseEntity.ok().body(totalSpentJson);
         } catch (Exception e) {
             return handleException(e);
         }
@@ -155,7 +156,7 @@ public class ExpensesController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete") // Tested
     public ResponseEntity<String> deleteExpense(@RequestParam int expenseId) {
         UUID userId = getUserId();
         Expense expense = expenseService.getExpenseById(expenseId).get();
