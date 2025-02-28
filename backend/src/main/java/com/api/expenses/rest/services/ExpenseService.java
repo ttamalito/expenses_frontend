@@ -33,16 +33,18 @@ public class ExpenseService {
     private final CurrencyRepository currencyRepository;
 
     private final UserService userService;
+    private final ExpenseCategoryService expenseCategoryService;
 
     @Autowired
     public ExpenseService(ExpenseRepository expenseRepository,
                           @Lazy ExpenseCategoryRepository expenseCategoryRepository,
                           @Lazy CurrencyRepository currencyRepository,
-                          @Lazy UserService userService) {
+                          @Lazy UserService userService, ExpenseCategoryService expenseCategoryService) {
         this.expenseRepository = expenseRepository;
         this.expenseCategoryRepository = expenseCategoryRepository;
         this.currencyRepository = currencyRepository;
         this.userService = userService;
+        this.expenseCategoryService = expenseCategoryService;
     }
 
     public List<Expense> getExpensesForAMonthOfAUser(UUID userId, int month, int year) throws UserException {
@@ -198,6 +200,11 @@ public class ExpenseService {
     }
 
     public void updateExpense(Expense expense) {
+        ExpenseCategory expenseCategory = expenseCategoryService.getCategoryById(expense.getCategoryId()).orElseThrow();
+        expense.setCategory(expenseCategory);
+
+        User user = userService.getUserById(expense.getUserId()).orElseThrow();
+        expense.setUser(user);
         expenseRepository.save(expense);
     }
 
