@@ -33,8 +33,9 @@ public class Income extends Transaction implements Serializable {
                    String description,
                    int month,
                    int year,
-                   int week) {
-        super(id, user, amount, date,  description, month, year, week);
+                   int week,
+                   Currency currency) {
+        super(id, user, amount, date,  description, month, year, week, currency);
         this.category = category;
     }
 

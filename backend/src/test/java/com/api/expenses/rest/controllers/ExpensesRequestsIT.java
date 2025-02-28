@@ -443,7 +443,64 @@ public class ExpensesRequestsIT {
                         .header("Authorization", bearerToken))
                 .andExpect(status().isNoContent());
     }
-    // TODO: add test to modify the category of an expense
+
+    @DisplayName("Modify category and currency of an expense")
+    @Test
+    public void modifyCategoryOfExpense() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+
+        String json = new String(Files.readAllBytes(Path.of("src/test/resources/expenses/modifyCategoryExpense.json")));
+
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/expenses/add")
+                        .header("Authorization", bearerToken)
+                        .contentType("application/json")
+                        .content(json))
+                .andExpect(status().isOk());
+        String expenseId = result.andReturn().getResponse().getContentAsString();
+
+        ResultActions expensesForTheMonthResult = mockMvc.perform(MockMvcRequestBuilders.get("/expenses/monthly/1/2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk());
+        String expensesForTheMonthJson = expensesForTheMonthResult.andReturn().getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Expense> expensesForTheMonth = objectMapper.readValue(expensesForTheMonthJson, objectMapper.getTypeFactory().constructCollectionType(List.class, Expense.class));
+
+        assertEquals(1, expensesForTheMonth.size());
+        Expense expense = expensesForTheMonth.get(0);
+        expense.setCategoryId(7);
+        expense.setCurrencyId(3);
+
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/expenses/modify")
+                        .header("Authorization", bearerToken)
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(expense)))
+                .andExpect(status().isNoContent());
+
+
+
+        expensesForTheMonthResult = mockMvc.perform(MockMvcRequestBuilders.get("/expenses/monthly/1/2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk());
+
+        expensesForTheMonthJson = expensesForTheMonthResult.andReturn().getResponse().getContentAsString();
+        expensesForTheMonth = objectMapper.readValue(expensesForTheMonthJson, objectMapper.getTypeFactory().constructCollectionType(List.class, Expense.class));
+        assertEquals(1, expensesForTheMonth.size());
+        Expense modifiedExpense = expensesForTheMonth.get(0);
+        assertEquals(100f, modifiedExpense.getAmount());
+        assertEquals("Test expense description", modifiedExpense.getDescription());
+        assertEquals(7, modifiedExpense.getCategoryId());
+        assertEquals(3, modifiedExpense.getCurrencyId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isNoContent());
+    }
 
 
 
