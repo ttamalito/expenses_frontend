@@ -52,7 +52,6 @@ public class ExpensesRequestsIT {
                         .content(json))
                 .andExpect(status().isOk());
         String expenseId = result.andReturn().getResponse().getContentAsString();
-        System.out.println("Expense ID: " + expenseId);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
                         .header("Authorization", bearerToken))
@@ -88,9 +87,10 @@ public class ExpensesRequestsIT {
             assertTrue(receivedExpenseOptional.isPresent());
             Expense receivedExpense = receivedExpenseOptional.get();
             assertEquals(sentExpense.getAmount(), receivedExpense.getAmount());
-            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategory().getId());
+            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategoryId());
             assertEquals(sentExpense.getDate().toString(), receivedExpense.getDate().toString());
             assertEquals(sentExpense.getDescription(), receivedExpense.getDescription());
+            assertEquals("d229217c-d721-4116-9cd2-3dfe03360439", receivedExpense.getUserId().toString());
             assertTrue(1 == receivedExpense.getMonth());
             assertTrue(2025 == receivedExpense.getYear());
             assertTrue(receivedExpense.getWeek() > 0);
