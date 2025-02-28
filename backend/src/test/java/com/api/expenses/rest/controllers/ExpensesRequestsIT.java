@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -271,6 +272,66 @@ public class ExpensesRequestsIT {
                     .andExpect(status().isNoContent());
         }
     }
+
+    @DisplayName("Total spent on a year without decimals")
+    @Test
+    public void getTotalSpentOnAYear() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+        List<AddExpenseRequest> expensesForTheYear = new ArrayList<>();
+        List<Integer> expenseIds = sendAndSaveExpenses(bearerToken,
+                "src/test/resources/totalSpentOnYear.json", expensesForTheYear);
+
+        ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/expenses/total-spent?year=2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json("{\"totalSpent\": 400.0}"));
+
+        String totalSpentJson = savedExpense.andReturn().getResponse().getContentAsString();
+        assertEquals("{\"totalSpent\":400.0}", totalSpentJson);
+
+        // delete the expenses
+        for (int expenseId : expenseIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+    }
+
+    @DisplayName("Total spent on a year with decimals")
+    @Test
+    public void getTotalSpentOnAYearWithDecimals() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+        List<AddExpenseRequest> expensesForTheYear = new ArrayList<>();
+        List<Integer> expenseIds = sendAndSaveExpenses(bearerToken,
+                "src/test/resources/totalSpentOnAYearWithDecimals.json", expensesForTheYear);
+
+        ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/expenses/total-spent?year=2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json("{\"totalSpent\": 409.81}"));
+
+        String totalSpentJson = savedExpense.andReturn().getResponse().getContentAsString();
+        assertEquals("{\"totalSpent\":409.81}", totalSpentJson);
+
+        // delete the expenses
+        for (int expenseId : expenseIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/expenses/delete?expenseId=" + expenseId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+    }
+
+
 
 
     /**

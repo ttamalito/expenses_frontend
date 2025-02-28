@@ -113,7 +113,8 @@ public class ExpensesController {
         UUID userId = getUserId();
         try {
             float totalSpent = expenseService.getTotalSpentForAYearOfAUser(userId, year);
-            return ResponseEntity.ok().body(String.valueOf(totalSpent));
+            String totalSpentJson = "{\"totalSpent\":" + totalSpent + "}";
+            return ResponseEntity.ok().body(totalSpentJson);
         } catch (Exception e) {
             return handleException(e);
         }
