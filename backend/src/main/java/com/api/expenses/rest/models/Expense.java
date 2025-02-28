@@ -1,7 +1,6 @@
 package com.api.expenses.rest.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -29,30 +28,16 @@ public class Expense extends Transaction {
         super();
     }
 
-    public Expense(int id,
-                   User user,
-                   ExpenseCategory category,
-                   float amount,
-                   Date date,
-                   String description,
-                   int month,
-                   int year,
-                   int week) {
-        super(id, user, amount, date,  description, month, year, week);
-        this.category =  category;
+    public Expense(int id, User user, ExpenseCategory category, float amount, Date date,
+                   String description, int month, int year, int week, Currency currency) {
+        super(id, user, amount, date, description, month, year, week, currency);
+        this.category = category;
     }
 
-    public Expense(
-                   User user,
-                   ExpenseCategory category,
-                   float amount,
-                   Date date,
-                   String description,
-                   int month,
-                   int year,
-                   int week) {
-        super( user, amount, date,  description, month, year, week);
-        this.category =  category;
+    public Expense(User user, ExpenseCategory expenseCategory, float amount, Date date,
+                   String description, int month, int year, int week, Currency currency) {
+        super(user, amount, date, description, month, year, week, currency);
+        this.category = expenseCategory;
     }
 
     public ExpenseCategory getCategory() {

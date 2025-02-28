@@ -33,6 +33,21 @@ public abstract class Transaction {
     @Column(nullable = false)
     private float amount;
 
+    @JsonIgnore
+    @ManyToOne(
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "currency_id",
+            referencedColumnName = "id",
+            nullable = false
+    )
+    private Currency currency;
+
+    @Column(name = "currency_id", insertable = false, updatable = false)
+    private int currencyId;
+
     //private Currency currency;
     @Column(nullable = false)
     private Date date;
@@ -55,7 +70,8 @@ public abstract class Transaction {
                        String description,
                        int month,
                        int year,
-                       int week) {
+                       int week,
+                       Currency currency) {
         this.id = id;
         this.user = user;
         this.amount = amount;
@@ -64,6 +80,7 @@ public abstract class Transaction {
         this.month = month;
         this.year = year;
         this.week = week;
+        this.currency = currency;
     }
 
     public Transaction(User user,
@@ -72,7 +89,8 @@ public abstract class Transaction {
                        String description,
                        int month,
                        int year,
-                       int week) {
+                       int week,
+                       Currency currency) {
         this.id = id;
         this.user = user;
         this.amount = amount;
@@ -81,6 +99,7 @@ public abstract class Transaction {
         this.month = month;
         this.year = year;
         this.week = week;
+        this.currency = currency;
     }
 
     public int getId() {
@@ -161,6 +180,22 @@ public abstract class Transaction {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public int getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
     }
 
 

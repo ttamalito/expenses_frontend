@@ -1,24 +1,21 @@
 package com.api.expenses.rest.services;
 
+import com.api.expenses.rest.exceptions.TransactionException;
+import com.api.expenses.rest.exceptions.UserException;
 import com.api.expenses.rest.models.Currency;
+import com.api.expenses.rest.models.Expense;
 import com.api.expenses.rest.models.ExpenseCategory;
 import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.models.requestsModels.AddExpenseRequest;
-import com.api.expenses.rest.exceptions.TransactionException;
-import com.api.expenses.rest.exceptions.UserException;
-import com.api.expenses.rest.models.Expense;
 import com.api.expenses.rest.repositories.CurrencyRepository;
 import com.api.expenses.rest.repositories.ExpenseCategoryRepository;
 import com.api.expenses.rest.repositories.ExpenseRepository;
-import com.api.expenses.rest.repositories.UserRepository;
 import com.api.expenses.rest.utils.DateUtils;
-import jakarta.transaction.TransactionalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,6 +53,7 @@ public class ExpenseService {
 
     /**
      * Saves an expense
+     *
      * @param expenseFromRequest
      * @param userId
      * @return the id of the saved expense
@@ -84,7 +82,6 @@ public class ExpenseService {
 
 
         Expense expense = new Expense(
-
                 user,
                 expenseCategory,
                 expenseFromRequest.getAmount(),
@@ -92,10 +89,9 @@ public class ExpenseService {
                 expenseFromRequest.getDescription(),
                 month,
                 year,
-                week
+                week,
+                currency
         );
-
-
         return expenseRepository.save(expense).getId();
     }
 
@@ -199,12 +195,24 @@ public class ExpenseService {
         expenseRepository.deleteById(expenseId);
     }
 
-    public void updateExpense(Expense expense) {
-        ExpenseCategory expenseCategory = expenseCategoryService.getCategoryById(expense.getCategoryId()).orElseThrow();
+    public void updateExpense(Expense expense) throws TransactionException {
+        ExpenseCategory expenseCategory = expenseCategoryService.
+                getCategoryById(expense.getCategoryId()).
+                orElseThrow(
+                        () -> new TransactionException(TransactionException.TransactionExceptionType.CATEGORY_NOT_FOUND)
+                );
+
         expense.setCategory(expenseCategory);
 
-        User user = userService.getUserById(expense.getUserId()).orElseThrow();
+        User user = userService.getUserById(expense.getUserId()).orElseThrow(
+                () -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND)
+        );
         expense.setUser(user);
+
+        Currency currency = currencyRepository.findById(expense.getCurrencyId()).orElseThrow(() ->
+                new TransactionException(TransactionException.TransactionExceptionType.CURRENCY_NOT_FOUND));
+
+        expense.setCurrency(currency);
         expenseRepository.save(expense);
     }
 
