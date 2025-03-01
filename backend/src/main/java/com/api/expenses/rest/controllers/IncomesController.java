@@ -1,22 +1,24 @@
 package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.ControllersHelper;
+import com.api.expenses.rest.exceptions.TransactionException;
+import com.api.expenses.rest.models.Income;
+import com.api.expenses.rest.models.requestsModels.AddIncomeRequest;
 import com.api.expenses.rest.services.IncomeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/income")
+@RequestMapping("/incomes")
 public class IncomesController {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -25,6 +27,59 @@ public class IncomesController {
     @Autowired
     public IncomesController(@Lazy IncomeService incomeService) {
         this.incomeService = incomeService;
+    }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addIncome(@RequestBody AddIncomeRequest income) {
+        UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
+
+        try {
+            int incomeId = incomeService.saveIncome(income, userId);
+            String incomeIdJson = String.format("{\"incomeId\": %d}", incomeId);
+            return ResponseEntity.ok(incomeIdJson);
+        } catch (Exception e) {
+            return ControllersHelper.handleException(e);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteIncome(@PathVariable int id) {
+        UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
+
+        if (!incomeService.incomeExists(id)) {
+            return ResponseEntity.badRequest().body("Income not found");
+        }
+        Income income = incomeService.getIncomeById(id).get();
+        if (!income.getUser().getId().equals(userId)) {
+            return ResponseEntity.badRequest().body("Unauthorized");
+        }
+
+        try {
+            incomeService.deleteIncome(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ControllersHelper.handleException(e);
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<String> getIncomeById(@PathVariable int id) {
+        UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
+
+        try {
+            Optional<Income> income = incomeService.getIncomeById(id);
+            if (income.isEmpty()) {
+                return ResponseEntity.badRequest().body("Income not found");
+            }
+            if (!income.get().getUser().getId().equals(userId)) {
+                return ResponseEntity.badRequest().body("Unauthorized");
+            }
+            String incomeJson = objectMapper.writeValueAsString(income.get());
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(incomeJson);
+        } catch (Exception e) {
+            return ControllersHelper.handleException(e);
+        }
     }
 
     @GetMapping("/total-earned") // TODO: rename the endpoint to /total-earned/year

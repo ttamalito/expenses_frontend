@@ -6,6 +6,8 @@ public class TransactionException extends Exception {
         CATEGORY_NOT_FOUND("Category not found in the database for the transaction"),
         CURRENCY_NOT_FOUND("Currency not found in the database for the transaction"),
         NEGATIVE_AMOUNT("Amount cannot be negative"),
+        INVALID_AMOUNT("Amount is invalid"),
+        INCOME_NOT_FOUND("Income not found in the database"),
 
         UNAUTHORIZED("User is trying to modify an expense that does not belong to him"),
         EXPENSE_NOT_FOUND("Expense not found in the database");

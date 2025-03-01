@@ -2,13 +2,17 @@ package com.api.expenses.rest.services;
 
 import com.api.expenses.rest.models.IncomeCategory;
 import com.api.expenses.rest.repositories.IncomeCategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class IncomeCategoryService {
 
     private final IncomeCategoryRepository incomeCategoryRepository;
 
+    @Autowired
     public IncomeCategoryService(IncomeCategoryRepository incomeCategoryRepository) {
         this.incomeCategoryRepository = incomeCategoryRepository;
     }

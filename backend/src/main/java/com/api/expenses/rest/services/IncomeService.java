@@ -1,9 +1,17 @@
 package com.api.expenses.rest.services;
 
+import com.api.expenses.rest.exceptions.TransactionException;
+import com.api.expenses.rest.models.Currency;
 import com.api.expenses.rest.models.Income;
+import com.api.expenses.rest.models.IncomeCategory;
+import com.api.expenses.rest.models.User;
+import com.api.expenses.rest.models.requestsModels.AddIncomeRequest;
 import com.api.expenses.rest.repositories.IncomeRepository;
+import com.api.expenses.rest.utils.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +21,17 @@ import java.util.UUID;
 public class IncomeService {
 
     private final IncomeRepository incomeRepository;
+    private final UserService userService;
+    private final IncomeCategoryService incomeCategoryService;
+    private final CurrencyService currencyService;
 
-    public IncomeService(IncomeRepository incomeRepository) {
+    @Autowired
+    public IncomeService(IncomeRepository incomeRepository, UserService userService,
+                         IncomeCategoryService incomeCategoryService, CurrencyService currencyService) {
         this.incomeRepository = incomeRepository;
+        this.userService = userService;
+        this.incomeCategoryService = incomeCategoryService;
+        this.currencyService = currencyService;
     }
 
     public boolean incomeExists(int incomeId) {
@@ -26,8 +42,48 @@ public class IncomeService {
         return incomeRepository.findById(incomeId);
     }
 
-    public Income saveIncome(Income income) {
-        return incomeRepository.save(income);
+    /**
+     * Save an income to the database
+     * @param incomeFromRequest
+     * @param userId
+     * @return the id of the saved income
+     * @throws TransactionException if the user, category or currency is not found
+     */
+    public int saveIncome(AddIncomeRequest incomeFromRequest, UUID userId) throws TransactionException {
+        User user = userService.getUserById(userId).orElseThrow(
+                () -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND)
+        );
+
+        IncomeCategory incomeCategory = incomeCategoryService.getCategoryById(incomeFromRequest.getCategoryId()).orElseThrow(
+                () -> new TransactionException(TransactionException.TransactionExceptionType.CATEGORY_NOT_FOUND)
+        );
+
+        Currency currency = currencyService.getCurrencyById(incomeFromRequest.getCurrencyId()).orElseThrow(
+                () -> new TransactionException(TransactionException.TransactionExceptionType.CURRENCY_NOT_FOUND)
+        );
+
+        if (incomeFromRequest.getAmount() <= 0) {
+            throw new TransactionException(TransactionException.TransactionExceptionType.INVALID_AMOUNT);
+        }
+
+        Date date = incomeFromRequest.getDate();
+
+        final int week = DateUtils.getWeekOfTheYear(date);
+        final int month = DateUtils.getMonthOfTheYear(date);
+        final int year = DateUtils.getYearOfTheDate(date);
+
+        Income income = new Income(
+                user,
+                incomeCategory,
+                incomeFromRequest.getAmount(),
+                date,
+                incomeFromRequest.getDescription(),
+                month,
+                year,
+                week,
+                currency
+        );
+        return incomeRepository.save(income).getId();
     }
 
     public void deleteIncome(int incomeId) {
