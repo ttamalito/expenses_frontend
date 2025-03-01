@@ -153,7 +153,8 @@ public class ExpensesRequestsIT {
             assertTrue(receivedExpenseOptional.isPresent());
             Expense receivedExpense = receivedExpenseOptional.get();
             assertEquals(sentExpense.getAmount(), receivedExpense.getAmount());
-            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategory().getId());
+            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategoryId());
+            assertEquals(sentExpense.getCurrencyId(), receivedExpense.getCurrencyId());
             assertEquals(sentExpense.getDate().toString(), receivedExpense.getDate().toString());
             assertEquals(sentExpense.getDescription(), receivedExpense.getDescription());
             assertEquals(1, receivedExpense.getMonth());
@@ -208,7 +209,8 @@ public class ExpensesRequestsIT {
             assertTrue(receivedExpenseOptional.isPresent());
             Expense receivedExpense = receivedExpenseOptional.get();
             assertEquals(sentExpense.getAmount(), receivedExpense.getAmount());
-            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategory().getId());
+            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategoryId());
+            assertEquals(sentExpense.getCurrencyId(), receivedExpense.getCurrencyId());
             assertEquals(sentExpense.getDate().toString(), receivedExpense.getDate().toString());
             assertEquals(sentExpense.getDescription(), receivedExpense.getDescription());
             if (sentExpense.getAmount() == 102) {
@@ -266,7 +268,8 @@ public class ExpensesRequestsIT {
             assertTrue(receivedExpenseOptional.isPresent());
             Expense receivedExpense = receivedExpenseOptional.get();
             assertEquals(sentExpense.getAmount(), receivedExpense.getAmount());
-            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategory().getId());
+            assertEquals(sentExpense.getCategoryId(), receivedExpense.getCategoryId());
+            assertEquals(sentExpense.getCurrencyId(), receivedExpense.getCurrencyId());
             assertEquals(sentExpense.getDate().toString(), receivedExpense.getDate().toString());
             assertEquals(sentExpense.getDescription(), receivedExpense.getDescription());
             if (sentExpense.getAmount() == 102) {
