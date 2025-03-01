@@ -213,6 +213,15 @@ public class ExpenseService {
                 new TransactionException(TransactionException.TransactionExceptionType.CURRENCY_NOT_FOUND));
 
         expense.setCurrency(currency);
+
+        Date date = expense.getDate();
+        final int week = DateUtils.getWeekOfTheYear(date);
+        final int month = DateUtils.getMonthOfTheYear(date);
+        final int year = DateUtils.getYearOfTheDate(date);
+        expense.setWeek(week);
+        expense.setMonth(month);
+        expense.setYear(year);
+
         expenseRepository.save(expense);
     }
 

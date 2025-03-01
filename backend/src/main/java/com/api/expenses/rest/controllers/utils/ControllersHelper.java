@@ -1,5 +1,6 @@
 package com.api.expenses.rest.controllers.utils;
 
+import com.api.expenses.rest.exceptions.TransactionException;
 import com.api.expenses.rest.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,9 @@ public class ControllersHelper {
     }
 
     public static ResponseEntity<String> handleException(Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+        if (e instanceof TransactionException) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.internalServerError().body(e.getMessage());
     }
 }

@@ -32,7 +32,6 @@ public class AuthenticationHelper {
                 .andExpect(status().isOk());
 
         String jwtToken = result.andReturn().getResponse().getContentAsString().split(":")[1].replace("\"", "").replace("}", "");
-        System.out.println("JWT Token: " + jwtToken);
         return "Bearer" + jwtToken;
     }
 }
