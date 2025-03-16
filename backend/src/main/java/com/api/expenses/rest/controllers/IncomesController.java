@@ -101,8 +101,8 @@ public class IncomesController {
         UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
         try {
             float total = incomeService.getTotalEarnedForAMonthForAUser(userId, month, year);
-            String response = String.format("{\"total\": %f}", total);
-            return ResponseEntity.ok(response);
+            String response = String.format("{\"total\": %.2f}", total);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 
         } catch (Exception e) {
             return ControllersHelper.handleException(e);

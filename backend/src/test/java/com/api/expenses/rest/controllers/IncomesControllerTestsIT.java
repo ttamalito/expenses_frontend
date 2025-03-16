@@ -108,6 +108,35 @@ public class IncomesControllerTestsIT {
         }
     }
 
+    @Test
+    @DisplayName("Test total earned in a month")
+    public void totalEarnedInAMonthTest() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+        List<AddIncomeRequest> incomeRequestList = new ArrayList<>();
+        List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
+                "src/test/resources/incomes/totalEarnedMonth/totalEarnedMonth.json", incomeRequestList);
+
+        ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/total-earned/month?year=2025&month=1")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json("{\"total\": 1002.49}"));
+
+        String totalSpentJson = savedExpense.andReturn().getResponse().getContentAsString();
+        assertEquals("{\"total\": 1002.49}", totalSpentJson);
+
+        // delete the incomes
+        for (int incomeId : incomesIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/incomes/delete/" + incomeId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+    }
+
     /**
      * Reads the incomes from a file and sends them to the server
      * It populates the incomes list with the incomes that were sent to the server
