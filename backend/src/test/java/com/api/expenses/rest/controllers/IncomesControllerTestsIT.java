@@ -137,6 +137,35 @@ public class IncomesControllerTestsIT {
         }
     }
 
+    @Test
+    @DisplayName("Test total earned in a monthly basis")
+    public void totalEarnedInAMonthlyBasisTest() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+        List<AddIncomeRequest> incomeRequestList = new ArrayList<>();
+        List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
+                "src/test/resources/incomes/totalEarnedMonthlyBasis/totalEarnedMonthlyBasis.json", incomeRequestList);
+
+        ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/earned/year/monthly?year=2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"));
+                //.andExpect(content().json("{\"totals\": ["3007.47","6000.03","300.00","3000.96","303.00","0.00","0.00","0.00","0.00","0.00","0.00","0.00"]}"));
+
+        String totalSpentJson = savedExpense.andReturn().getResponse().getContentAsString();
+        assertEquals("{\"totals\": [\"1002.49\",\"2000.01\",\"100.00\",\"1000.32\",\"101.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\"]}", totalSpentJson);
+
+        // delete the incomes
+        for (int incomeId : incomesIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/incomes/delete/" + incomeId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+    }
+
     /**
      * Reads the incomes from a file and sends them to the server
      * It populates the incomes list with the incomes that were sent to the server

@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -115,8 +116,14 @@ public class IncomesController {
         UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
         try {
             List<Float> totals = incomeService.getTotalEarnedInAYearInAMonthlyBasis(userId, year);
-            String totalsJson = objectMapper.writeValueAsString(totals);
-            return ResponseEntity.ok(totalsJson);
+            // write each float as string with maximum 2 decimals
+            List<String> totalsFormatted  = new ArrayList<>();
+            for (float total : totals) {
+                totalsFormatted.add(String.format("%.2f", total));
+            }
+            String totalsJson = objectMapper.writeValueAsString(totalsFormatted);
+            String response = String.format("{\"totals\": %s}", totalsJson);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
         } catch (JsonProcessingException e) {
             return ControllersHelper.handleException(e);
         }
