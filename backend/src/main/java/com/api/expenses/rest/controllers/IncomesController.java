@@ -82,20 +82,20 @@ public class IncomesController {
         }
     }
 
-    @GetMapping("/total-earned") // TODO: rename the endpoint to /total-earned/year
+    @GetMapping("/total-earned/year")
     public ResponseEntity<String> getTotalEarnedForAYear(@RequestParam int year) {
         UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
 
         try {
             float total = incomeService.getTotalEarnedForAYearForAUser(userId, year);
-            String response = String.format("{\"total\": %f}", total);
-            return ResponseEntity.ok(response);
+            String response = String.format("{\"total\": %.2f}", total);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
 
         } catch (Exception e) {
             return ControllersHelper.handleException(e);
         }
     }
-     @GetMapping("/month")
+     @GetMapping("/total-earned/month")
     public ResponseEntity<String> getTotalEarnedInAMonth(@RequestParam int month, @RequestParam int year) {
 
         UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
@@ -109,7 +109,7 @@ public class IncomesController {
         }
      }
 
-     @GetMapping("/year/monthly")
+     @GetMapping("/earned/year/monthly")
     public ResponseEntity<String> getTotalEarnedInAYearInAMonthlyBasis(@RequestParam int year) {
 
         UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();

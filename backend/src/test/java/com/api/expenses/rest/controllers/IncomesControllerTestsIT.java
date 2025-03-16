@@ -2,6 +2,7 @@ package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.AuthenticationHelper;
 import com.api.expenses.rest.models.Income;
+import com.api.expenses.rest.models.requestsModels.AddIncomeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,5 +76,64 @@ public class IncomesControllerTestsIT {
                 .header("Authorization",bearerToken)
         ).andExpect(status().isNoContent());
 
+    }
+
+
+    @Test
+    @DisplayName("Test total earned in a year")
+    public void totalEarnedInAYearTest() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+        List<AddIncomeRequest> incomeRequestList = new ArrayList<>();
+        List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
+                "src/test/resources/incomes/totalEarnedYear/totalEarnedYear.json", incomeRequestList);
+
+        ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/total-earned/year?year=2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json("{\"total\": 1002.49}"));
+
+        String totalSpentJson = savedExpense.andReturn().getResponse().getContentAsString();
+        assertEquals("{\"total\": 1002.49}", totalSpentJson);
+
+        // delete the incomes
+        for (int incomeId : incomesIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/incomes/delete/" + incomeId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+    }
+
+    /**
+     * Reads the incomes from a file and sends them to the server
+     * It populates the incomes list with the incomes that were sent to the server
+     *
+     * @param bearerToken          the token to authenticate the user
+     * @param pathToListOfIncomes the path to the file that contains the incomes
+     * @param incomes             the list of incomes that will be populated with the incomes that were sent to the server
+     * @return the ids of the incomes that were sent to the server
+     * @throws IOException
+     */
+    private List<Integer> sendAndSaveIncomes(String bearerToken, String pathToListOfIncomes, List<AddIncomeRequest> incomes) throws Exception {
+        String expensesAsJson = new String(Files.readAllBytes(Path.of(pathToListOfIncomes)));
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<AddIncomeRequest> serializedIncomes = objectMapper.readValue(expensesAsJson, objectMapper.getTypeFactory().constructCollectionType(List.class, AddIncomeRequest.class));
+        incomes.addAll(serializedIncomes);
+
+        List<Integer> incomesIds = new ArrayList<>();
+        for (AddIncomeRequest income : incomes) {
+            ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/incomes/add")
+                            .header("Authorization", bearerToken)
+                            .contentType("application/json")
+                            .content(objectMapper.writeValueAsString(income)))
+                    .andExpect(status().isOk());
+            String incomeId = result.andReturn().getResponse().getContentAsString().split(":")[1].replace("\"", "").replace("}", "").replace(" ", "");
+            incomesIds.add(Integer.parseInt(incomeId));
+        }
+        return incomesIds;
     }
 }
