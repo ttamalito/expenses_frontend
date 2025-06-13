@@ -14,27 +14,31 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import SitemarkIcon from './SitemarkIcon';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 
-const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  flexShrink: 0,
-  borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
-  backdropFilter: 'blur(24px)',
-  border: '1px solid',
-  borderColor: ( theme).palette.divider,
-  backgroundColor: 'red',
+const StyledToolbar = styled(Toolbar)(({ theme }) => {
+  return {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexShrink: 0,
+    borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
+    backdropFilter: 'blur(24px)',
+    border: '1px solid',
+    borderColor: theme.palette.divider,
+    backgroundColor: 'red',
     // ? `rgba(${theme.palette.background.defaultChannel} / 0.4)`
     // : alpha(theme.palette.background.default, 0.4),
-  boxShadow: ( theme).shadows[1],
-  padding: '8px 12px',
-}));
+    boxShadow: theme.shadows[1],
+    padding: '8px 12px',
+  };
+});
 
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
 
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
+  const toggleDrawer = (newOpen: boolean) => {
+    return () => {
+      setOpen(newOpen);
+    };
   };
 
   return (
@@ -50,7 +54,9 @@ export default function AppAppBar() {
     >
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
+          <Box
+            sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}
+          >
             <SitemarkIcon />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button variant="text" color="info" size="small">
@@ -65,10 +71,20 @@ export default function AppAppBar() {
               <Button variant="text" color="info" size="small">
                 Pricing
               </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+              <Button
+                variant="text"
+                color="info"
+                size="small"
+                sx={{ minWidth: 0 }}
+              >
                 FAQ
               </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+              <Button
+                variant="text"
+                color="info"
+                size="small"
+                sx={{ minWidth: 0 }}
+              >
                 Blog
               </Button>
             </Box>

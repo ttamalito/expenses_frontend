@@ -1,8 +1,8 @@
-import typesBudgetTypeDeclaration from "../typesBudgetTypeDeclaration";
+import typesBudgetTypeDeclaration from '../typesBudgetTypeDeclaration';
 
 type monthBudgetType = {
-    monthBudget: number,
-    typesBudget: typesBudgetTypeDeclaration
-}
+  monthBudget: number;
+  typesBudget: typesBudgetTypeDeclaration;
+};
 
 export default monthBudgetType;

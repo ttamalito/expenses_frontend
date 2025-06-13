@@ -1,4 +1,4 @@
-import {BACKEND_URL} from "../../constants";
+import { BACKEND_URL } from '../../constants';
 
 export const signUpPath = `${BACKEND_URL}/auth/signup`;
 

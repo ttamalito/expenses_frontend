@@ -1,5 +1,3 @@
-
-
 export const fallbackRoute = '/fallback';
 
 export const unauthorizedRoute = fallbackRoute + '/unauthorized';

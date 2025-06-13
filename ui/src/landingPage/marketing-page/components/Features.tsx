@@ -18,24 +18,24 @@ const items = [
     title: 'Dashboard',
     description:
       'This item could provide a snapshot of the most important metrics or data points related to the product.',
-    imageLight: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/dash-light.png")`,
-    imageDark: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/dash-dark.png")`,
+    imageLight: `url("'https://mui.com'}/static/images/templates/templates-images/dash-light.png")`,
+    imageDark: `url("'https://mui.com'}/static/images/templates/templates-images/dash-dark.png")`,
   },
   {
     icon: <EdgesensorHighRoundedIcon />,
     title: 'Mobile integration',
     description:
       'This item could provide information about the mobile app version of the product.',
-    imageLight: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/mobile-light.png")`,
-    imageDark: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/mobile-dark.png")`,
+    imageLight: `url("'https://mui.com'}/static/images/templates/templates-images/mobile-light.png")`,
+    imageDark: `url("'https://mui.com'}/static/images/templates/templates-images/mobile-dark.png")`,
   },
   {
     icon: <DevicesRoundedIcon />,
     title: 'Available on all platforms',
     description:
       'This item could let users know the product is available on all platforms, such as web, mobile, and desktop.',
-    imageLight: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/devices-light.png")`,
-    imageDark: `url("${process.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/images/templates/templates-images/devices-dark.png")`,
+    imageLight: `url("'https://mui.com'}/static/images/templates/templates-images/devices-light.png")`,
+    imageDark: `url("'https://mui.com'}/static/images/templates/templates-images/devices-dark.png")`,
   },
 ];
 
@@ -43,25 +43,29 @@ interface ChipProps {
   selected?: boolean;
 }
 
-const Chip = styled(MuiChip)<ChipProps>(({ theme }) => ({
-  variants: [
-    {
-      props: ({ selected }) => selected,
-      style: {
-        background:
-          'linear-gradient(to bottom right, hsl(210, 98%, 48%), hsl(210, 98%, 35%))',
-        color: 'hsl(0, 0%, 100%)',
-        borderColor: ( theme).palette.primary.light,
-        '& .MuiChip-label': {
-          color: 'hsl(0, 0%, 100%)',
+const Chip = styled(MuiChip)<ChipProps>(({ theme }) => {
+  return {
+    variants: [
+      {
+        props: ({ selected }) => {
+          return selected;
         },
-        ...theme.applyStyles('dark', {
-          borderColor: ( theme).palette.primary.dark,
-        }),
+        style: {
+          background:
+            'linear-gradient(to bottom right, hsl(210, 98%, 48%), hsl(210, 98%, 35%))',
+          color: 'hsl(0, 0%, 100%)',
+          borderColor: theme.palette.primary.light,
+          '& .MuiChip-label': {
+            color: 'hsl(0, 0%, 100%)',
+          },
+          ...theme.applyStyles('dark', {
+            borderColor: theme.palette.primary.dark,
+          }),
+        },
       },
-    },
-  ],
-}));
+    ],
+  };
+});
 
 interface MobileLayoutProps {
   selectedItemIndex: number;
@@ -87,28 +91,34 @@ export function MobileLayout({
       }}
     >
       <Box sx={{ display: 'flex', gap: 2, overflow: 'auto' }}>
-        {items.map(({ title }, index) => (
-          <Chip
-            size="medium"
-            key={index}
-            label={title}
-            onClick={() => handleItemClick(index)}
-            selected={selectedItemIndex === index}
-          />
-        ))}
+        {items.map(({ title }, index) => {
+          return (
+            <Chip
+              size="medium"
+              key={index}
+              label={title}
+              onClick={() => {
+                return handleItemClick(index);
+              }}
+              selected={selectedItemIndex === index}
+            />
+          );
+        })}
       </Box>
       <Card variant="outlined">
         <Box
-          sx={(theme) => ({
-            mb: 2,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            minHeight: 280,
-            backgroundImage: 'var(--items-imageLight)',
-            ...theme.applyStyles('dark', {
-              backgroundImage: 'var(--items-imageDark)',
-            }),
-          })}
+          sx={(theme) => {
+            return {
+              mb: 2,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              minHeight: 280,
+              backgroundImage: 'var(--items-imageLight)',
+              ...theme.applyStyles('dark', {
+                backgroundImage: 'var(--items-imageDark)',
+              }),
+            };
+          }}
           style={
             items[selectedItemIndex]
               ? ({
@@ -158,9 +168,9 @@ export default function Features() {
           variant="body1"
           sx={{ color: 'text.secondary', mb: { xs: 2, sm: 4 } }}
         >
-          Provide a brief overview of the key features of the product. For example,
-          you could list the number of features, their types or benefits, and
-          add-ons.
+          Provide a brief overview of the key features of the product. For
+          example, you could list the number of features, their types or
+          benefits, and add-ons.
         </Typography>
       </Box>
       <Box
@@ -179,49 +189,55 @@ export default function Features() {
               height: '100%',
             }}
           >
-            {items.map(({ icon, title, description }, index) => (
-              <Box
-                key={index}
-                component={Button}
-                onClick={() => handleItemClick(index)}
-                sx={[
-                  (theme) => ({
-                    p: 2,
-                    height: '100%',
-                    width: '100%',
-                    '&:hover': {
-                      backgroundColor: ( theme).palette.action.hover,
-                    },
-                  }),
-                  selectedItemIndex === index && {
-                    backgroundColor: 'action.selected',
-                  },
-                ]}
-              >
+            {items.map(({ icon, title, description }, index) => {
+              return (
                 <Box
+                  key={index}
+                  component={Button}
+                  onClick={() => {
+                    return handleItemClick(index);
+                  }}
                   sx={[
-                    {
-                      width: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'left',
-                      gap: 1,
-                      textAlign: 'left',
-                      textTransform: 'none',
-                      color: 'text.secondary',
+                    (theme) => {
+                      return {
+                        p: 2,
+                        height: '100%',
+                        width: '100%',
+                        '&:hover': {
+                          backgroundColor: theme.palette.action.hover,
+                        },
+                      };
                     },
                     selectedItemIndex === index && {
-                      color: 'text.primary',
+                      backgroundColor: 'action.selected',
                     },
                   ]}
                 >
-                  {icon}
+                  <Box
+                    sx={[
+                      {
+                        width: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'left',
+                        gap: 1,
+                        textAlign: 'left',
+                        textTransform: 'none',
+                        color: 'text.secondary',
+                      },
+                      selectedItemIndex === index && {
+                        color: 'text.primary',
+                      },
+                    ]}
+                  >
+                    {icon}
 
-                  <Typography variant="h6">{title}</Typography>
-                  <Typography variant="body2">{description}</Typography>
+                    <Typography variant="h6">{title}</Typography>
+                    <Typography variant="body2">{description}</Typography>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              );
+            })}
           </Box>
           <MobileLayout
             selectedItemIndex={selectedItemIndex}
@@ -246,16 +262,18 @@ export default function Features() {
             }}
           >
             <Box
-              sx={(theme) => ({
-                m: 'auto',
-                width: 420,
-                height: 500,
-                backgroundSize: 'contain',
-                backgroundImage: 'var(--items-imageLight)',
-                ...theme.applyStyles('dark', {
-                  backgroundImage: 'var(--items-imageDark)',
-                }),
-              })}
+              sx={(theme) => {
+                return {
+                  m: 'auto',
+                  width: 420,
+                  height: 500,
+                  backgroundSize: 'contain',
+                  backgroundImage: 'var(--items-imageLight)',
+                  ...theme.applyStyles('dark', {
+                    backgroundImage: 'var(--items-imageDark)',
+                  }),
+                };
+              }}
               style={
                 items[selectedItemIndex]
                   ? ({

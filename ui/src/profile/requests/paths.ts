@@ -1,3 +1,5 @@
-import {BACKEND_URL} from "../../constants";
+import { BACKEND_URL } from '../../constants';
 
-export const fetchUserDataPath = (username: string) => `${BACKEND_URL}/user/${username}`;
+export const fetchUserDataPath = (username: string) => {
+  return `${BACKEND_URL}/user/${username}`;
+};

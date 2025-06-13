@@ -6,6 +6,13 @@
     "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",
     "@fontsource/roboto": "5.1.0",
+    "@mantine/carousel": "^7.17.1",
+    "@mantine/core": "^7.17.1",
+    "@mantine/dates": "^7.17.2",
+    "@mantine/dropzone": "^7.17.3",
+    "@mantine/form": "^7.17.1",
+    "@mantine/hooks": "^7.17.1",
+    "@mantine/notifications": "^7.17.5",
     "@mui/icons-material": "6.1.1",
     "@mui/joy": "^5.0.0-beta.48",
     "@mui/material": "^6.1.8",
@@ -13,12 +20,16 @@
     "@mui/x-data-grid": "7.18.0",
     "@mui/x-date-pickers": "7.18.0",
     "@mui/x-tree-view": "7.18.0",
+    "@tabler/icons-react": "^3.31.0",
     "@types/jest": "29.5.12",
     "@types/node": "22.5.0",
     "@types/react": "18.3.0",
     "@types/react-dom": "18.3.0",
     "ajv": "8.17.1",
+    "axios": "^1.8.1",
+    "clsx": "^2.1.1",
     "dayjs": "1.11.13",
+    "mantine-datatable": "^7.17.1",
     "react": "18.3.0",
     "react-dom": "18.3.0",
     "react-pro-sidebar": "^1.1.0",
@@ -27,33 +38,31 @@
     "web-vitals": "2.1.4"
   },
   "devDependencies": {
-    "react-scripts": "5.0.1"
-  },
-  "overrides": {
-    "typescript": "5.5.4"
+    "@eslint/js": "^9.21.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
+    "prettier": "3.5.2",
+    "rollup-plugin-visualizer": "^5.14.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.24.1",
+    "vite": "^6.3.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "dev": "vite",
+    "build": "concurrently --kill-others-on-fail --names eslint,type-check,build \"npm run lint\" \"npm run type-check\"  \"npm run build:vite\"",
+    "lint": "eslint .",
+    "fix:lint": "eslint --fix --ext .js,.jsx .",
+    "type-check": "tsc -b",
+    "build:noKill": "concurrently --names eslint,type-check,build \"npm run lint\" \"npm run type-check\"  \"npm run build:vite\"",
+    "build:vite": "vite build",
+    "preview": "vite preview"
   }
 }

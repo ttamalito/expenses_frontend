@@ -17,23 +17,27 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleMode = (targetMode: 'system' | 'light' | 'dark') => () => {
-    setMode(targetMode);
-    handleClose();
+  const handleMode = (targetMode: 'system' | 'light' | 'dark') => {
+    return () => {
+      setMode(targetMode);
+      handleClose();
+    };
   };
   if (!mode) {
     return (
       <Box
         data-screenshot="toggle-mode"
-        sx={(theme) => ({
-          verticalAlign: 'bottom',
-          display: 'inline-flex',
-          width: '2.25rem',
-          height: '2.25rem',
-          borderRadius: ( theme).shape.borderRadius,
-          border: '1px solid',
-          borderColor: ( theme).palette.divider,
-        })}
+        sx={(theme) => {
+          return {
+            verticalAlign: 'bottom',
+            display: 'inline-flex',
+            width: '2.25rem',
+            height: '2.25rem',
+            borderRadius: theme.shape.borderRadius,
+            border: '1px solid',
+            borderColor: theme.palette.divider,
+          };
+        }}
       />
     );
   }
