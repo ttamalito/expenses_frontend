@@ -2,7 +2,6 @@ package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.AuthenticationHelper;
 import com.api.expenses.rest.models.ExpenseCategory;
-import com.api.expenses.rest.models.Income;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.UUID;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
