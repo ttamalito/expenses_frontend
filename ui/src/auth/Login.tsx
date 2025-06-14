@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
@@ -15,8 +13,6 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { tokens } from '../theme';
 import logInRequest from './requests/loginRequest';
-import { Simulate } from 'react-dom/test-utils';
-import canPlayThrough = Simulate.canPlayThrough;
 
 const Card = styled(MuiCard)(({ theme }) => {
   return {

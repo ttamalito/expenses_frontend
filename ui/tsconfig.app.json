@@ -21,6 +21,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+
+    /* Alias */
+    "paths": {
+      "@clients": ["./src/models/clients.ts"],
+    }
   },
   "include": ["src"]
 }

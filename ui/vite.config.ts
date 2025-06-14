@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { visualizer } from 'rollup-plugin-visualizer';
+import path from 'node:path';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,6 +11,11 @@ export default defineConfig({
       open: false, // true to open the report in the browser
     }),
   ],
+  resolve: {
+    alias: {
+      '@clients': path.resolve(__dirname, './src/models/clients.ts'),
+    },
+  },
   server: {
     // https: {
     //   key: '/Users/jjgon/Documents/https_certs/key.pem', //uncomment to use http2 and https
