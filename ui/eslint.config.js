@@ -11,7 +11,7 @@ export default tseslint.config(
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended, prettierConfig],
     files: ['**/*.{ts,tsx}'],
-    ignores: ['dist'],
+    ignores: ['dist', 'src/models/clients.ts'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,

@@ -53,7 +53,8 @@ public class SecurityConfig {
             "/auth/login",
             "/auth/signup",
             "/auth/ping",
-            "/auth/ping/not"
+            "/auth/ping/not",
+            "/v3/api-docs",
     };
 
     @Bean
