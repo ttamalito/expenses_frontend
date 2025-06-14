@@ -39,7 +39,12 @@ public class ExpenseCategoryService {
     }
 
 
-    public void updateCategory(ExpenseCategory category) {
-        expenseCategoryRepository.save(category);
+    /**
+     * Creates a new expense category in the database
+     */
+    public int createCategory(ExpenseCategory category) {
+
+        ExpenseCategory savedCategory = expenseCategoryRepository.save(category);
+        return savedCategory.getId();
     }
 }

@@ -18,7 +18,7 @@ public abstract class AbstractCategory {
 
     @JsonIgnore
     @ManyToOne(
-            cascade = CascadeType.PERSIST, // when a category is deleted, the user will NOT be deleted
+            cascade = CascadeType.MERGE, // when a category is deleted, the user will NOT be deleted
             fetch = FetchType.LAZY
     )
     @JoinColumn(
@@ -42,6 +42,12 @@ public abstract class AbstractCategory {
     }
 
     public AbstractCategory(int id, User user, String name, String description) {
+        this.id = id;
+        this.user = user;
+        this.name = name;
+        this.description = description;
+    }
+    public AbstractCategory(User user, String name, String description) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -75,5 +81,9 @@ public abstract class AbstractCategory {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }

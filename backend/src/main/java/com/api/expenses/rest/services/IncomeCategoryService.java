@@ -25,7 +25,12 @@ public class IncomeCategoryService {
         return incomeCategoryRepository.findById(categoryId);
     }
 
-    public IncomeCategory saveCategory(IncomeCategory category) {
+    /**
+     * Creates a new income category in the database
+     * @param category
+     * @return
+     */
+    public IncomeCategory createCategory(IncomeCategory category) {
         return incomeCategoryRepository.save(category);
     }
 

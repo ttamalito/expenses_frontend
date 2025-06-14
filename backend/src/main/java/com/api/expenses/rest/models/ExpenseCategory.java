@@ -34,7 +34,14 @@ public class ExpenseCategory extends AbstractCategory implements Serializable {
             String description) {
         super(id, user, name, description);
         this.budget = budget;
-
+    }
+    public ExpenseCategory(
+            User user,
+            String name,
+            float budget,
+            String description) {
+        super(user, name, description);
+        this.budget = budget;
     }
 
     public float getBudget() {
@@ -43,6 +50,13 @@ public class ExpenseCategory extends AbstractCategory implements Serializable {
 
     public void setBudget(float budget) {
         this.budget = budget;
+    }
+
+    public boolean onlyBudgetWasModified(ExpenseCategory category) {
+        return this.getName().equals(category.getName()) &&
+                this.getDescription().equals(category.getDescription()) &&
+                this.getId() == category.getId() &&
+                this.getUserId().equals(category.getUserId());
     }
 
 }
