@@ -2,6 +2,7 @@ package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.AuthenticationHelper;
 import com.api.expenses.rest.models.ExpenseCategory;
+import com.api.expenses.rest.models.IncomeCategory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,6 +67,43 @@ public class CategoriesControllerIT {
         assertEquals("d229217c-d721-4116-9cd2-3dfe03360439", expenseCategory.getUserId().toString());
 
         mockMvc.perform(delete("/category/expense/delete/" + categoryId)
+                .header("Authorization",bearerToken)
+        ).andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Add Income Category and Delete it")
+    public void addIncomeCategoryAndDeleteIt() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+
+        String categoryAsString = new String (Files.readAllBytes(Path.of("src/test/resources/categories/income/validCategory.json")));
+
+        ResultActions result = mockMvc.perform(put("/category/income/create")
+                .header("Authorization",bearerToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(categoryAsString)
+        ).andExpect(status().isOk());
+
+        String categoryId = result.andReturn().getResponse().getContentAsString();
+
+        ResultActions categoryFetchResult = mockMvc.perform(get("/category/income/get/" + categoryId)
+                .header("Authorization",bearerToken)
+        ).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        String categoryFetchResultString = categoryFetchResult.andReturn().getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        IncomeCategory incomeCategory = objectMapper.readValue(categoryFetchResultString, IncomeCategory.class);
+
+        assertEquals("Category to delete - Income", incomeCategory.getName());
+        assertEquals("Test description income", incomeCategory.getDescription());
+        assertEquals(categoryId, String.valueOf(incomeCategory.getId()));
+        assertEquals("d229217c-d721-4116-9cd2-3dfe03360439", incomeCategory.getUserId().toString());
+
+        mockMvc.perform(delete("/category/income/delete/" + categoryId)
                 .header("Authorization",bearerToken)
         ).andExpect(status().isNoContent());
     }

@@ -28,4 +28,8 @@ public class IncomeCategory extends AbstractCategory {
     public IncomeCategory(int id, User user, String name, String description) {
         super(id, user, name, description);
     }
+
+    public IncomeCategory(User user, String name, String description) {
+        super(user, name, description);
+    }
 }

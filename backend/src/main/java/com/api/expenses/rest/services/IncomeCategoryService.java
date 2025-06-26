@@ -28,10 +28,10 @@ public class IncomeCategoryService {
     /**
      * Creates a new income category in the database
      * @param category
-     * @return
+     * @return the id of the created category
      */
-    public IncomeCategory createCategory(IncomeCategory category) {
-        return incomeCategoryRepository.save(category);
+    public int createCategory(IncomeCategory category) {
+        return incomeCategoryRepository.save(category).getId();
     }
 
     public void deleteCategory(int categoryId) {
