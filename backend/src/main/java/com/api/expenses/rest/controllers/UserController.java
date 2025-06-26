@@ -1,7 +1,9 @@
 package com.api.expenses.rest.controllers;
 
+import com.api.expenses.rest.controllers.utils.ControllersHelper;
 import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.models.dtos.CreateUserDto;
+import com.api.expenses.rest.models.dtos.UpdateUserDto;
 import com.api.expenses.rest.models.requestsModels.UserSignupRequest;
 import com.api.expenses.rest.services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,9 +35,25 @@ public class UserController implements Serializable {
         this.objectMapper = new ObjectMapper();
     }
 
-    @PostMapping("/update")
-    public EntityResponse<Void> update(@RequestBody CreateUserDto userdata) {
-        return null;
+    @PostMapping("/update/{username}")
+    public ResponseEntity<String> update(@RequestBody UpdateUserDto userdata, @PathVariable String username) {
+        Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
+        User user = optionalUser.get();
+        if (!user.getUsername().equals(username)) {
+            return ResponseEntity.badRequest().body("Not authorized to perform this action");
+        }
+
+        user.setCurrencyId(userdata.currencyId());
+        user.setFirstName(userdata.firstName());
+        user.setLastName(userdata.lastName());
+        boolean success = userService.updateUser(user);
+        if (!success) {
+            return ResponseEntity.internalServerError().body("User update failed");
+        }
+        return ResponseEntity.ok().body("User updated successfully");
     }
 
     @GetMapping(value = "/{username}", produces = {"application/json", "text/plain"})

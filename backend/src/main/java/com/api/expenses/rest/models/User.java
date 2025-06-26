@@ -22,6 +22,7 @@ public class User implements UserDetails {
     private UUID id;
     @Column(nullable = false, unique = true)
     private String username;
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
     @Column(nullable = false, unique = true)
@@ -198,9 +199,16 @@ public class User implements UserDetails {
     public String getFirstName() {
         return firstName;
     }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public int getCurrencyId() {
