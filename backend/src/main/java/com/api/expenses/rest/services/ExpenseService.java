@@ -6,7 +6,7 @@ import com.api.expenses.rest.models.Currency;
 import com.api.expenses.rest.models.Expense;
 import com.api.expenses.rest.models.ExpenseCategory;
 import com.api.expenses.rest.models.User;
-import com.api.expenses.rest.models.requestsModels.AddExpenseRequest;
+import com.api.expenses.rest.models.dtos.CreateExpenseDto;
 import com.api.expenses.rest.repositories.CurrencyRepository;
 import com.api.expenses.rest.repositories.ExpenseCategoryRepository;
 import com.api.expenses.rest.repositories.ExpenseRepository;
@@ -59,24 +59,24 @@ public class ExpenseService {
      * @return the id of the saved expense
      * @throws TransactionException
      */
-    public int saveExpense(AddExpenseRequest expenseFromRequest, UUID userId) throws TransactionException {
+    public int saveExpense(CreateExpenseDto expenseFromRequest, UUID userId) throws TransactionException {
         User user = userService.getUserById(userId).orElseThrow(() -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND));
 
-        ExpenseCategory expenseCategory = expenseCategoryRepository.findById(expenseFromRequest.getCategoryId()).orElseThrow(() ->
+        ExpenseCategory expenseCategory = expenseCategoryRepository.findById(expenseFromRequest.categoryId()).orElseThrow(() ->
                 new TransactionException(TransactionException.TransactionExceptionType.CATEGORY_NOT_FOUND));
 
 
-        Currency currency = currencyRepository.findById(expenseFromRequest.getCurrencyId()).orElseThrow(() ->
+        Currency currency = currencyRepository.findById(expenseFromRequest.currencyId()).orElseThrow(() ->
                 new TransactionException(TransactionException.TransactionExceptionType.CURRENCY_NOT_FOUND));
 
 
-        Date date = expenseFromRequest.getDate();
+        Date date = expenseFromRequest.date();
 
         final int week = DateUtils.getWeekOfTheYear(date);
         final int month = DateUtils.getMonthOfTheYear(date);
         final int year = DateUtils.getYearOfTheDate(date);
 
-        if (expenseFromRequest.getAmount() < 0) {
+        if (expenseFromRequest.amount() < 0) {
             throw new TransactionException(TransactionException.TransactionExceptionType.NEGATIVE_AMOUNT);
         }
 
@@ -84,9 +84,9 @@ public class ExpenseService {
         Expense expense = new Expense(
                 user,
                 expenseCategory,
-                expenseFromRequest.getAmount(),
+                expenseFromRequest.amount(),
                 date,
-                expenseFromRequest.getDescription(),
+                expenseFromRequest.description(),
                 month,
                 year,
                 week,

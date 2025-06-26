@@ -1,9 +1,8 @@
 package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.ControllersHelper;
-import com.api.expenses.rest.exceptions.TransactionException;
 import com.api.expenses.rest.models.Income;
-import com.api.expenses.rest.models.requestsModels.AddIncomeRequest;
+import com.api.expenses.rest.models.dtos.CreateIncomeDto;
 import com.api.expenses.rest.services.IncomeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +31,7 @@ public class IncomesController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<String> addIncome(@RequestBody AddIncomeRequest income) {
+    public ResponseEntity<String> addIncome(@RequestBody CreateIncomeDto income) {
         UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
 
         try {

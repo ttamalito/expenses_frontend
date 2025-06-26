@@ -1,5 +1,7 @@
 package com.api.expenses.rest.controllers;
 
+import com.api.expenses.rest.models.Role;
+import com.api.expenses.rest.models.dtos.CreateUserDto;
 import com.api.expenses.rest.models.requestsModels.UserLoginRequest;
 import com.api.expenses.rest.models.requestsModels.UserSignupRequest;
 import com.api.expenses.rest.models.User;
@@ -67,18 +69,19 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody UserSignupRequest userData) {
+    public ResponseEntity<String> signup(@RequestBody CreateUserDto userData) {
 
-        String password = userData.getPassword();
-        String confirmPassword = userData.getConfirmPassword();
+        String password = userData.password();
+        String confirmPassword = userData.confirmPassword();
         if (!password.equals(confirmPassword)) {
             return ResponseEntity.badRequest().body("Passwords do not match");
         }
 
-        if (userService.userCanBeCreated(userData.getUsername(), userData.getEmail())) {
-            UUID userId = userService.createUser(userData.getUsername(), userData.getPassword(), userData.getEmail(), 1, "USER"); // make sure that there is a currency with id 1
+        if (userService.userCanBeCreated(userData.username(), userData.email())) {
+            UUID userId = userService.createUser(userData.username(), userData.password(), userData.email(), 1, Role.USER); // make sure that there is a currency with id 1
             User user = userService.getUserById(userId).get();
             String jwtToken = jwtService.generateToken(user);
+            LOGGER.info("User created with id: {}", userId);
 
 //            String cookie = "access_token=" + jwtToken + "; Max-Age=3600;";
             String accessTokenJson = "{\"accessToken\": \"" + jwtToken + "\"}";

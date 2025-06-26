@@ -1,6 +1,7 @@
 package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.AuthenticationHelper;
+import com.api.expenses.rest.models.dtos.CreateUserDto;
 import com.api.expenses.rest.models.requestsModels.UserSignupRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -47,11 +50,12 @@ public class AuthenticationRequestsIT {
 
     @Test
     public void signUp() throws Exception {
-        UserSignupRequest userSignupRequest = new UserSignupRequest("test", "test", "test", "test@test.com");
-        String json = new ObjectMapper().writeValueAsString(userSignupRequest);
+        String createUserDtoJson = new String (Files.readAllBytes(Path.of("src/test/resources/user/createUser/createUserDto.json")));
+//        CreateUserDto userSignupRequest = new CreateUserDto("test", "test", "test", "test@test.com");
+//        String json = new ObjectMapper().writeValueAsString(userSignupRequest);
         String jwtToken = mockMvc.perform(MockMvcRequestBuilders.post("/auth/signup")
                 .contentType("application/json")
-                .content(json))
+                .content(createUserDtoJson))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString().split(":")[1].replace("\"", "").replace("}", "");
 

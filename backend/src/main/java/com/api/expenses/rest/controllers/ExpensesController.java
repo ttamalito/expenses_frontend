@@ -5,14 +5,11 @@ import com.api.expenses.rest.exceptions.TransactionException;
 import com.api.expenses.rest.exceptions.UserException;
 import com.api.expenses.rest.models.Expense;
 import com.api.expenses.rest.models.User;
-import com.api.expenses.rest.models.requestsModels.AddExpenseRequest;
+import com.api.expenses.rest.models.dtos.CreateExpenseDto;
 import com.api.expenses.rest.services.ExpenseService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.ExpiredJwtException;
-import jakarta.transaction.TransactionalException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +33,7 @@ public class ExpensesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addExpense(@RequestBody AddExpenseRequest expense) { // Tested
+    public ResponseEntity<String> addExpense(@RequestBody CreateExpenseDto expense) { // Tested
         User user = null;
         try {
             user = ControllersHelper.getUserFromSecurityContextHolder().orElseThrow(() -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND));
@@ -157,10 +154,10 @@ public class ExpensesController {
         }
     }
 
-    @GetMapping("/total-spent/monthly/{category}") // Tested
+    @GetMapping("/total-spent/monthly/category") // Tested
     public ResponseEntity<String> getTotalSpentOnAMonthForACategory(@RequestParam int month,
                                                                     @RequestParam int year,
-                                                                    @PathVariable int category) {
+                                                                    @RequestParam int category) {
         UUID userId = getUserId();
         try {
             float totalSpent = expenseService.getTotalSpentForAMonthOfAUserByCategory(userId, month, year, category);

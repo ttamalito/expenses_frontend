@@ -2,62 +2,62 @@
   {
     "categoryId": 1,
     "amount": 1000.32,
-    "currencyId": 3,
+    "currencyId": 1,
     "date": "2025-01-05",
     "description": "January 1"
   },
   {
     "categoryId": 1,
     "amount": 1,
-    "currencyId": 3,
+    "currencyId": 1,
     "date": "2025-01-25",
     "description": "January 2"
   },
   {
     "categoryId": 1,
     "amount": 1.17,
-    "currencyId": 3,
+    "currencyId": 1,
     "date": "2025-01-15",
     "description": "January 3"
   },
   {
     "categoryId": 1,
     "amount": 1000.32,
-    "currencyId": 3,
+    "currencyId": 1,
     "date": "2024-01-30",
     "description": "Should not be included"
   },
   {
     "categoryId": 1,
     "amount": 1000.00,
-    "currencyId": 3,
+    "currencyId": 1,
     "date": "2025-02-05",
     "description": "February 1"
   },
   {
     "categoryId": 1,
     "amount": 1000.01,
-    "currencyId": 3,
+    "currencyId": 1,
     "date": "2025-02-07",
     "description": "February 2"
   },  {
   "categoryId": 1,
   "amount": 100,
-  "currencyId": 3,
+  "currencyId": 1,
   "date": "2025-03-05",
   "description": "March 1"
 },
   {
   "categoryId": 1,
   "amount": 1000.32,
-  "currencyId": 3,
+  "currencyId": 1,
   "date": "2025-04-05",
   "description": "April 1"
 },
   {
     "categoryId": 1,
     "amount": 101,
-    "currencyId": 3,
+    "currencyId": 1,
     "date": "2025-05-05",
     "description": "May 1"
   }

@@ -1,6 +1,7 @@
 package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.models.User;
+import com.api.expenses.rest.models.dtos.CreateUserDto;
 import com.api.expenses.rest.models.requestsModels.UserSignupRequest;
 import com.api.expenses.rest.services.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,7 +34,7 @@ public class UserController implements Serializable {
     }
 
     @PostMapping("/update")
-    public EntityResponse<Void> update(@RequestBody UserSignupRequest userdata) {
+    public EntityResponse<Void> update(@RequestBody CreateUserDto userdata) {
         return null;
     }
 

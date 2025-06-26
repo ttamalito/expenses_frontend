@@ -2,6 +2,7 @@ package com.api.expenses.rest.services;
 
 import com.api.expenses.rest.models.Currency;
 import com.api.expenses.rest.models.ExpenseCategory;
+import com.api.expenses.rest.models.Role;
 import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.repositories.CurrencyRepository;
 import com.api.expenses.rest.repositories.UserRepository;
@@ -53,7 +54,7 @@ public class UserService implements UserDetailsService {
             String password,
             String email,
             int currencyId,
-            String role) {
+            Role role) {
 
         Currency currency = getCurrencyById(currencyId);
 

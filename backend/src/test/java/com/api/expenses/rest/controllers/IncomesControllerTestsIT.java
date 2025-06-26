@@ -2,7 +2,7 @@ package com.api.expenses.rest.controllers;
 
 import com.api.expenses.rest.controllers.utils.AuthenticationHelper;
 import com.api.expenses.rest.models.Income;
-import com.api.expenses.rest.models.requestsModels.AddIncomeRequest;
+import com.api.expenses.rest.models.dtos.CreateIncomeDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,8 @@ public class IncomesControllerTestsIT {
                 "123456"
         );
 
-        String incomeAsJsonString = new String (Files.readAllBytes(Path.of("src/test/resources/incomes/validIncomeToAdd.json")));
+        int categoryId = createIncomeCategory(bearerToken, "src/test/resources/incomes/category.json");
+        String incomeAsJsonString = addCategoryIdToIncome(categoryId, "src/test/resources/incomes/validIncomeToAdd.json");
 
         ResultActions result = mockMvc.perform(post("/incomes/add")
                 .header("Authorization",bearerToken)
@@ -65,8 +66,8 @@ public class IncomesControllerTestsIT {
 
         assertEquals(1000.32f, income.getAmount());
         assertEquals("2025-01-05", income.getDate().toString());
-        assertEquals(1, income.getCategoryId());
-        assertEquals(3, income.getCurrencyId());
+        assertEquals(categoryId, income.getCategoryId());
+        assertEquals(1, income.getCurrencyId());
         assertEquals("Test income description", income.getDescription());
         assertEquals(2, income.getWeek());
         assertEquals(2025, income.getYear());
@@ -76,6 +77,7 @@ public class IncomesControllerTestsIT {
                 .header("Authorization",bearerToken)
         ).andExpect(status().isNoContent());
 
+        deleteIncomeCategory(bearerToken, categoryId);
     }
 
 
@@ -87,9 +89,11 @@ public class IncomesControllerTestsIT {
                 Optional.empty(),
                 "123456"
         );
-        List<AddIncomeRequest> incomeRequestList = new ArrayList<>();
+        int categoryId = createIncomeCategory(bearerToken, "src/test/resources/incomes/category.json");
+        String incomesAsString = addCategoryToListOfIncomes(categoryId, "src/test/resources/incomes/totalEarnedYear/totalEarnedYear.json");
+        List<CreateIncomeDto> incomeRequestList = new ArrayList<>();
         List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
-                "src/test/resources/incomes/totalEarnedYear/totalEarnedYear.json", incomeRequestList);
+                incomesAsString, incomeRequestList);
 
         ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/total-earned/year?year=2025")
                         .header("Authorization", bearerToken))
@@ -106,6 +110,7 @@ public class IncomesControllerTestsIT {
                             .header("Authorization", bearerToken))
                     .andExpect(status().isNoContent());
         }
+        deleteIncomeCategory(bearerToken, categoryId);
     }
 
     @Test
@@ -116,9 +121,12 @@ public class IncomesControllerTestsIT {
                 Optional.empty(),
                 "123456"
         );
-        List<AddIncomeRequest> incomeRequestList = new ArrayList<>();
+
+        int categoryId = createIncomeCategory(bearerToken, "src/test/resources/incomes/category.json");
+        String incomesAsString = addCategoryToListOfIncomes(categoryId, "src/test/resources/incomes/totalEarnedMonth/totalEarnedMonth.json");
+        List<CreateIncomeDto> incomeRequestList = new ArrayList<>();
         List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
-                "src/test/resources/incomes/totalEarnedMonth/totalEarnedMonth.json", incomeRequestList);
+                incomesAsString, incomeRequestList);
 
         ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/total-earned/month?year=2025&month=1")
                         .header("Authorization", bearerToken))
@@ -135,6 +143,7 @@ public class IncomesControllerTestsIT {
                             .header("Authorization", bearerToken))
                     .andExpect(status().isNoContent());
         }
+        deleteIncomeCategory(bearerToken, categoryId);
     }
 
     @Test
@@ -145,9 +154,12 @@ public class IncomesControllerTestsIT {
                 Optional.empty(),
                 "123456"
         );
-        List<AddIncomeRequest> incomeRequestList = new ArrayList<>();
+
+        int categoryId = createIncomeCategory(bearerToken, "src/test/resources/incomes/category.json");
+        String incomesAsString = addCategoryToListOfIncomes(categoryId, "src/test/resources/incomes/totalEarnedMonthlyBasis/totalEarnedMonthlyBasis.json");
+        List<CreateIncomeDto> incomeRequestList = new ArrayList<>();
         List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
-                "src/test/resources/incomes/totalEarnedMonthlyBasis/totalEarnedMonthlyBasis.json", incomeRequestList);
+                incomesAsString, incomeRequestList);
 
         ResultActions savedExpense = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/earned/year/monthly?year=2025")
                         .header("Authorization", bearerToken))
@@ -164,6 +176,7 @@ public class IncomesControllerTestsIT {
                             .header("Authorization", bearerToken))
                     .andExpect(status().isNoContent());
         }
+        deleteIncomeCategory(bearerToken, categoryId);
     }
 
     /**
@@ -171,19 +184,18 @@ public class IncomesControllerTestsIT {
      * It populates the incomes list with the incomes that were sent to the server
      *
      * @param bearerToken          the token to authenticate the user
-     * @param pathToListOfIncomes the path to the file that contains the incomes
+     * @param serializedIncomesList the list of incomes as a string
      * @param incomes             the list of incomes that will be populated with the incomes that were sent to the server
      * @return the ids of the incomes that were sent to the server
      * @throws IOException
      */
-    private List<Integer> sendAndSaveIncomes(String bearerToken, String pathToListOfIncomes, List<AddIncomeRequest> incomes) throws Exception {
-        String expensesAsJson = new String(Files.readAllBytes(Path.of(pathToListOfIncomes)));
+    private List<Integer> sendAndSaveIncomes(String bearerToken, String serializedIncomesList, List<CreateIncomeDto> incomes) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<AddIncomeRequest> serializedIncomes = objectMapper.readValue(expensesAsJson, objectMapper.getTypeFactory().constructCollectionType(List.class, AddIncomeRequest.class));
+        List<CreateIncomeDto> serializedIncomes = objectMapper.readValue(serializedIncomesList, objectMapper.getTypeFactory().constructCollectionType(List.class, CreateIncomeDto.class));
         incomes.addAll(serializedIncomes);
 
         List<Integer> incomesIds = new ArrayList<>();
-        for (AddIncomeRequest income : incomes) {
+        for (CreateIncomeDto income : incomes) {
             ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/incomes/add")
                             .header("Authorization", bearerToken)
                             .contentType("application/json")
@@ -194,4 +206,61 @@ public class IncomesControllerTestsIT {
         }
         return incomesIds;
     }
+
+    private void deleteIncomeCategory(String bearerToken, int categoryId) throws Exception {
+        mockMvc.perform(delete("/category/income/delete/" + categoryId)
+                .header("Authorization", bearerToken)
+        ).andExpect(status().isNoContent());
+    }
+
+    /**
+     * Adds the category id to the expense that is stored as a json file
+     * @param categoryId
+     * @param pathToExpenseJson
+     * @return the serialized income
+     * @throws IOException
+     */
+    private String addCategoryIdToIncome(int categoryId, String pathToExpenseJson) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String expenseJson = new String(Files.readAllBytes(Path.of(pathToExpenseJson)));
+        CreateIncomeDto income = objectMapper.readValue(expenseJson, CreateIncomeDto.class);
+        CreateIncomeDto modifiedIncome = new CreateIncomeDto(categoryId, income.amount(), income.date(), income.currencyId(), income.description());
+        return objectMapper.writeValueAsString(modifiedIncome);
+    }
+
+    /**
+     * Send the request to create a new income category
+     * @param bearerToken
+     * @param pathToCategoryJson
+     * @return
+     * @throws Exception
+     */
+    private int createIncomeCategory(String bearerToken, String pathToCategoryJson) throws Exception {
+        String categoryToAdd = new String (Files.readAllBytes(Path.of(pathToCategoryJson)));
+
+        ResultActions result = mockMvc.perform(put("/category/income/create")
+                .header("Authorization",bearerToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(categoryToAdd)
+        ).andExpect(status().isOk());
+
+        String categoryId = result.andReturn().getResponse().getContentAsString();
+        return Integer.parseInt(categoryId);
+    }
+
+    private String addCategoryToListOfIncomes(int categoryId, String pathToListOfIncomes)
+            throws IOException {
+        String incomesAsJson = new String(Files.readAllBytes(Path.of(pathToListOfIncomes)));
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<CreateIncomeDto> serializedIncomes = objectMapper.readValue(incomesAsJson, objectMapper.getTypeFactory().constructCollectionType(List.class, CreateIncomeDto.class));
+        List<CreateIncomeDto> modifiedIncomes = new ArrayList<>();
+
+        for(CreateIncomeDto income : serializedIncomes) {
+            CreateIncomeDto modifiedIncome = new CreateIncomeDto(categoryId, income.amount(), income.date(), income.currencyId(), income.description());
+            modifiedIncomes.add(modifiedIncome);
+        }
+
+        return objectMapper.writeValueAsString(modifiedIncomes);
+    }
+    
 }

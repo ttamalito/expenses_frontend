@@ -5,7 +5,7 @@ import com.api.expenses.rest.models.Currency;
 import com.api.expenses.rest.models.Income;
 import com.api.expenses.rest.models.IncomeCategory;
 import com.api.expenses.rest.models.User;
-import com.api.expenses.rest.models.requestsModels.AddIncomeRequest;
+import com.api.expenses.rest.models.dtos.CreateIncomeDto;
 import com.api.expenses.rest.repositories.IncomeRepository;
 import com.api.expenses.rest.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,24 +49,24 @@ public class IncomeService {
      * @return the id of the saved income
      * @throws TransactionException if the user, category or currency is not found
      */
-    public int saveIncome(AddIncomeRequest incomeFromRequest, UUID userId) throws TransactionException {
+    public int saveIncome(CreateIncomeDto incomeFromRequest, UUID userId) throws TransactionException {
         User user = userService.getUserById(userId).orElseThrow(
                 () -> new TransactionException(TransactionException.TransactionExceptionType.USER_NOT_FOUND)
         );
 
-        IncomeCategory incomeCategory = incomeCategoryService.getCategoryById(incomeFromRequest.getCategoryId()).orElseThrow(
+        IncomeCategory incomeCategory = incomeCategoryService.getCategoryById(incomeFromRequest.categoryId()).orElseThrow(
                 () -> new TransactionException(TransactionException.TransactionExceptionType.CATEGORY_NOT_FOUND)
         );
 
-        Currency currency = currencyService.getCurrencyById(incomeFromRequest.getCurrencyId()).orElseThrow(
+        Currency currency = currencyService.getCurrencyById(incomeFromRequest.currencyId()).orElseThrow(
                 () -> new TransactionException(TransactionException.TransactionExceptionType.CURRENCY_NOT_FOUND)
         );
 
-        if (incomeFromRequest.getAmount() <= 0) {
+        if (incomeFromRequest.amount() <= 0) {
             throw new TransactionException(TransactionException.TransactionExceptionType.INVALID_AMOUNT);
         }
 
-        Date date = incomeFromRequest.getDate();
+        Date date = incomeFromRequest.date();
 
         final int week = DateUtils.getWeekOfTheYear(date);
         final int month = DateUtils.getMonthOfTheYear(date);
@@ -75,9 +75,9 @@ public class IncomeService {
         Income income = new Income(
                 user,
                 incomeCategory,
-                incomeFromRequest.getAmount(),
+                incomeFromRequest.amount(),
                 date,
-                incomeFromRequest.getDescription(),
+                incomeFromRequest.description(),
                 month,
                 year,
                 week,

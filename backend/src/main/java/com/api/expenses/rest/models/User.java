@@ -1,6 +1,5 @@
 package com.api.expenses.rest.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -29,17 +28,15 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "profile_picture")
     private String profilePicture;
-    @Column(nullable = false)
-    private float monthlyBudget;
     @CreationTimestamp
     @Column(name = "creation_date")
     private Date creationDate;
-    @Column(name= "firstName")
+    @Column(name= "first_name")
     private String firstName;
-    @Column(name= "lastName")
+    @Column(name= "last_name")
     private String lastName;
-    @Transient
-    private String role;
+    @Column(name = "role")
+    private Role role;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonIgnore
@@ -108,7 +105,7 @@ public class User implements UserDetails {
             String username,
             String password,
             String email,
-            String role,
+            Role role,
             Currency currency,
             String profilePicture
                 ) {
@@ -166,7 +163,7 @@ public class User implements UserDetails {
         return email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
@@ -184,10 +181,6 @@ public class User implements UserDetails {
 
     public String getProfilePicture() {
         return profilePicture;
-    }
-
-    public float getMonthlyBudget() {
-        return monthlyBudget;
     }
 
     public Date getCreationDate() {
