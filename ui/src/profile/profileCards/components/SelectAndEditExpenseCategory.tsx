@@ -8,13 +8,10 @@ import Input from '@mui/material/Input';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import { tokens } from '../../../theme';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function SelectAndEditExpenseCategory() {
-  const colors = tokens();
-
-  const [categories, setCategories] = React.useState<ExpenseCategory[]>([]);
+  const [categories, setCategories] = React.useState<any[]>([]);
 
   return (
     <Box>
@@ -24,11 +21,7 @@ export default function SelectAndEditExpenseCategory() {
           <Select variant={'standard'}>
             {categories.map((category) => {
               return (
-                <MenuItem
-                  key={category.id}
-                  value={category.id}
-                  sx={{ color: colors.grey[100] }}
-                >
+                <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
               );
@@ -75,7 +68,7 @@ export default function SelectAndEditExpenseCategory() {
             // startDecorator={<EmailRoundedIcon />}
             placeholder="Budget for category"
             defaultValue="0"
-            sx={{ flexGrow: 1, color: colors.grey[100] }}
+            sx={{ flexGrow: 1 }}
           />
         </FormControl>
       </Stack>{' '}

@@ -1,4 +1,3 @@
-import React from 'react';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,7 +6,6 @@ import Stack from '@mui/material/Stack';
 import FormLabel from '@mui/material/FormLabel';
 import Input from '@mui/material/Input';
 import FormControl from '@mui/material/FormControl';
-import { tokens } from '../../theme';
 import CategoryBudget from '../models/CategoryBudget';
 
 interface ICategoryBudgetCardProps {
@@ -17,7 +15,6 @@ interface ICategoryBudgetCardProps {
 export default function CategoryBudgetCard({
   category,
 }: ICategoryBudgetCardProps) {
-  const colors = tokens();
   return (
     <Card
       variant={'outlined'}
@@ -39,7 +36,7 @@ export default function CategoryBudgetCard({
             // startDecorator={<EmailRoundedIcon />}
             placeholder="Budget for category"
             defaultValue={category.budget}
-            sx={{ flexGrow: 1, color: colors.grey[100] }}
+            sx={{ flexGrow: 1 }}
           />
         </FormControl>
       </Stack>

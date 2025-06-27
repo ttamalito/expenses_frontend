@@ -5,13 +5,11 @@ import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Input from '@mui/material/Input';
-import { tokens } from '../../../theme';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function SelectAndRemoveExpenseCategory() {
-  const colors = tokens();
 
-  const [categories, setCategories] = React.useState<ExpenseCategory[]>([]);
+  const [categories, setCategories] = React.useState<any[]>([]);
 
   return (
     <Box>
@@ -24,7 +22,6 @@ export default function SelectAndRemoveExpenseCategory() {
                 <MenuItem
                   key={category.id}
                   value={category.id}
-                  sx={{ color: colors.grey[100] }}
                 >
                   {category.name}
                 </MenuItem>

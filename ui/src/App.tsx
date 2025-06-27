@@ -1,15 +1,20 @@
-import { BrowserRouter } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router';
 import BaseRoutes from './routes/BaseRoutes';
 import React, { useEffect } from 'react';
 import FallBackRoutes from './routes/FallBackRoutes';
-import { theme } from './theme';
-import { ThemeProvider, CssBaseline } from '@mui/material';
 import HomeSideBar from './shared/HomeSideBar';
 import HomeTopBar from './shared/HomeTopBar';
 import './index.css';
 import Box from '@mui/material/Box';
 import isLoggedInRequest from './auth/requests/isLoggedInRequest';
-import Home from './Home';
+import Base from './Base.tsx';
+import MonthExpenses from './spent/month/MonthExpenses.tsx';
+import Budget from './budget/Budget.tsx';
+import YearSummary from './spent/year/YearSummary.tsx';
+import Profile from './profile/Profile.tsx';
+import LandingPage from './landingPage/LandingPage.tsx';
+import Login from './auth/Login.tsx';
+import SignUp from './auth/SignUp.tsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -65,9 +70,8 @@ function App() {
   responsiveMetaTag.name = 'viewport';
   responsiveMetaTag.content = 'width=device-width, initial-scale=1';
   document.head.appendChild(responsiveMetaTag);
-
-  return (
-    <ThemeProvider theme={theme}>
+  /*
+      <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
         <div className="app">
@@ -75,6 +79,19 @@ function App() {
         </div>
       </Box>
     </ThemeProvider>
+   */
+
+  return (
+    <Routes>
+      <Route path={'/'} element={<LandingPage />} />
+      <Route path={'/login'} element={<Login />} />
+      <Route path={'/signup'} element={<SignUp />} />
+      <Route path="/home" element={<Base />} />
+      <Route path={'/expensesMonth/:month/:year'} element={<MonthExpenses />} />
+      <Route path={'/budget'} element={<Budget />} />
+      <Route path={'/summary/:year'} element={<YearSummary />} />
+      <Route path={'/profile'} element={<Profile username={'tamalito'} />} />
+    </Routes>
   );
 }
 export default App;

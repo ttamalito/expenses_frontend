@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -17,7 +16,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import OneExpenseSummaryTypeDeclaration from './utils/types/OneExpenseSummaryType';
 import dayjs from 'dayjs';
-import { tokens } from '../theme';
 import Typography from '@mui/material/Typography';
 
 interface IAddOrEditExpenseFormProps {
@@ -31,7 +29,6 @@ export default function AddOrEditExpenseForm({
   submitData,
   edit,
 }: IAddOrEditExpenseFormProps) {
-  const colors = tokens();
   let typeKey: keyof ExpensesTypesTypesDeclarations;
   const keysOfTypesOfTransactions: (keyof ExpensesTypesTypesDeclarations)[] =
     [];
@@ -66,9 +63,6 @@ export default function AddOrEditExpenseForm({
             name={'date'}
             label="Date of the expense"
             defaultValue={expense?.date ? dayjs(expense.date) : undefined}
-            sx={{
-              color: colors.grey[100],
-            }}
             // onChange={(newValue) => setValue(newValue)}
           />
         </DemoContainer>

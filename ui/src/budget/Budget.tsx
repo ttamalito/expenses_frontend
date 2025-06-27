@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { tokens } from '../theme';
 import BudgetHeader from './components/BudgetHeader';
 import CategoryBudgetCard from './components/CategoryBudgetCard';
 import Divider from '@mui/material/Divider';
@@ -11,7 +9,6 @@ import Stack from '@mui/material/Stack';
 import { Container } from '@mui/material';
 
 export default function Budget() {
-  const colors = tokens();
   const category1: CategoryBudget = {
     name: 'Food',
     description: 'Food and groceries',
@@ -80,18 +77,12 @@ export default function Budget() {
             variant={'outlined'}
             sx={{
               backgroundColor: 'transparet',
-              color: colors.grey[100],
-              borderColor: colors.blueAccent[400],
             }}
           >
             Cancel
           </Button>
           <Button
             variant={'contained'}
-            sx={{
-              backgroundColor: colors.greenAccent[500],
-              color: colors.grey[900],
-            }}
           >
             Save
           </Button>

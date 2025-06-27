@@ -1,5 +1,4 @@
 import types from './utils/types';
-import { goToLink } from './utils/goToLinkFromForm';
 import React, { useState } from 'react';
 import ExpensesTypesTypesDeclarations from './utils/expensesTypesTypesDeclarations';
 import { addOneExpensePath } from './utils/requests/paths';
@@ -9,7 +8,6 @@ import {
   defaultShowAlertWrapper,
   IShowAlertWrapper,
 } from './wrappers/IShowAlertWrapper';
-import GaugeChartBudget from './charts/GaugeChartBudget';
 import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -25,11 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Container from '@mui/material/Container';
-import HomeTopBar from './shared/HomeTopBar';
 import HomeGridComponent from './home/HomeGridComponent';
-import HomeSideBar from './shared/HomeSideBar';
-import Box from '@mui/material/Box';
-import { tokens } from './theme';
 import Typography from '@mui/material/Typography';
 import GoToYearlySummaryForm from './home/GoToYearlySummaryForm';
 
@@ -38,7 +32,6 @@ import GoToYearlySummaryForm from './home/GoToYearlySummaryForm';
  * @constructor
  */
 export default function Base() {
-  const colors = tokens();
   const [showAlert, setShowAlert] = useState<IShowAlertWrapper>(
     defaultShowAlertWrapper,
   );
@@ -73,9 +66,6 @@ export default function Base() {
       <Button
         type={'submit'}
         variant={'contained'}
-        sx={{
-          color: colors.grey[100],
-        }}
       >
         See Expenses
       </Button>
@@ -188,9 +178,6 @@ export default function Base() {
       <Button
         type={'submit'}
         variant={'contained'}
-        sx={{
-          backgroundColor: colors.blueAccent[400],
-        }}
       >
         Add Expense
       </Button>

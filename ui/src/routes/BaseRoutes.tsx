@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import Base from '../Base';
 import MonthExpenses from '../spent/month/MonthExpenses';
 import Budget from '../budget/Budget';

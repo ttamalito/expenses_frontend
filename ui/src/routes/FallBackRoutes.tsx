@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import Unauthorized from '../fallback/Unauthorized';
 import InternalAPINotFound from '../fallback/InternalAPINotFound';
 import InternalError from '../fallback/InternalError';

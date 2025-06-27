@@ -13,9 +13,6 @@ import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { tokens } from '../../theme';
 import SelectCurrencyComponent from './components/SelectCurrencyComponent';
 
 const StyledBadge = styled(Badge)(({ theme }) => {
@@ -64,7 +61,6 @@ export default function UserInformationCard({
 
   console.log('Received in user information card: ', userData);
 
-  const colors = tokens();
 
   return (
     <Card
@@ -163,13 +159,12 @@ export default function UserInformationCard({
       <Stack direction={'row'} spacing={2} sx={{ justifyContent: 'flex-end' }}>
         <Button
           variant={'outlined'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
         >
           Cancel
         </Button>
         <Button
           variant={'contained'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
+
         >
           Save Changes
         </Button>

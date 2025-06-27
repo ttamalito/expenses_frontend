@@ -1,15 +1,10 @@
-import React from 'react';
 import { goToLink } from '../utils/goToLinkFromForm';
 import Button from '@mui/material/Button';
-import { tokens } from '../theme';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
 
 export default function GoToYearlySummaryForm() {
-  const colors = tokens();
-
   const yearlySummary = (
     <form
       onSubmit={(event) => {
@@ -25,13 +20,7 @@ export default function GoToYearlySummaryForm() {
         <br />
         <input type="number" placeholder={'year'} id={'year'} name={'year'} />
       </FormControl>
-      <Button
-        type={'submit'}
-        variant={'contained'}
-        sx={{
-          backgroundColor: colors.blueAccent[400],
-        }}
-      >
+      <Button type={'submit'} variant={'contained'}>
         {' '}
         Go to Summary
       </Button>

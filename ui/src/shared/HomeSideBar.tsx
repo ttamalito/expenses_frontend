@@ -5,7 +5,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
@@ -16,13 +16,10 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutlined';
 import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import { tokens } from '../theme';
 import goTo from '../utils/goTo';
 
 export default function HomeSideBar() {
-  const colors = tokens();
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [selected, setSelected] = React.useState('profile');
 
@@ -38,9 +35,6 @@ export default function HomeSideBar() {
     return (
       <MenuItem
         active={selected === title}
-        style={{
-          color: colors.grey[100],
-        }}
         onClick={() => {
           setSelected(title);
           goTo(to);
@@ -57,9 +51,6 @@ export default function HomeSideBar() {
     <>
       <Box
         sx={{
-          '& .pro-sidebar-inner': {
-            background: `${colors.primary[400]} !important`,
-          },
           '& .pro-icon-wrapper': {
             backgroundColor: 'transparent !important',
           },
@@ -76,7 +67,6 @@ export default function HomeSideBar() {
       >
         <Sidebar
           collapsed={isCollapsed}
-          backgroundColor={colors.primary[400]}
           rootStyles={{ height: '100vh', zIndex: 1000 }}
         >
           <Menu>
@@ -90,7 +80,6 @@ export default function HomeSideBar() {
               icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
               style={{
                 margin: '10px 0 20px 0',
-                color: colors.grey[100],
               }}
             >
               {!isCollapsed && (
@@ -125,13 +114,12 @@ export default function HomeSideBar() {
                 <Box textAlign="center">
                   <Typography
                     variant="h2"
-                    color={colors.grey[100]}
                     fontWeight="bold"
                     sx={{ m: '10px 0 0 0' }}
                   >
                     Tamalito
                   </Typography>
-                  <Typography variant="h5" color={colors.grey[100]}>
+                  <Typography variant="h5">
                     User
                   </Typography>
                 </Box>
@@ -177,7 +165,6 @@ export default function HomeSideBar() {
 
               <Typography
                 variant="h6"
-                color={colors.grey[300]}
                 sx={{ m: '15px 0 5px 20px' }}
               >
                 Pages
@@ -206,7 +193,6 @@ export default function HomeSideBar() {
 
               <Typography
                 variant="h6"
-                color={colors.grey[300]}
                 sx={{ m: '15px 0 5px 20px' }}
               >
                 Charts

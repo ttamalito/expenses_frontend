@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { tokens } from '../theme';
 import logInRequest from './requests/loginRequest';
 
 const Card = styled(MuiCard)(({ theme }) => {
@@ -61,7 +60,6 @@ const SignInContainer = styled(Stack)(({ theme }) => {
 });
 
 export default function Login(props: { disableCustomTheme?: boolean }) {
-  const colors = tokens();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -221,12 +219,12 @@ export default function Login(props: { disableCustomTheme?: boolean }) {
             >
               Sign in with Facebook
             </Button>
-            <Typography sx={{ textAlign: 'center', color: colors.grey[100] }}>
+            <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <Link
                 href="/material-ui/getting-started/templates/sign-in/"
                 variant="body2"
-                sx={{ alignSelf: 'center', color: colors.blueAccent[600] }}
+                sx={{ alignSelf: 'center' }}
               >
                 Sign up
               </Link>

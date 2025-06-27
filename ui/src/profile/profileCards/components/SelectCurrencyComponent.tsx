@@ -3,7 +3,6 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { tokens } from '../../../theme';
 import Typography from '@mui/material/Typography';
 
 interface ISelectCurrencyComponentProps {
@@ -13,27 +12,26 @@ interface ISelectCurrencyComponentProps {
 export default function SelectCurrencyComponent({
   selectedCurrency,
 }: ISelectCurrencyComponentProps) {
-  const colors = tokens();
   const [currencies, setCurrencies] = React.useState<Currency[]>([
     selectedCurrency,
   ]);
 
   return (
-    <FormControl sx={{ flexGrow: 1, color: colors.grey[100] }}>
-      <FormLabel sx={{ flexGrow: 1, color: colors.grey[100] }}>
+    <FormControl sx={{ flexGrow: 1 }}>
+      <FormLabel sx={{ flexGrow: 1 }}>
         <Typography variant={'h2'}>Currency</Typography>
       </FormLabel>
 
       <Select
         variant={'standard'}
-        sx={{ flexGrow: 1, color: colors.grey[100] }}
+        sx={{ flexGrow: 1 }}
       >
         {currencies.map((currency) => {
           return (
             <MenuItem
               key={currency.id}
               value={currency.id}
-              sx={{ flexGrow: 1, color: colors.grey[100] }}
+              sx={{ flexGrow: 1 }}
               selected={currency.selected}
             >
               {' (' +

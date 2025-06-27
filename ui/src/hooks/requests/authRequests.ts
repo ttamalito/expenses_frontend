@@ -1,4 +1,4 @@
-import { IUserLoginRequest } from '../../models/clients.ts';
+import { IUserLoginRequest } from '@clients';
 import { AxiosResponse } from 'axios';
 import { useCallback } from 'react';
 import useApi from './useApi.ts';

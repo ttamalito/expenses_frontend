@@ -15,7 +15,6 @@ import { styled } from '@mui/material/styles';
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect'; // TODO: revise AppTheme
 import signUpRequest from './requests/signUpRequest';
-import { tokens } from '../theme';
 
 const Card = styled(MuiCard)(({ theme }) => {
   return {
@@ -64,7 +63,6 @@ const SignUpContainer = styled(Stack)(({ theme }) => {
 });
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
-  const colors = tokens();
 
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
@@ -186,7 +184,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 error={nameError}
                 helperText={nameErrorMessage}
                 color={nameError ? 'error' : 'primary'}
-                sx={{ input: { color: colors.grey[100] } }}
               />
             </FormControl>
             <FormControl>
@@ -202,7 +199,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 error={emailError}
                 helperText={emailErrorMessage}
                 color={passwordError ? 'error' : 'primary'}
-                sx={{ input: { color: colors.grey[100] } }}
               />
             </FormControl>
             <FormControl>
@@ -219,7 +215,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 error={passwordError}
                 helperText={passwordErrorMessage}
                 color={passwordError ? 'error' : 'primary'}
-                sx={{ input: { color: colors.grey[100] } }}
               />
             </FormControl>
             <FormControl>
@@ -236,7 +231,6 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 error={passwordError}
                 helperText={passwordErrorMessage}
                 color={passwordError ? 'error' : 'primary'}
-                sx={{ input: { color: colors.grey[100] } }}
               />
             </FormControl>
             {/*<FormControlLabel*/}
@@ -274,12 +268,12 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             >
               Sign up with Facebook
             </Button>
-            <Typography sx={{ textAlign: 'center', color: colors.grey[100] }}>
+            <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <Link
                 href="/material-ui/getting-started/templates/sign-in/"
                 variant="body2"
-                sx={{ alignSelf: 'center', color: colors.blueAccent[600] }}
+                sx={{ alignSelf: 'center' }}
               >
                 Log in
               </Link>

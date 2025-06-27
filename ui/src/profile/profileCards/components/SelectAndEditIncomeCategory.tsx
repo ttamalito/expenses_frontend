@@ -1,5 +1,4 @@
 import React from 'react';
-import { tokens } from '../../../theme';
 import IncomeCategory from '../../../models/IncomeCategory';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
@@ -7,13 +6,9 @@ import FormLabel from '@mui/material/FormLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Input from '@mui/material/Input';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
 import Box from '@mui/material/Box';
 
 export default function SelectAndEditIncomeCategory() {
-  const colors = tokens();
   const [categories, setCategories] = React.useState<IncomeCategory[]>([]);
   return (
     <Box>
@@ -23,11 +18,7 @@ export default function SelectAndEditIncomeCategory() {
           <Select variant={'standard'}>
             {categories.map((category) => {
               return (
-                <MenuItem
-                  key={category.id}
-                  value={category.id}
-                  sx={{ color: colors.grey[100] }}
-                >
+                <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
               );

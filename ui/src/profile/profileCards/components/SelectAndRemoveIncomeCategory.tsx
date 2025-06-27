@@ -1,5 +1,4 @@
 import React from 'react';
-import { tokens } from '../../../theme';
 import IncomeCategory from '../../../models/IncomeCategory';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
@@ -10,7 +9,6 @@ import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 
 export default function SelectAndRemoveIncomeCategory() {
-  const colors = tokens();
   const [categories, setCategories] = React.useState<IncomeCategory[]>([]);
   return (
     <Box>
@@ -20,11 +18,7 @@ export default function SelectAndRemoveIncomeCategory() {
           <Select variant={'standard'}>
             {categories.map((category) => {
               return (
-                <MenuItem
-                  key={category.id}
-                  value={category.id}
-                  sx={{ color: colors.grey[100] }}
-                >
+                <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
               );

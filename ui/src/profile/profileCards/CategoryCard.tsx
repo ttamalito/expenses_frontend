@@ -3,24 +3,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
 import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
-import { tokens } from '../../theme';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import { SpaceBar } from '@mui/icons-material';
 import SelectAndEditExpenseCategory from './components/SelectAndEditExpenseCategory';
 import SelectAndRemoveExpenseCategory from './components/SelectAndRemoveExpenseCategory';
 
 export default function CategoryCard() {
-  const colors = tokens();
 
   return (
     <Card
@@ -77,7 +71,7 @@ export default function CategoryCard() {
                 // startDecorator={<EmailRoundedIcon />}
                 placeholder="Budget for category"
                 defaultValue="0"
-                sx={{ flexGrow: 1, color: colors.grey[100] }}
+                sx={{ flexGrow: 1 }}
               />
             </FormControl>
           </Stack>{' '}
@@ -90,13 +84,11 @@ export default function CategoryCard() {
       <Stack direction={'row'} spacing={2} sx={{ justifyContent: 'flex-end' }}>
         <Button
           variant={'outlined'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
         >
           Cancel
         </Button>
         <Button
           variant={'contained'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
         >
           Create Category
         </Button>
@@ -138,14 +130,11 @@ export default function CategoryCard() {
       <br />
       <Stack direction={'row'} spacing={2} sx={{ justifyContent: 'flex-end' }}>
         <Button
-          variant={'outlined'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
-        >
+          variant={'outlined'}>
           Cancel
         </Button>
         <Button
           variant={'contained'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
         >
           Edit Category
         </Button>
@@ -188,13 +177,12 @@ export default function CategoryCard() {
       <Stack direction={'row'} spacing={2} sx={{ justifyContent: 'flex-end' }}>
         <Button
           variant={'outlined'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
+
         >
           Cancel
         </Button>
         <Button
           variant={'contained'}
-          sx={{ backgroundColor: colors.blueAccent[500] }}
         >
           Remove Category
         </Button>
