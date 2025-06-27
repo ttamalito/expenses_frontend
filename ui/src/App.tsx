@@ -6,35 +6,37 @@ import HomeSideBar from './shared/HomeSideBar';
 import HomeTopBar from './shared/HomeTopBar';
 import './index.css';
 import Box from '@mui/material/Box';
-import isLoggedInRequest from './auth/requests/isLoggedInRequest';
 import Base from './Base.tsx';
 import MonthExpenses from './spent/month/MonthExpenses.tsx';
 import Budget from './budget/Budget.tsx';
 import YearSummary from './spent/year/YearSummary.tsx';
 import Profile from './profile/Profile.tsx';
 import LandingPage from './landingPage/LandingPage.tsx';
-import Login from './auth/Login.tsx';
 import SignUp from './auth/SignUp.tsx';
+import { AuthProvider } from './hooks/useAuth.tsx';
+import Login from './pages/login/Login.tsx';
+import { constants } from '@routes';
+import ExpensesLayout from './pages/layout/ExpensesLayout.tsx';
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
-  useEffect(() => {
-    isLoggedInRequest()
-      .then((response) => {
-        if (response) {
-          console.log('User is logged in, verifyied in App.tsx');
-          setLoggedIn(true);
-        } else {
-          console.log('User is not logged in, verifyied in App.tsx');
-          //window.location.href = '/login';
-        } // end of if else
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoggedIn(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   isLoggedInRequest()
+  //     .then((response) => {
+  //       if (response) {
+  //         console.log('User is logged in, verifyied in App.tsx');
+  //         setLoggedIn(true);
+  //       } else {
+  //         console.log('User is not logged in, verifyied in App.tsx');
+  //         //window.location.href = '/login';
+  //       } // end of if else
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       setLoggedIn(false);
+  //     });
+  // }, []);
 
   const authorizedComponents = (
     <>
@@ -82,16 +84,24 @@ function App() {
    */
 
   return (
-    <Routes>
-      <Route path={'/'} element={<LandingPage />} />
-      <Route path={'/login'} element={<Login />} />
-      <Route path={'/signup'} element={<SignUp />} />
-      <Route path="/home" element={<Base />} />
-      <Route path={'/expensesMonth/:month/:year'} element={<MonthExpenses />} />
-      <Route path={'/budget'} element={<Budget />} />
-      <Route path={'/summary/:year'} element={<YearSummary />} />
-      <Route path={'/profile'} element={<Profile username={'tamalito'} />} />
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route path={'/'} element={<LandingPage />} />
+        <Route path={'/login'} element={<Login />} />
+        <Route path={'/signup'} element={<SignUp />} />
+        <Route path={constants.content} element={<ExpensesLayout />}>
+          <Route path={''} index element={<Base />} />
+        </Route>
+
+        <Route
+          path={'/expensesMonth/:month/:year'}
+          element={<MonthExpenses />}
+        />
+        <Route path={'/budget'} element={<Budget />} />
+        <Route path={'/summary/:year'} element={<YearSummary />} />
+        <Route path={'/profile'} element={<Profile username={'tamalito'} />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 export default App;

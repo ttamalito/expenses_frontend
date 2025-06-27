@@ -25,6 +25,7 @@
     /* Alias */
     "paths": {
       "@clients": ["./src/models/clients.ts"],
+      "@routes": ["./src/routes/routes.ts"]
     }
   },
   "include": ["src"]

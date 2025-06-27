@@ -8,7 +8,6 @@ import Input from '@mui/material/Input';
 import MenuItem from '@mui/material/MenuItem';
 
 export default function SelectAndRemoveExpenseCategory() {
-
   const [categories, setCategories] = React.useState<any[]>([]);
 
   return (
@@ -19,10 +18,7 @@ export default function SelectAndRemoveExpenseCategory() {
           <Select variant={'standard'}>
             {categories.map((category) => {
               return (
-                <MenuItem
-                  key={category.id}
-                  value={category.id}
-                >
+                <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
               );

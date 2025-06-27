@@ -13,7 +13,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      // /esm/icons/index.mjs only exports the icons statically, so no separate chunks are created
+      '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
       '@clients': path.resolve(__dirname, './src/models/clients.ts'),
+      '@routes': path.resolve(__dirname, './src/routes/routes.ts'),
     },
   },
   server: {

@@ -9,7 +9,6 @@ import {
   unauthorizedRoute,
 } from './paths/fallbackRoutesPaths';
 import LandingPage from '../landingPage/LandingPage';
-import Login from '../auth/Login';
 import SignUp from '../auth/SignUp';
 
 export default function FallBackRoutes() {
@@ -17,7 +16,6 @@ export default function FallBackRoutes() {
     <Routes>
       <Route path={unauthorizedRoute} element={<Unauthorized />} />
       <Route path={'/'} element={<LandingPage />} />
-      <Route path={'/login'} element={<Login />} />
       <Route path={'/signup'} element={<SignUp />} />
     </Routes>
   );

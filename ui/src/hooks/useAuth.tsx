@@ -8,7 +8,7 @@ import {
 import { useNavigate, useLocation } from 'react-router';
 import { useSaveToken } from './useSaveToken.tsx';
 import { routes } from '../routes/routes.ts';
-import { IUserLoginRequest } from '../models/clients.ts';
+import { IUserLoginRequest } from '@clients';
 import { usePostLogin } from './requests/authRequests.ts';
 
 // inspired by: https://www.robinwieruch.de/react-router-authentication/
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       try {
         const response = await loginRequest(loginModel);
         if (response?.status === 200) {
-          const token: string = response.data.result.response.message.token;
+          const token: string = response.data.accessToken;
           setToken(token);
           const destination: string =
             location.state?.from || routes.content.index;

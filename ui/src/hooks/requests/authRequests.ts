@@ -10,7 +10,7 @@ export const usePostLogin = (): [
   const { postLogin } = useApi();
   const callback = useCallback(
     (body: IUserLoginRequest) => {
-      return postLogin(routes.Account.login, body);
+      return postLogin(routes.auth.login, body);
     },
     [postLogin],
   );

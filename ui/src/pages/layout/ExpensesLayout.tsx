@@ -32,7 +32,6 @@ export default function ExpensesLayout() {
         }}
       >
         <Image
-          src={'/yolaboro-logo.jpg'}
           alt="logo"
           width={171}
           height={74}
@@ -88,16 +87,12 @@ export default function ExpensesLayout() {
               span={40} // TODO: Find a solution to not loose those 15-20 px
               //bg={'violet'}
             >
-              <Outlet context={{ testId: contentIds.desktop }} />
+              <Outlet />
             </Grid.Col>
           </Grid>
-          <Stack hiddenFrom={'md'}>
-            <MainNavbar testId={contentIds.navbarMobile} />
-            <Outlet context={{ testId: contentIds.mobile }} />
-          </Stack>
         </Box>
         <Group id={'footer'}>
-          <Text>© 2025 Yolaboro. All rights reserved.</Text>
+          <Text>© 2025 Expenses Manager All rights reserved.</Text>
         </Group>
       </Box>
     </Box>
