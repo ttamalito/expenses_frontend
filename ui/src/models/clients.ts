@@ -8,6 +8,58 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+export class CreateIncomeCategoryDto implements ICreateIncomeCategoryDto {
+    description?: string;
+    name?: string;
+
+    [key: string]: any;
+
+    constructor(data?: ICreateIncomeCategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.description = _data["description"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): CreateIncomeCategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateIncomeCategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["description"] = this.description;
+        data["name"] = this.name;
+        return data;
+    }
+}
+
+export interface ICreateIncomeCategoryDto {
+    description?: string;
+    name?: string;
+
+    [key: string]: any;
+}
+
 export class CreateExpenseCategoryDto implements ICreateExpenseCategoryDto {
     description?: string;
     name?: string;
@@ -64,15 +116,14 @@ export interface ICreateExpenseCategoryDto {
     [key: string]: any;
 }
 
-export class UserSignupRequest implements IUserSignupRequest {
-    username?: string;
-    password?: string;
-    confirmPassword?: string;
-    email?: string;
+export class UpdateUserDto implements IUpdateUserDto {
+    firstName?: string;
+    lastName?: string;
+    currencyId?: number;
 
     [key: string]: any;
 
-    constructor(data?: IUserSignupRequest) {
+    constructor(data?: IUpdateUserDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -87,16 +138,15 @@ export class UserSignupRequest implements IUserSignupRequest {
                 if (_data.hasOwnProperty(property))
                     this[property] = _data[property];
             }
-            this.username = _data["username"];
-            this.password = _data["password"];
-            this.confirmPassword = _data["confirmPassword"];
-            this.email = _data["email"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.currencyId = _data["currencyId"];
         }
     }
 
-    static fromJS(data: any): UserSignupRequest {
+    static fromJS(data: any): UpdateUserDto {
         data = typeof data === 'object' ? data : {};
-        let result = new UserSignupRequest();
+        let result = new UpdateUserDto();
         result.init(data);
         return result;
     }
@@ -107,77 +157,31 @@ export class UserSignupRequest implements IUserSignupRequest {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
-        data["username"] = this.username;
-        data["password"] = this.password;
-        data["confirmPassword"] = this.confirmPassword;
-        data["email"] = this.email;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["currencyId"] = this.currencyId;
         return data;
     }
 }
 
-export interface IUserSignupRequest {
-    username?: string;
-    password?: string;
-    confirmPassword?: string;
-    email?: string;
+export interface IUpdateUserDto {
+    firstName?: string;
+    lastName?: string;
+    currencyId?: number;
 
     [key: string]: any;
 }
 
-export class EntityResponseVoid implements IEntityResponseVoid {
-
-    [key: string]: any;
-
-    constructor(data?: IEntityResponseVoid) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            for (var property in _data) {
-                if (_data.hasOwnProperty(property))
-                    this[property] = _data[property];
-            }
-        }
-    }
-
-    static fromJS(data: any): EntityResponseVoid {
-        data = typeof data === 'object' ? data : {};
-        let result = new EntityResponseVoid();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        for (var property in this) {
-            if (this.hasOwnProperty(property))
-                data[property] = this[property];
-        }
-        return data;
-    }
-}
-
-export interface IEntityResponseVoid {
-
-    [key: string]: any;
-}
-
-export class AddIncomeRequest implements IAddIncomeRequest {
+export class CreateIncomeDto implements ICreateIncomeDto {
     categoryId?: number;
     amount?: number;
-    currencyId?: number;
     date?: Date;
+    currencyId?: number;
     description?: string;
 
     [key: string]: any;
 
-    constructor(data?: IAddIncomeRequest) {
+    constructor(data?: ICreateIncomeDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -194,15 +198,15 @@ export class AddIncomeRequest implements IAddIncomeRequest {
             }
             this.categoryId = _data["categoryId"];
             this.amount = _data["amount"];
-            this.currencyId = _data["currencyId"];
             this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.currencyId = _data["currencyId"];
             this.description = _data["description"];
         }
     }
 
-    static fromJS(data: any): AddIncomeRequest {
+    static fromJS(data: any): CreateIncomeDto {
         data = typeof data === 'object' ? data : {};
-        let result = new AddIncomeRequest();
+        let result = new CreateIncomeDto();
         result.init(data);
         return result;
     }
@@ -215,18 +219,18 @@ export class AddIncomeRequest implements IAddIncomeRequest {
         }
         data["categoryId"] = this.categoryId;
         data["amount"] = this.amount;
-        data["currencyId"] = this.currencyId;
         data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["currencyId"] = this.currencyId;
         data["description"] = this.description;
         return data;
     }
 }
 
-export interface IAddIncomeRequest {
+export interface ICreateIncomeDto {
     categoryId?: number;
     amount?: number;
-    currencyId?: number;
     date?: Date;
+    currencyId?: number;
     description?: string;
 
     [key: string]: any;
@@ -320,7 +324,7 @@ export interface IExpense {
     [key: string]: any;
 }
 
-export class AddExpenseRequest implements IAddExpenseRequest {
+export class CreateExpenseDto implements ICreateExpenseDto {
     categoryId?: number;
     amount?: number;
     currencyId?: number;
@@ -329,7 +333,7 @@ export class AddExpenseRequest implements IAddExpenseRequest {
 
     [key: string]: any;
 
-    constructor(data?: IAddExpenseRequest) {
+    constructor(data?: ICreateExpenseDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -352,9 +356,9 @@ export class AddExpenseRequest implements IAddExpenseRequest {
         }
     }
 
-    static fromJS(data: any): AddExpenseRequest {
+    static fromJS(data: any): CreateExpenseDto {
         data = typeof data === 'object' ? data : {};
-        let result = new AddExpenseRequest();
+        let result = new CreateExpenseDto();
         result.init(data);
         return result;
     }
@@ -374,7 +378,7 @@ export class AddExpenseRequest implements IAddExpenseRequest {
     }
 }
 
-export interface IAddExpenseRequest {
+export interface ICreateExpenseDto {
     categoryId?: number;
     amount?: number;
     currencyId?: number;
@@ -436,6 +440,66 @@ export interface IUpdateBudgetDto {
     [key: string]: any;
 }
 
+export class CreateUserDto implements ICreateUserDto {
+    username?: string;
+    password?: string;
+    confirmPassword?: string;
+    email?: string;
+
+    [key: string]: any;
+
+    constructor(data?: ICreateUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.username = _data["username"];
+            this.password = _data["password"];
+            this.confirmPassword = _data["confirmPassword"];
+            this.email = _data["email"];
+        }
+    }
+
+    static fromJS(data: any): CreateUserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateUserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["username"] = this.username;
+        data["password"] = this.password;
+        data["confirmPassword"] = this.confirmPassword;
+        data["email"] = this.email;
+        return data;
+    }
+}
+
+export interface ICreateUserDto {
+    username?: string;
+    password?: string;
+    confirmPassword?: string;
+    email?: string;
+
+    [key: string]: any;
+}
+
 export class UserLoginRequest implements IUserLoginRequest {
     username?: string;
     email?: string;
@@ -490,13 +554,6 @@ export interface IUserLoginRequest {
     password?: string;
 
     [key: string]: any;
-}
-
-export interface FileResponse {
-    data: Blob;
-    status: number;
-    fileName?: string;
-    headers?: { [name: string]: any };
 }
 
 export class ApiException extends Error {

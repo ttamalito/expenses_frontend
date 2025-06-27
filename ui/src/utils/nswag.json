@@ -11,6 +11,36 @@
     }
   ],
   "paths": {
+    "/category/income/create": {
+      "put": {
+        "tags": [
+          "categories-controller"
+        ],
+        "operationId": "saveIncomeCategory",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateIncomeCategoryDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/category/expense/create": {
       "put": {
         "tags": [
@@ -41,17 +71,27 @@
         }
       }
     },
-    "/user/update": {
+    "/user/update/{username}": {
       "post": {
         "tags": [
           "user-controller"
         ],
         "operationId": "update",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserSignupRequest"
+                "$ref": "#/components/schemas/UpdateUserDto"
               }
             }
           },
@@ -63,7 +103,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/EntityResponseVoid"
+                  "type": "string"
                 }
               }
             }
@@ -81,7 +121,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddIncomeRequest"
+                "$ref": "#/components/schemas/CreateIncomeDto"
               }
             }
           },
@@ -141,7 +181,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddExpenseRequest"
+                "$ref": "#/components/schemas/CreateExpenseDto"
               }
             }
           },
@@ -204,7 +244,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserSignupRequest"
+                "$ref": "#/components/schemas/CreateUserDto"
               }
             }
           },
@@ -732,7 +772,7 @@
         }
       }
     },
-    "/expenses/total-spent/monthly/{category}": {
+    "/expenses/total-spent/monthly/category": {
       "get": {
         "tags": [
           "expenses-controller"
@@ -759,7 +799,7 @@
           },
           {
             "name": "category",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer",
@@ -941,6 +981,37 @@
         }
       }
     },
+    "/category/income/get/{categoryId}": {
+      "get": {
+        "tags": [
+          "categories-controller"
+        ],
+        "operationId": "getIncomeCategory",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/category/expense/get/{categoryId}": {
       "get": {
         "tags": [
@@ -1073,6 +1144,37 @@
         }
       }
     },
+    "/category/income/delete/{categoryId}": {
+      "delete": {
+        "tags": [
+          "categories-controller"
+        ],
+        "operationId": "saveIncomeCategory_1",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/category/expense/delete/{categoryId}": {
       "delete": {
         "tags": [
@@ -1107,6 +1209,17 @@
   },
   "components": {
     "schemas": {
+      "CreateIncomeCategoryDto": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "CreateExpenseCategoryDto": {
         "type": "object",
         "properties": {
@@ -1122,25 +1235,22 @@
           }
         }
       },
-      "UserSignupRequest": {
+      "UpdateUserDto": {
         "type": "object",
         "properties": {
-          "username": {
+          "firstName": {
             "type": "string"
           },
-          "password": {
+          "lastName": {
             "type": "string"
           },
-          "confirmPassword": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
-      "EntityResponseVoid": {},
-      "AddIncomeRequest": {
+      "CreateIncomeDto": {
         "type": "object",
         "properties": {
           "categoryId": {
@@ -1151,13 +1261,13 @@
             "type": "number",
             "format": "float"
           },
-          "currencyId": {
-            "type": "integer",
-            "format": "int32"
-          },
           "date": {
             "type": "string",
             "format": "date-time"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
           },
           "description": {
             "type": "string"
@@ -1212,7 +1322,7 @@
           }
         }
       },
-      "AddExpenseRequest": {
+      "CreateExpenseDto": {
         "type": "object",
         "properties": {
           "categoryId": {
@@ -1246,6 +1356,23 @@
           "newBudget": {
             "type": "number",
             "format": "float"
+          }
+        }
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
           }
         }
       },
