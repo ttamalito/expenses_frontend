@@ -1,0 +1,44 @@
+[
+  {
+    "categoryId": 6,
+    "amount": 100,
+    "currencyId": 1,
+    "date": "2022-01-01",
+    "description": "Test expense description 1"
+  },
+  {
+    "categoryId": 7,
+    "amount": 101,
+    "currencyId": 1,
+    "date": "2024-01-31",
+    "description": "Test expense description 2"
+  },
+  {
+    "categoryId": 6,
+    "amount": 103,
+    "currencyId": 1,
+    "date": "2026-01-22",
+    "description": "Test expense description 4"
+  },
+  {
+    "categoryId": 7,
+    "amount": 104,
+    "currencyId": 1,
+    "date": "2020-01-04",
+    "description": "Test expense description 5"
+  },
+  {
+    "categoryId": 8,
+    "amount": 105,
+    "currencyId": 1,
+    "date": "2019-02-04",
+    "description": "Test expense description 6"
+  },
+  {
+    "categoryId": 8,
+    "amount": 106,
+    "currencyId": 1,
+    "date": "2023-01-04",
+    "description": "Test expense description 7"
+  }
+]
