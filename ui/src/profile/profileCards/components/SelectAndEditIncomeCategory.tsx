@@ -1,47 +1,36 @@
 import React from 'react';
 import IncomeCategory from '../../../models/IncomeCategory';
-import Stack from '@mui/material/Stack';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Input from '@mui/material/Input';
-import Box from '@mui/material/Box';
+import { Box, Stack, Select, TextInput, Text, Group } from '@mantine/core';
 
 export default function SelectAndEditIncomeCategory() {
-  const [categories, setCategories] = React.useState<IncomeCategory[]>([]);
+  const [categories] = React.useState<IncomeCategory[]>([]);
   return (
     <Box>
-      <Stack spacing={1}>
-        <FormControl>
-          <FormLabel>Select category to edit</FormLabel>
-          <Select variant={'standard'}>
-            {categories.map((category) => {
-              return (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+      <Stack gap="xs">
+        <Text>Select category to edit</Text>
+        <Select
+          data={categories.map((category) => {
+            return {
+              value: category.id,
+              label: category.name,
+            };
+          })}
+        />
       </Stack>
-      <Stack spacing={1}>
-        <FormLabel>Category Name</FormLabel>
-        <FormControl
-          sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
-        >
-          <Input size="small" placeholder="Category Name" name={'name'} />
-          <Input
-            size="medium"
+      <Stack gap="xs">
+        <Text>Category Name</Text>
+        <Group style={{ display: 'flex', gap: '0.5rem' }}>
+          <TextInput placeholder="Category Name" name="name" size="sm" />
+          <TextInput
             placeholder="Description"
-            sx={{ flexGrow: 1 }}
-            name={'description'}
+            style={{ flexGrow: 1 }}
+            name="description"
+            size="md"
           />
-        </FormControl>
-      </Stack>{' '}
+        </Group>
+      </Stack>
       {/* Category name (STACK) END*/}
-      <Stack direction="row" spacing={2}></Stack>{' '}
+      <Group gap="md"></Group>
       {/* Type of transaction and budget stack*/}
     </Box>
   );

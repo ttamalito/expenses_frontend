@@ -1,55 +1,42 @@
 import React from 'react';
 import IncomeCategory from '../../../models/IncomeCategory';
-import Stack from '@mui/material/Stack';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Input from '@mui/material/Input';
-import Box from '@mui/material/Box';
+import { Box, Stack, Select, TextInput, Text, Group } from '@mantine/core';
 
 export default function SelectAndRemoveIncomeCategory() {
   const [categories, setCategories] = React.useState<IncomeCategory[]>([]);
   return (
     <Box>
-      <Stack spacing={1}>
-        <FormControl>
-          <FormLabel>Select category to remove</FormLabel>
-          <Select variant={'standard'}>
-            {categories.map((category) => {
-              return (
-                <MenuItem key={category.id} value={category.id}>
-                  {category.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+      <Stack gap="xs">
+        <Text>Select category to remove</Text>
+        <Select
+          data={categories.map((category) => ({
+            value: category.id,
+            label: category.name,
+          }))}
+        />
       </Stack>
-      <Stack spacing={1}>
-        <FormLabel>Category Name</FormLabel>
-        <FormControl
-          sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
-        >
-          <Input
-            size="small"
+      <Stack gap="xs">
+        <Text>Category Name</Text>
+        <Group style={{ display: 'flex', gap: '0.5rem' }}>
+          <TextInput
+            size="sm"
             placeholder="Category Name"
-            name={'name'}
-            disabled={true}
-            value={'Change with onChange'}
+            name="name"
+            disabled
+            value="Change with onChange"
           />
-          <Input
-            size="medium"
+          <TextInput
+            size="md"
             placeholder="Description"
-            sx={{ flexGrow: 1 }}
-            name={'description'}
-            disabled={true}
-            value={'Change with onChange'}
+            style={{ flexGrow: 1 }}
+            name="description"
+            disabled
+            value="Change with onChange"
           />
-        </FormControl>
+        </Group>
       </Stack>{' '}
       {/* Category name (STACK) END*/}
-      <Stack direction="row" spacing={2}></Stack>{' '}
+      <Group gap="md"></Group>{' '}
       {/* Type of transaction and budget stack*/}
     </Box>
   );

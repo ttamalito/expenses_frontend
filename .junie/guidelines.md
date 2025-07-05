@@ -177,9 +177,21 @@ The project uses path aliases for cleaner imports:
 - `@routes`: Points to `./src/routes/routes.ts`
 
 ### UI Libraries
-The project uses multiple UI component libraries:
-- Material UI (MUI) as the primary UI library
-- Mantine for specific components
+The project primarily uses Mantine as the main UI component library. Mantine provides a comprehensive set of components for building modern React applications, including:
+- Core components (Button, Text, Paper, etc.)
+- Form components (TextInput, Select, Checkbox, etc.)
+- Navigation components (Tabs, Pagination, etc.)
+- Data display components (Table, List, etc.)
+- Feedback components (Modal, Notification, etc.)
+- And many more
+
+Some specialized components from Material UI (MUI) are still used in the project, specifically:
+- '@mui/x-charts' - For chart visualizations
+- '@mui/x-data-grid' - For advanced data grid functionality
+- '@mui/x-date-pickers' - For date picker components
+- '@mui/x-tree-view' - For tree view components
+
+When developing new components, prefer using Mantine components over MUI components whenever possible.
 
 ### Bundle Analysis
 The project includes a bundle analyzer. To view the bundle analysis report, set `open: true` in the visualizer plugin configuration in `vite.config.ts`.

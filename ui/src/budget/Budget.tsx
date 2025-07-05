@@ -1,12 +1,7 @@
-import Box from '@mui/material/Box';
+import { Box, Divider, SimpleGrid, Button, Stack, Container, Group } from '@mantine/core';
 import BudgetHeader from './components/BudgetHeader';
 import CategoryBudgetCard from './components/CategoryBudgetCard';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid2';
 import CategoryBudget from './models/CategoryBudget';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import { Container } from '@mui/material';
 
 export default function Budget() {
   const category1: CategoryBudget = {
@@ -52,41 +47,25 @@ export default function Budget() {
   // setBudgetCategories(categories);
 
   return (
-    <Box sx={{ flex: 1, width: '100%', flexGrow: 1 }} component="form">
+    <Box style={{ flex: 1, width: '100%', flexGrow: 1 }} component="form">
       <BudgetHeader totalBudget={1000} />
       <Divider />
-      <Grid container rowSpacing={4} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        {budgetCategories.map((category) => {
-          return (
-            <Grid size={{ xs: 12, md: 4, lg: 4 }}>
-              <CategoryBudgetCard category={category} />
-            </Grid>
-          );
-        })}
-        ;
-      </Grid>
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+        {budgetCategories.map((category) => (
+          <CategoryBudgetCard key={category.name} category={category} />
+        ))}
+      </SimpleGrid>
       <Divider />
       <br />
       <Container>
-        <Stack
-          direction={'row'}
-          spacing={2}
-          sx={{ justifyContent: 'flex-end' }}
-        >
-          <Button
-            variant={'outlined'}
-            sx={{
-              backgroundColor: 'transparet',
-            }}
-          >
+        <Group position="right" spacing="md">
+          <Button variant="outline">
             Cancel
           </Button>
-          <Button
-            variant={'contained'}
-          >
+          <Button>
             Save
           </Button>
-        </Stack>
+        </Group>
       </Container>
     </Box>
   );

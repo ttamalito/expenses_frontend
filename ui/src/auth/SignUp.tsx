@@ -1,66 +1,55 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
+import {
+  Box,
+  Button,
+  Divider,
+  Text,
+  Title,
+  Stack,
+  Paper,
+  TextInput,
+  Anchor,
+} from '@mantine/core';
 // import AppTheme from '../shared-theme/AppTheme';
 // import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect'; // TODO: revise AppTheme
 import signUpRequest from './requests/signUpRequest';
 
-const Card = styled(MuiCard)(({ theme }) => {
-  return {
-    display: 'flex',
-    flexDirection: 'column',
-    alignSelf: 'center',
-    width: '100%',
-    padding: theme.spacing(4),
-    gap: theme.spacing(2),
-    margin: 'auto',
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-    [theme.breakpoints.up('sm')]: {
-      width: '450px',
-    },
-    ...theme.applyStyles('dark', {
-      boxShadow:
-        'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-    }),
-  };
-});
+// Custom styled components using Mantine
+const cardStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignSelf: 'center',
+  width: '100%',
+  padding: '2rem',
+  gap: '1rem',
+  margin: 'auto',
+  boxShadow:
+    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  '@media (min-width: 576px)': {
+    width: '450px',
+  }
+};
 
-const SignUpContainer = styled(Stack)(({ theme }) => {
-  return {
-    height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-    minHeight: '100%',
-    padding: theme.spacing(2),
-    [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(4),
-    },
-    '&::before': {
-      content: '""',
-      display: 'block',
-      position: 'absolute',
-      zIndex: -1,
-      inset: 0,
-      backgroundImage:
-        'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-      backgroundRepeat: 'no-repeat',
-      ...theme.applyStyles('dark', {
-        backgroundImage:
-          'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-      }),
-    },
-  };
-});
+const signUpContainerStyles = {
+  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
+  minHeight: '100%',
+  padding: '1rem',
+  '@media (min-width: 576px)': {
+    padding: '2rem',
+  },
+  position: 'relative',
+  '&::before': {
+    content: '""',
+    display: 'block',
+    position: 'absolute',
+    zIndex: -1,
+    inset: 0,
+    backgroundImage:
+      'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
+    backgroundRepeat: 'no-repeat',
+  }
+};
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
 
@@ -154,134 +143,93 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
 
   return (
     <>
-      {/*<AppTheme {...props}>*/}
-      <CssBaseline enableColorScheme />
-      {/*// <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />*/}
-      <SignUpContainer direction="column" justifyContent="space-between">
-        <Card variant="outlined">
-          {/*<SitemarkIcon />*/}
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-          >
+      <Stack style={signUpContainerStyles} justify="space-between">
+        <Paper withBorder p="md" radius="md" style={cardStyles}>
+          <Title order={1} style={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
             Sign up
-          </Typography>
+          </Title>
           <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
           >
-            <FormControl>
-              <FormLabel htmlFor="username">User name</FormLabel>
-              <TextField
+            <Stack gap="xs">
+              <Text component="label" htmlFor="username">User name</Text>
+              <TextInput
                 autoComplete="name"
                 name="username"
                 required
-                fullWidth
                 id="username"
                 placeholder="someUsername"
-                error={nameError}
-                helperText={nameErrorMessage}
-                color={nameError ? 'error' : 'primary'}
+                error={nameError ? nameErrorMessage : false}
               />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
+            </Stack>
+            <Stack gap="xs">
+              <Text component="label" htmlFor="email">Email</Text>
+              <TextInput
                 required
-                fullWidth
                 id="email"
                 placeholder="your@email.com"
                 name="email"
                 autoComplete="email"
-                variant="outlined"
-                error={emailError}
-                helperText={emailErrorMessage}
-                color={passwordError ? 'error' : 'primary'}
+                error={emailError ? emailErrorMessage : false}
               />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
+            </Stack>
+            <Stack gap="xs">
+              <Text component="label" htmlFor="password">Password</Text>
+              <TextInput
                 required
-                fullWidth
                 name="password"
                 placeholder="••••••"
                 type="password"
                 id="password"
                 autoComplete="new-password"
-                variant="outlined"
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                color={passwordError ? 'error' : 'primary'}
+                error={passwordError ? passwordErrorMessage : false}
               />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Confirm Password</FormLabel>
-              <TextField
+            </Stack>
+            <Stack gap="xs">
+              <Text component="label" htmlFor="confirmPassword">Confirm Password</Text>
+              <TextInput
                 required
-                fullWidth
                 name="confirmPassword"
                 placeholder="••••••"
                 type="password"
                 id="confirmPassword"
                 autoComplete="new-password"
-                variant="outlined"
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                color={passwordError ? 'error' : 'primary'}
+                error={passwordError ? passwordErrorMessage : false}
               />
-            </FormControl>
-            {/*<FormControlLabel*/}
-            {/*    control={<Checkbox value="allowExtraEmails" color="primary" />}*/}
-            {/*    label="I want to receive updates via email."*/}
-            {/*/>*/}
+            </Stack>
             <Button
               type="submit"
               fullWidth
-              variant="contained"
               onClick={validateInputs}
             >
               Sign up
             </Button>
           </Box>
-          <Divider>
-            <Typography sx={{ color: 'text.secondary' }}>or</Typography>
-          </Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {/*<Button*/}
-            {/*    fullWidth*/}
-            {/*    variant="outlined"*/}
-            {/*    onClick={() => alert('Sign up with Google')}*/}
-            {/*    // startIcon={<GoogleIcon />}*/}
-            {/*>*/}
-            {/*    Sign up with Google*/}
-            {/*</Button>*/}
+          <Divider label="or" labelPosition="center" my="md" />
+          <Box style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <Button
               fullWidth
-              variant="outlined"
+              variant="outline"
               onClick={() => {
                 return alert('Sign up with Facebook');
               }}
-              // startIcon={<FacebookIcon />}
             >
               Sign up with Facebook
             </Button>
-            <Typography sx={{ textAlign: 'center' }}>
+            <Text align="center">
               Already have an account?{' '}
-              <Link
+              <Anchor
                 href="/material-ui/getting-started/templates/sign-in/"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
+                style={{ alignSelf: 'center' }}
               >
                 Log in
-              </Link>
-            </Typography>
+              </Anchor>
+            </Text>
           </Box>
-        </Card>
-      </SignUpContainer>
-      {/*</AppTheme>*/}
+        </Paper>
+      </Stack>
     </>
   );
 }
