@@ -67,7 +67,7 @@ function Login() {
         {'loginPage.noAccountYet'}{' '}
         <Anchor
           onClick={() => {
-            navigate(routes.home.register);
+            navigate(routes.register.index);
           }}
           size="sm"
           component="button"

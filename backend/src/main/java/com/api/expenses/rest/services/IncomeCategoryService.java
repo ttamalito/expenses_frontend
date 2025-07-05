@@ -5,7 +5,9 @@ import com.api.expenses.rest.repositories.IncomeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class IncomeCategoryService {
@@ -23,6 +25,15 @@ public class IncomeCategoryService {
 
     public Optional<IncomeCategory> getCategoryById(int categoryId) {
         return incomeCategoryRepository.findById(categoryId);
+    }
+
+    /**
+     * Gets all income categories for a specific user
+     * @param userId the ID of the user
+     * @return a list of income categories
+     */
+    public List<IncomeCategory> getCategoriesForUser(UUID userId) {
+        return incomeCategoryRepository.findByUserId(userId);
     }
 
     /**

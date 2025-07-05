@@ -22,6 +22,7 @@ export const constants = {
   get: 'get',
   create: 'create',
   delete: 'delete',
+  all: 'all',
 
   // Expenses
   expenses: 'expenses',
@@ -76,6 +77,7 @@ export const routes = {
     expenseDelete: (categoryId: number) => {
       return `/${constants.category}/${constants.expense}/${constants.delete}/${categoryId}`;
     },
+    expenseAll: `/${constants.category}/${constants.expense}/${constants.all}`,
     incomeGet: (categoryId: number) => {
       return `/${constants.category}/${constants.income}/${constants.get}/${categoryId}`;
     },
@@ -83,6 +85,7 @@ export const routes = {
     incomeDelete: (categoryId: number) => {
       return `/${constants.category}/${constants.income}/${constants.delete}/${categoryId}`;
     },
+    incomeAll: `/${constants.category}/${constants.income}/${constants.all}`,
   },
 
   // Expenses Controller

@@ -81,3 +81,23 @@ export const useDeleteIncomeCategory = (): [
   );
   return [callback];
 };
+
+export const useGetAllExpenseCategories = (): [
+  () => Promise<AxiosResponse | undefined>,
+] => {
+  const { get } = useApi();
+  const callback = useCallback(() => {
+    return get(routes.category.expenseAll);
+  }, [get]);
+  return [callback];
+};
+
+export const useGetAllIncomeCategories = (): [
+  () => Promise<AxiosResponse | undefined>,
+] => {
+  const { get } = useApi();
+  const callback = useCallback(() => {
+    return get(routes.category.incomeAll);
+  }, [get]);
+  return [callback];
+};

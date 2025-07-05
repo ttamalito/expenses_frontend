@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { useLocation, useNavigate } from 'react-router';
-import { routes } from '../../routes/routes.ts';
+import { routes } from '@routes';
 import { useAuth } from '../useAuth.tsx';
 const useAxiosInstance = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const useAxiosInstance = () => {
     },
     (error: AxiosError) => {
       if (error.response?.status === 401) {
-        navigate(routes.home.login, { state: { from: location.pathname } });
+        navigate(routes.login.index, { state: { from: location.pathname } });
       }
       // if (error.response?.status === 500) {
       //   navigate(routes.error, { state: { from: location.pathname } });

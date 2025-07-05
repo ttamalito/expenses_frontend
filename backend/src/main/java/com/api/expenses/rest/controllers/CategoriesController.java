@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -135,6 +136,40 @@ public class CategoriesController {
                 User user = optionalUser.get();
                 incomeCategoryService.deleteCategory(categoryId);
                 return ResponseEntity.noContent().build();
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return ResponseEntity.badRequest().body(throwable.getMessage());
+        }
+        return ResponseEntity.badRequest().body("No user found with the token");
+    }
+
+    @GetMapping("/expense/all")
+    public ResponseEntity<String> getAllExpenseCategories() {
+        Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
+        try {
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                List<ExpenseCategory> categories = expenseCategoryService.getCategoriesForUser(user.getId());
+                String categoriesJson = objectMapper.writeValueAsString(categories);
+                return ResponseEntity.ok().body(categoriesJson);
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return ResponseEntity.badRequest().body(throwable.getMessage());
+        }
+        return ResponseEntity.badRequest().body("No user found with the token");
+    }
+
+    @GetMapping("/income/all")
+    public ResponseEntity<String> getAllIncomeCategories() {
+        Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
+        try {
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                List<IncomeCategory> categories = incomeCategoryService.getCategoriesForUser(user.getId());
+                String categoriesJson = objectMapper.writeValueAsString(categories);
+                return ResponseEntity.ok().body(categoriesJson);
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();

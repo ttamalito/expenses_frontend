@@ -1,6 +1,7 @@
 import { Group, Box, Image, Grid, useMantineTheme, Text } from '@mantine/core';
 import { Outlet, useNavigate } from 'react-router';
 import { routes } from '@routes';
+import SideBar from './SideBar';
 export default function ExpensesLayout() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function ExpensesLayout() {
             position: 'relative',
           }}
           onClick={() => {
-            navigate(routes.content.index);
+            navigate(routes.content.home);
           }}
         />
       </Group>
@@ -70,7 +71,9 @@ export default function ExpensesLayout() {
             columns={50}
             // grow
           >
-            <Grid.Col span={'content'}>{/*<div>Hello</div>*/}</Grid.Col>
+            <Grid.Col span={'content'}>
+              <SideBar />
+            </Grid.Col>
             <Grid.Col
               span={40} // TODO: Find a solution to not loose those 15-20 px
               //bg={'violet'}
