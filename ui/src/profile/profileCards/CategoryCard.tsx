@@ -1,192 +1,139 @@
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
-import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
+import {
+  Paper,
+  Box,
+  Text,
+  Title,
+  Divider,
+  Stack,
+  Group,
+  TextInput,
+  Button,
+  Radio,
+} from '@mantine/core';
 import SelectAndEditExpenseCategory from './components/SelectAndEditExpenseCategory';
 import SelectAndRemoveExpenseCategory from './components/SelectAndRemoveExpenseCategory';
 
 export default function CategoryCard() {
-
   return (
-    <Card
-      variant={'outlined'}
-      sx={{ p: 2, bgcolor: 'background.body', borderRadius: '8px' }}
-    >
-      <Box sx={{ mb: 1 }}>
-        <Typography variant={'h3'}>User categories</Typography>
-        <Typography variant={'h5'}>Add category for transactions</Typography>
+    <Paper withBorder p="md" radius="md">
+      <Box mb="xs">
+        <Title order={3}>User categories</Title>
+        <Text size="sm">Add category for transactions</Text>
       </Box>
       <Divider />
       <Stack
-        direction={'row'}
-        spacing={3}
-        sx={{ display: { xs: 'none', md: 'flex' }, my: 1 }}
+        direction="row"
+        gap="md"
+        style={{ display: 'flex', marginBlock: '0.5rem' }}
+        visibleFrom="md"
       >
-        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-          <Stack spacing={1}>
-            <FormLabel>Category Name</FormLabel>
-            <FormControl
-              sx={{ display: { sm: 'flex-column', md: 'flex-row' }, gap: 2 }}
-            >
-              <Input size="small" placeholder="Category Name" name={'name'} />
-              <Input
-                size="medium"
+        <Stack gap="md" style={{ flexGrow: 1 }}>
+          <Stack gap="xs">
+            <Text>Category Name</Text>
+            <Group grow>
+              <TextInput size="sm" placeholder="Category Name" name="name" />
+              <TextInput
+                size="md"
                 placeholder="Description"
-                sx={{ flexGrow: 1 }}
-                name={'description'}
+                style={{ flexGrow: 1 }}
+                name="description"
               />
-            </FormControl>
-          </Stack>{' '}
+            </Group>
+          </Stack>
           {/* NAME (STACK) END*/}
-          <Stack direction="row" spacing={2}>
-            <FormControl>
-              <FormLabel>Transaction</FormLabel>
-              <RadioGroup row name={'transaction'}>
-                <FormControlLabel
-                  value="expense"
-                  control={<Radio />}
-                  label="Expense"
-                />
-                <FormControlLabel
-                  value="income"
-                  control={<Radio />}
-                  label="Income"
-                />
-              </RadioGroup>
-            </FormControl>
-            <FormControl sx={{ flexGrow: 1 }}>
-              <FormLabel>Budget</FormLabel>
-              <Input
-                size="small"
+          <Group grow>
+            <Stack gap="xs">
+              <Text>Transaction</Text>
+              <Radio.Group name="transaction">
+                <Group>
+                  <Radio value="expense" label="Expense" />
+                  <Radio value="income" label="Income" />
+                </Group>
+              </Radio.Group>
+            </Stack>
+            <Stack gap="xs" style={{ flexGrow: 1 }}>
+              <Text>Budget</Text>
+              <TextInput
+                size="sm"
                 type="number"
-                // startDecorator={<EmailRoundedIcon />}
                 placeholder="Budget for category"
                 defaultValue="0"
-                sx={{ flexGrow: 1 }}
+                style={{ flexGrow: 1 }}
               />
-            </FormControl>
-          </Stack>{' '}
+            </Stack>
+          </Group>
           {/* Type of transaction and budget stack*/}
-        </Stack>{' '}
+        </Stack>
         {/* END OF STACK after all*/}
       </Stack>
       <Divider /> {/* Buttons to save the changes */}
-      <br />
-      <Stack direction={'row'} spacing={2} sx={{ justifyContent: 'flex-end' }}>
-        <Button
-          variant={'outlined'}
-        >
-          Cancel
-        </Button>
-        <Button
-          variant={'contained'}
-        >
-          Create Category
-        </Button>
-      </Stack>
-      <Divider> Edit Category </Divider>
-      <Box sx={{ mb: 1 }}>
-        <Typography variant={'h3'}>Edit categories</Typography>
-        <Typography variant={'h5'}>Select category to edit</Typography>
+      <Group justify="flex-end" mt="md">
+        <Button variant="outline">Cancel</Button>
+        <Button>Create Category</Button>
+      </Group>
+      <Divider label="Edit Category" labelPosition="center" my="md" />
+      <Box mb="xs">
+        <Title order={3}>Edit categories</Title>
+        <Text size="sm">Select category to edit</Text>
       </Box>
       <Divider />
       <Stack
-        direction={'row'}
-        spacing={3}
-        sx={{ display: { xs: 'none', md: 'flex' }, my: 1 }}
+        direction="row"
+        gap="md"
+        style={{ display: 'flex', marginBlock: '0.5rem' }}
+        visibleFrom="md"
       >
-        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-          <Stack spacing={1}>
-            <FormControl>
-              <FormLabel>Edit Expense or Income category</FormLabel>
-              <RadioGroup row name={'categoryType'}>
-                <FormControlLabel
-                  value="expense"
-                  control={<Radio />}
-                  label="Expense"
-                />
-                <FormControlLabel
-                  value="income"
-                  control={<Radio />}
-                  label="Income"
-                />
-              </RadioGroup>
-            </FormControl>
+        <Stack gap="md" style={{ flexGrow: 1 }}>
+          <Stack gap="xs">
+            <Text>Edit Expense or Income category</Text>
+            <Radio.Group name="categoryType">
+              <Group>
+                <Radio value="expense" label="Expense" />
+                <Radio value="income" label="Income" />
+              </Group>
+            </Radio.Group>
             <SelectAndEditExpenseCategory />
           </Stack>
-        </Stack>{' '}
+        </Stack>
         {/* END OF STACK after all*/}
       </Stack>
       <Divider /> {/* Buttons to save the changes */}
-      <br />
-      <Stack direction={'row'} spacing={2} sx={{ justifyContent: 'flex-end' }}>
-        <Button
-          variant={'outlined'}>
-          Cancel
-        </Button>
-        <Button
-          variant={'contained'}
-        >
-          Edit Category
-        </Button>
-      </Stack>
-      <Divider>Remove Category</Divider>
-      <Box sx={{ mb: 1 }}>
-        <Typography variant={'h3'}>Remove categories</Typography>
-        <Typography variant={'h5'}>Select category to remove</Typography>
+      <Group justify="flex-end" mt="md">
+        <Button variant="outline">Cancel</Button>
+        <Button>Edit Category</Button>
+      </Group>
+      <Divider label="Remove Category" labelPosition="center" my="md" />
+      <Box mb="xs">
+        <Title order={3}>Remove categories</Title>
+        <Text size="sm">Select category to remove</Text>
       </Box>
       <Divider />
       <Stack
-        direction={'row'}
-        spacing={3}
-        sx={{ display: { xs: 'none', md: 'flex' }, my: 1 }}
+        direction="row"
+        gap="md"
+        style={{ display: 'flex', marginBlock: '0.5rem' }}
+        visibleFrom="md"
       >
-        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-          <Stack spacing={1}>
-            <FormControl>
-              <FormLabel>Edit Expense or Income category</FormLabel>
-              <RadioGroup row name={'categoryType'}>
-                <FormControlLabel
-                  value="expense"
-                  control={<Radio />}
-                  label="Expense"
-                />
-                <FormControlLabel
-                  value="income"
-                  control={<Radio />}
-                  label="Income"
-                />
-              </RadioGroup>
-            </FormControl>
+        <Stack gap="md" style={{ flexGrow: 1 }}>
+          <Stack gap="xs">
+            <Text>Edit Expense or Income category</Text>
+            <Radio.Group name="categoryType">
+              <Group>
+                <Radio value="expense" label="Expense" />
+                <Radio value="income" label="Income" />
+              </Group>
+            </Radio.Group>
             <SelectAndRemoveExpenseCategory />
           </Stack>
-        </Stack>{' '}
+        </Stack>
         {/* END OF STACK after all*/}
       </Stack>
       <Divider /> {/* Buttons to save the changes */}
-      <br />
-      <Stack direction={'row'} spacing={2} sx={{ justifyContent: 'flex-end' }}>
-        <Button
-          variant={'outlined'}
-
-        >
-          Cancel
-        </Button>
-        <Button
-          variant={'contained'}
-        >
-          Remove Category
-        </Button>
-      </Stack>
-    </Card>
+      <Group justify="flex-end" mt="md">
+        <Button variant="outline">Cancel</Button>
+        <Button>Remove Category</Button>
+      </Group>
+    </Paper>
   );
 }

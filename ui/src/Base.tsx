@@ -8,23 +8,12 @@ import {
   defaultShowAlertWrapper,
   IShowAlertWrapper,
 } from './wrappers/IShowAlertWrapper';
-import Button from '@mui/material/Button';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl'; // wrap each input within a FormControl, it is used to preserve state
-import FormLabel from '@mui/material/FormLabel';
-import ToolTip from '@mui/material/Tooltip';
-import Select from '@mui/material/Select';
+import { Button, Radio, Stack, Box, Text, Title, Container, Tooltip, Select, Group } from '@mantine/core';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import Container from '@mui/material/Container';
 import HomeGridComponent from './home/HomeGridComponent';
-import Typography from '@mui/material/Typography';
 import GoToYearlySummaryForm from './home/GoToYearlySummaryForm';
 
 /**
@@ -52,7 +41,7 @@ export default function Base() {
   // const setUp = <a href={'/budget/setup'}>Modify your budget</a>
   // view the expenses
   const h2 = (
-    <Typography variant={'h2'}>See expenses for a specific month</Typography>
+    <Title order={2}>See expenses for a specific month</Title>
   );
 
   const getExpenseForMonth = (
@@ -64,8 +53,7 @@ export default function Base() {
       <input type="number" placeholder={'month'} name={'month'} />
       <input type="number" placeholder={'year'} name={'year'} />
       <Button
-        type={'submit'}
-        variant={'contained'}
+        type="submit"
       >
         See Expenses
       </Button>
@@ -94,77 +82,50 @@ export default function Base() {
       <input type="number" placeholder={'month'} name={'month'} />
       <input type="number" placeholder={'year'} name={'year'} />
       <br />
-      <FormControl required={true}>
-        <FormLabel id="date">Select a Date</FormLabel>
+      <Stack>
+        <Text id="date">Select a Date</Text>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DatePicker']}>
             <DatePicker
-              name={'date'}
+              name="date"
               label="Date of the expense"
               // value={value}
               // onChange={(newValue) => setValue(newValue)}
             />
           </DemoContainer>
         </LocalizationProvider>
-      </FormControl>
+      </Stack>
       <br />
-      <FormControl
-        required={true}
-        sx={{
-          color: 'white',
-        }}
-      >
-        <FormLabel id="expeseOrIncome">
-          <Typography variant={'h3'}>Expense or Income?</Typography>
-        </FormLabel>
-        <RadioGroup row name={'transaction'}>
-          <FormControlLabel
-            value="expense"
-            control={<Radio />}
-            label="Expense"
-          />
-          <FormControlLabel value="income" control={<Radio />} label="Income" />
-        </RadioGroup>
-      </FormControl>
+      <Stack>
+        <Text id="expeseOrIncome">
+          <Title order={3}>Expense or Income?</Title>
+        </Text>
+        <Radio.Group name="transaction">
+          <Group>
+            <Radio value="expense" label="Expense" />
+            <Radio value="income" label="Income" />
+          </Group>
+        </Radio.Group>
+      </Stack>
       <br />
-      <FormControl
-        required={true}
-        variant="standard"
-        sx={{ m: 1, minWidth: 120 }}
-      >
-        <ToolTip
-          title="Select one of the transaction types of the list down below"
-          placement="top"
+      <Stack style={{ minWidth: 120, marginTop: '1rem', marginBottom: '1rem' }}>
+        <Tooltip
+          label="Select one of the transaction types of the list down below"
+          position="top"
         >
-          {/*<FormLabel id="typeOfTransaction">Type of Transaction</FormLabel>*/}
-          <InputLabel id="typeOfTransaction" sx={{ color: 'white' }}>
-            Type of Transaction
-          </InputLabel>
-        </ToolTip>
+          <Text id="typeOfTransaction">Type of Transaction</Text>
+        </Tooltip>
         <Select
-          name={'type'}
-          labelId="typeOfTransaction"
+          name="type"
           id="select-transaction-type"
-          //value={age}
-          //onChange={handleChange}
-          //label="Helloooooooooooooooooooooooooooooo"
-          variant={'standard'}
-        >
-          {keysOfTypesOfTransactions.map((option) => {
-            return (
-              <MenuItem
-                key={option.valueOf()}
-                value={types[option]}
-                sx={{
-                  color: 'white',
-                }}
-              >
-                {option.valueOf()}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
+          data={keysOfTypesOfTransactions.map((option) => ({
+            key: option.valueOf(),
+            value: types[option],
+            label: option.valueOf(),
+          }))}
+          required
+        />
+      </Stack>
 
       <br />
       <input
@@ -176,8 +137,7 @@ export default function Base() {
       <br />
 
       <Button
-        type={'submit'}
-        variant={'contained'}
+        type="submit"
       >
         Add Expense
       </Button>
@@ -195,7 +155,7 @@ export default function Base() {
       {' '}
       {/* Could be container */}
       <br />
-      <Typography variant={'h1'}>Expenses Manager</Typography>
+      <Title order={1}>Expenses Manager</Title>
       <HomeGridComponent
         fetchTotalSpentFlag={fetchTotalSpentFlag}
       ></HomeGridComponent>
@@ -210,7 +170,7 @@ export default function Base() {
       <br />
       {showAlert.show && showAlert.alert}
       <br />
-      <Typography variant={'h2'}>Add an expense</Typography>
+      <Title order={2}>Add an expense</Title>
       {form}
     </Container>
     //     </main>

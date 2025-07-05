@@ -1,30 +1,18 @@
-import Stack from '@mui/material/Stack';
+import { Stack, Paper, Box, ActionIcon, TextInput, Tooltip, Group, createStyles } from '@mantine/core';
 import React from 'react';
-import Paper from '@mui/material/Paper';
-import styled from '@mui/material/styles/styled';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutline';
 import SearchIcon from '@mui/icons-material/Search';
-import { InputBase } from '@mui/material';
-import Tooltip from '@mui/material/Tooltip';
 
-const Item = styled(Paper)(({ theme }) => {
-  return {
-    backgroundColor: '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    ...theme.applyStyles('dark', {
-      backgroundColor: '#1A2027',
-    }),
-  };
-});
+// Custom styled Paper component
+const Item = ({ children }: { children: React.ReactNode }) => (
+  <Paper p="sm" style={{ textAlign: 'center', backgroundColor: '#fff' }}>
+    {children}
+  </Paper>
+);
 export default function HomeTopBar() {
 
   const expensesManagerLogo = <p>Expenses Manager</p>;
@@ -33,55 +21,48 @@ export default function HomeTopBar() {
   const signup = <a>Signup</a>;
 
   const stack = (
-    <Stack
-      direction="row"
-      spacing={2}
-      sx={{
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <Group position="center" spacing="md">
       <Item>{expensesManagerLogo}</Item>
       <Item>{modifyBudget}</Item>
       <Item>{login}</Item>
       <Item>{signup}</Item>
-    </Stack>
+    </Group>
   );
 
   return (
-    <Box display={'flex'} justifyContent={'space-between'} p={2}>
+    <Box style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem' }}>
       {/* SEARCH BAR */}
-      <Box display={'flex'} borderRadius={'3px'}>
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder={'Search...'} />
+      <Box style={{ display: 'flex', borderRadius: '3px' }}>
+        <TextInput style={{ marginLeft: '0.5rem', flex: 1 }} placeholder="Search..." />
       </Box>
-      <IconButton type={'button'} sx={{ p: 1 }}>
+      <ActionIcon>
         <SearchIcon />
-      </IconButton>
+      </ActionIcon>
 
       {/* ICONS */}
-      <Box display={'flex'}>
-        <Tooltip title={'Notifications'}>
-          <IconButton>
+      <Group>
+        <Tooltip label="Notifications">
+          <ActionIcon>
             <NotificationsOutlinedIcon />
-          </IconButton>
+          </ActionIcon>
         </Tooltip>
 
-        <Tooltip title={'Profile'}>
-          <IconButton>
+        <Tooltip label="Profile">
+          <ActionIcon>
             <PersonOutlinedIcon />
-          </IconButton>
+          </ActionIcon>
         </Tooltip>
-        <Tooltip title={'Light Mode (NOT SUPPORTED)'}>
-          <IconButton>
+        <Tooltip label="Light Mode (NOT SUPPORTED)">
+          <ActionIcon>
             <LightModeOutlinedIcon />
-          </IconButton>
+          </ActionIcon>
         </Tooltip>
-        <Tooltip title={'Settings'}>
-          <IconButton>
+        <Tooltip label="Settings">
+          <ActionIcon>
             <SettingsOutlinedIcon />
-          </IconButton>
+          </ActionIcon>
         </Tooltip>
-      </Box>
+      </Group>
     </Box>
   );
 }

@@ -1,9 +1,5 @@
 import React from 'react';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Typography from '@mui/material/Typography';
+import { Select, Stack, Title } from '@mantine/core';
 
 interface ISelectCurrencyComponentProps {
   selectedCurrency: Currency;
@@ -12,38 +8,23 @@ interface ISelectCurrencyComponentProps {
 export default function SelectCurrencyComponent({
   selectedCurrency,
 }: ISelectCurrencyComponentProps) {
-  const [currencies, setCurrencies] = React.useState<Currency[]>([
-    selectedCurrency,
-  ]);
+  const [currencies] = React.useState<Currency[]>([selectedCurrency]);
 
   return (
-    <FormControl sx={{ flexGrow: 1 }}>
-      <FormLabel sx={{ flexGrow: 1 }}>
-        <Typography variant={'h2'}>Currency</Typography>
-      </FormLabel>
+    <Stack style={{ flexGrow: 1 }}>
+      <Title order={2}>Currency</Title>
 
       <Select
-        variant={'standard'}
-        sx={{ flexGrow: 1 }}
-      >
-        {currencies.map((currency) => {
-          return (
-            <MenuItem
-              key={currency.id}
-              value={currency.id}
-              sx={{ flexGrow: 1 }}
-              selected={currency.selected}
-            >
-              {' (' +
-                currency.symbol +
-                ') ' +
-                currency.name +
-                ' ' +
-                currency.code}
-            </MenuItem>
-          );
+        data={currencies.map((currency) => {
+          return {
+            value: currency.id,
+            label: ` (${currency.symbol}) ${currency.name} ${currency.code}`,
+            selected: currency.selected,
+          };
         })}
-      </Select>
-    </FormControl>
+        defaultValue={selectedCurrency.id}
+        style={{ flexGrow: 1 }}
+      />
+    </Stack>
   );
 }
