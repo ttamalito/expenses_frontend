@@ -4,8 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@emotion/react": "11.13.3",
-    "@emotion/styled": "11.13.0",
     "@fontsource/roboto": "5.1.0",
     "@mantine/carousel": "^7.17.1",
     "@mantine/core": "^7.17.1",
@@ -14,13 +12,6 @@
     "@mantine/form": "^7.17.1",
     "@mantine/hooks": "^7.17.1",
     "@mantine/notifications": "^7.17.5",
-    "@mui/icons-material": "6.1.1",
-    "@mui/joy": "^5.0.0-beta.48",
-    "@mui/material": "^6.1.8",
-    "@mui/x-charts": "7.18.0",
-    "@mui/x-data-grid": "7.18.0",
-    "@mui/x-date-pickers": "7.18.0",
-    "@mui/x-tree-view": "7.18.0",
     "@tabler/icons-react": "^3.31.0",
     "@types/jest": "29.5.12",
     "@types/node": "22.5.0",
@@ -35,7 +26,6 @@
     "react-dom": "^19.0.0",
     "react-pro-sidebar": "^1.1.0",
     "react-router": "^7.2.0",
-    "typescript": "5.5.4",
     "web-vitals": "2.1.4"
   },
   "devDependencies": {

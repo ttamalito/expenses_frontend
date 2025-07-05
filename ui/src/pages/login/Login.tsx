@@ -131,7 +131,7 @@ function Login() {
               size="sm"
               onClick={(event) => {
                 event.preventDefault();
-                navigate(routes.home.forgotPassword);
+                //navigate(routes.home.forgotPassword);
               }}
             >
               {'loginPage.forgotPassword'}
