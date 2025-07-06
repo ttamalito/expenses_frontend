@@ -141,4 +141,8 @@ public class IncomeService {
     public List<Income> getAllIncomesOfAUser(UUID userId) {
         return incomeRepository.findByUserId(userId);
     }
+
+    public boolean hasIncomesLinkedToCategory(int categoryId) {
+        return incomeRepository.countByCategoryId(categoryId) > 0;
+    }
 }

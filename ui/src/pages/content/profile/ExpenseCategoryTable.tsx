@@ -89,11 +89,11 @@ export default function ExpenseCategoryTable() {
           message: 'Expense category deleted successfully',
           color: 'green',
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error deleting expense category:', error);
         notifications.show({
           title: 'Error',
-          message: 'Failed to delete expense category',
+          message: 'Failed to delete expense category: ' + error.response.data,
           color: 'red',
         });
       }
@@ -197,6 +197,10 @@ export default function ExpenseCategoryTable() {
         title="Confirm Deletion"
       >
         <p>Are you sure you want to delete this expense category?</p>
+        <p>
+          If there are expenses with this category the category will NOT be
+          deleted.
+        </p>
         <Group justify="flex-end">
           <Button
             variant="outline"

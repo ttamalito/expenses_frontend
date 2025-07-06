@@ -1,8 +1,10 @@
 package com.api.expenses.rest.services;
 
+import com.api.expenses.rest.exceptions.TransactionException;
 import com.api.expenses.rest.models.IncomeCategory;
 import com.api.expenses.rest.repositories.IncomeCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +15,12 @@ import java.util.UUID;
 public class IncomeCategoryService {
 
     private final IncomeCategoryRepository incomeCategoryRepository;
+    private final IncomeService incomeService;
 
     @Autowired
-    public IncomeCategoryService(IncomeCategoryRepository incomeCategoryRepository) {
+    public IncomeCategoryService(IncomeCategoryRepository incomeCategoryRepository, @Lazy IncomeService incomeService) {
         this.incomeCategoryRepository = incomeCategoryRepository;
+        this.incomeService = incomeService;
     }
 
     public boolean categoryExists(int categoryId) {
@@ -45,7 +49,10 @@ public class IncomeCategoryService {
         return incomeCategoryRepository.save(category).getId();
     }
 
-    public void deleteCategory(int categoryId) {
+    public void deleteCategory(int categoryId) throws TransactionException {
+        if (incomeService.hasIncomesLinkedToCategory(categoryId)) {
+            throw new TransactionException(TransactionException.TransactionExceptionType.CATEGORY_HAS_LINKED_INCOMES);
+        }
         incomeCategoryRepository.deleteById(categoryId);
     }
 

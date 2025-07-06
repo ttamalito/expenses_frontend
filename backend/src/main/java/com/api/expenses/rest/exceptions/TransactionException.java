@@ -10,7 +10,9 @@ public class TransactionException extends Exception {
         INCOME_NOT_FOUND("Income not found in the database"),
 
         UNAUTHORIZED("User is trying to modify an expense that does not belong to him"),
-        EXPENSE_NOT_FOUND("Expense not found in the database");
+        EXPENSE_NOT_FOUND("Expense not found in the database"),
+        CATEGORY_HAS_LINKED_EXPENSES("Cannot delete category because it has linked expenses"),
+        CATEGORY_HAS_LINKED_INCOMES("Cannot delete category because it has linked incomes");
 
         private String message;
 

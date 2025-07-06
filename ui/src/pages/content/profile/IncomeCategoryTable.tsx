@@ -85,11 +85,11 @@ export default function IncomeCategoryTable() {
           message: 'Income category deleted successfully',
           color: 'green',
         });
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error deleting income category:', error);
         notifications.show({
           title: 'Error',
-          message: 'Failed to delete income category',
+          message: 'Failed to delete income category: ' + error.response.data,
           color: 'red',
         });
       }
@@ -184,6 +184,10 @@ export default function IncomeCategoryTable() {
         title="Confirm Deletion"
       >
         <p>Are you sure you want to delete this income category?</p>
+        <p>
+          If there are incomes with this category the category will NOT be
+          deleted.
+        </p>
         <Group justify="flex-end">
           <Button
             variant="outline"

@@ -25,6 +25,7 @@ export default function ExpensesLayout() {
       >
         <Image
           alt="logo"
+          src={'/money_svg.svg'}
           width={171}
           height={74}
           style={{

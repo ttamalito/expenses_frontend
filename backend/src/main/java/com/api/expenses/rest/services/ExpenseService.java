@@ -233,5 +233,8 @@ public class ExpenseService {
         return expenseRepository.findById(expenseId);
     }
 
+    public boolean hasExpensesLinkedToCategory(int categoryId) {
+        return expenseRepository.countByCategoryId(categoryId) > 0;
+    }
 
 }

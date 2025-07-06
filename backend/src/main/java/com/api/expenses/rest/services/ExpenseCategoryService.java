@@ -1,5 +1,6 @@
 package com.api.expenses.rest.services;
 
+import com.api.expenses.rest.exceptions.TransactionException;
 import com.api.expenses.rest.models.ExpenseCategory;
 import com.api.expenses.rest.repositories.ExpenseCategoryRepository;
 import org.springframework.context.annotation.Lazy;
@@ -13,9 +14,11 @@ import java.util.UUID;
 public class ExpenseCategoryService {
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
+    private final ExpenseService expenseService;
 
-    public ExpenseCategoryService(@Lazy ExpenseCategoryRepository expenseCategoryRepository) {
+    public ExpenseCategoryService(@Lazy ExpenseCategoryRepository expenseCategoryRepository, @Lazy ExpenseService expenseService) {
         this.expenseCategoryRepository = expenseCategoryRepository;
+        this.expenseService = expenseService;
     }
 
     public boolean categoryExists(int categoryId) {
@@ -34,7 +37,10 @@ public class ExpenseCategoryService {
         return expenseCategoryRepository.save(category);
     }
 
-    public void deleteCategory(int categoryId) {
+    public void deleteCategory(int categoryId) throws TransactionException {
+        if (expenseService.hasExpensesLinkedToCategory(categoryId)) {
+            throw new TransactionException(TransactionException.TransactionExceptionType.CATEGORY_HAS_LINKED_EXPENSES);
+        }
         expenseCategoryRepository.deleteById(categoryId);
     }
 

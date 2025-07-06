@@ -61,7 +61,7 @@ export default function SideBar({
             width={100}
             height={100}
             radius={50}
-            fallbackSrc="/avatar.png"
+            fallbackSrc="/tamalito.jpg"
           />
         </Group>
 
