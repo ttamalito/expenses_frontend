@@ -63,7 +63,7 @@ jobs:
       - name: Run Backend Integration Tests
         run: |
           cd backend
-          mvn clean install -Pexecute-integration-tests
+          mvn clean install -Pexecute-integration-tests -Dspring.profiles.active=test
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
