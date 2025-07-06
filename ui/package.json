@@ -22,6 +22,7 @@
     "clsx": "^2.1.1",
     "dayjs": "1.11.13",
     "mantine-datatable": "^7.17.1",
+    "lodash": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.2.0",
@@ -30,6 +31,7 @@
     "web-vitals": "2.1.4"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.16",
     "@eslint/js": "^9.21.0",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.2",

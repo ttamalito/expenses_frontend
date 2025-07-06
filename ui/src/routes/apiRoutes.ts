@@ -126,6 +126,12 @@ export const routes = {
     totalEarnedYear: `/${constants.incomes}/${constants.totalEarned}/${constants.year}`,
     totalEarnedMonth: `/${constants.incomes}/${constants.totalEarned}/${constants.month}`,
     earnedYearMonthly: `/${constants.incomes}/${constants.earned}/${constants.year}/${constants.monthly}`,
+    monthly: (month: number, year: number) => {
+      return `/${constants.incomes}/${constants.monthly}/${month}/${year}`;
+    },
+    yearly: (year: number) => {
+      return `/${constants.incomes}/${constants.yearly}/${year}`;
+    },
   },
 
   // User Controller

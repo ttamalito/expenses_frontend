@@ -7,6 +7,8 @@ export const constants = {
   Statistics: 'Statistics',
   Budget: 'Budget',
   Profile: 'Profile',
+  Year: 'Year',
+  Month: 'Month',
 };
 
 export const routes = {
@@ -15,7 +17,11 @@ export const routes = {
   },
   content: {
     home: `/${constants.Content}/${constants.Home}`,
-    statistics: `/${constants.Content}/${constants.Statistics}`,
+    statistics: {
+      index: `/${constants.Content}/${constants.Statistics}`,
+      year: `/${constants.Content}/${constants.Statistics}/${constants.Year}`,
+      month: `/${constants.Content}/${constants.Statistics}/${constants.Month}`,
+    },
     budget: `/${constants.Content}/${constants.Budget}`,
     profile: `/${constants.Content}/${constants.Profile}`,
   },

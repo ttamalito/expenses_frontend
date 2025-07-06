@@ -672,6 +672,94 @@ export interface IUserLoginRequest {
     [key: string]: any;
 }
 
+export class GetIncomeDto implements IGetIncomeDto {
+    id?: number;
+    userId?: string;
+    amount?: number;
+    currencyId?: number;
+    date?: Date;
+    description?: string;
+    month?: number;
+    year?: number;
+    week?: number;
+    lastUpdate?: Date;
+    categoryId?: number;
+
+    [key: string]: any;
+
+    constructor(data?: IGetIncomeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+            this.amount = _data["amount"];
+            this.currencyId = _data["currencyId"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.month = _data["month"];
+            this.year = _data["year"];
+            this.week = _data["week"];
+            this.lastUpdate = _data["lastUpdate"] ? new Date(_data["lastUpdate"].toString()) : <any>undefined;
+            this.categoryId = _data["categoryId"];
+        }
+    }
+
+    static fromJS(data: any): GetIncomeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetIncomeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        data["amount"] = this.amount;
+        data["currencyId"] = this.currencyId;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["month"] = this.month;
+        data["year"] = this.year;
+        data["week"] = this.week;
+        data["lastUpdate"] = this.lastUpdate ? this.lastUpdate.toISOString() : <any>undefined;
+        data["categoryId"] = this.categoryId;
+        return data;
+    }
+}
+
+export interface IGetIncomeDto {
+    id?: number;
+    userId?: string;
+    amount?: number;
+    currencyId?: number;
+    date?: Date;
+    description?: string;
+    month?: number;
+    year?: number;
+    week?: number;
+    lastUpdate?: Date;
+    categoryId?: number;
+
+    [key: string]: any;
+}
+
 export class GetIncomeCategoryDto implements IGetIncomeCategoryDto {
     id?: number;
     userId?: string;

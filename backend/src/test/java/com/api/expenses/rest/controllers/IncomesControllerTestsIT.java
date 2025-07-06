@@ -3,6 +3,7 @@ package com.api.expenses.rest.controllers;
 import com.api.expenses.rest.controllers.utils.AuthenticationHelper;
 import com.api.expenses.rest.models.Income;
 import com.api.expenses.rest.models.dtos.CreateIncomeDto;
+import com.api.expenses.rest.models.dtos.GetIncomeDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,16 +63,16 @@ public class IncomesControllerTestsIT {
 
         String incomeFetchResultString = incomeFetchResult.andReturn().getResponse().getContentAsString();
         ObjectMapper objectMapper = new ObjectMapper();
-        Income income = objectMapper.readValue(incomeFetchResultString, Income.class);
+        GetIncomeDto income = objectMapper.readValue(incomeFetchResultString, GetIncomeDto.class);
 
-        assertEquals(1000.32f, income.getAmount());
-        assertEquals("2025-01-05", income.getDate().toString());
-        assertEquals(categoryId, income.getCategoryId());
-        assertEquals(1, income.getCurrencyId());
-        assertEquals("Test income description", income.getDescription());
-        assertEquals(2, income.getWeek());
-        assertEquals(2025, income.getYear());
-        assertEquals(1, income.getMonth());
+        assertEquals(1000.32f, income.amount());
+        assertEquals("2025-01-05", income.date().toString());
+        assertEquals(categoryId, income.categoryId());
+        assertEquals(1, income.currencyId());
+        assertEquals("Test income description", income.description());
+        assertEquals(2, income.week());
+        assertEquals(2025, income.year());
+        assertEquals(1, income.month());
 
         mockMvc.perform(delete("/incomes/delete/" + incomeId)
                 .header("Authorization",bearerToken)
@@ -169,6 +170,89 @@ public class IncomesControllerTestsIT {
 
         String totalSpentJson = savedExpense.andReturn().getResponse().getContentAsString();
         assertEquals("{\"totals\": [\"1002.49\",\"2000.01\",\"100.00\",\"1000.32\",\"101.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\",\"0.00\"]}", totalSpentJson);
+
+        // delete the incomes
+        for (int incomeId : incomesIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/incomes/delete/" + incomeId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+        deleteIncomeCategory(bearerToken, categoryId);
+    }
+
+    @Test
+    @DisplayName("Test get incomes for a month")
+    public void getIncomesForAMonthTest() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+
+        int categoryId = createIncomeCategory(bearerToken, "src/test/resources/incomes/category.json");
+        String incomesAsString = addCategoryToListOfIncomes(categoryId, "src/test/resources/incomes/getIncomesForAMonth/incomes.json");
+        List<CreateIncomeDto> incomeRequestList = new ArrayList<>();
+        List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
+                incomesAsString, incomeRequestList);
+
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/monthly/1/2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        String responseJson = result.andReturn().getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<GetIncomeDto> incomes = objectMapper.readValue(responseJson, objectMapper.getTypeFactory().constructCollectionType(List.class, GetIncomeDto.class));
+
+        // Verify that we got the expected number of incomes
+        assertEquals(3, incomes.size());
+
+        // Verify that all incomes have the expected month and year
+        for (GetIncomeDto income : incomes) {
+            assertEquals(1, income.month());
+            assertEquals(2025, income.year());
+        }
+
+        // delete the incomes
+        for (int incomeId : incomesIds) {
+            mockMvc.perform(MockMvcRequestBuilders.delete("/incomes/delete/" + incomeId)
+                            .header("Authorization", bearerToken))
+                    .andExpect(status().isNoContent());
+        }
+        deleteIncomeCategory(bearerToken, categoryId);
+    }
+
+    @Test
+    @DisplayName("Test get incomes for a year")
+    public void getIncomesForAYearTest() throws Exception {
+        String bearerToken = AuthenticationHelper.loginUser(mockMvc, Optional.of(
+                        "coding.tamalito@gmail.com"),
+                Optional.empty(),
+                "123456"
+        );
+
+        int categoryId = createIncomeCategory(bearerToken, "src/test/resources/incomes/category.json");
+        String incomesAsString = addCategoryToListOfIncomes(categoryId, "src/test/resources/incomes/totalEarnedYear/totalEarnedYear.json");
+        List<CreateIncomeDto> incomeRequestList = new ArrayList<>();
+        List<Integer> incomesIds = sendAndSaveIncomes(bearerToken,
+                incomesAsString, incomeRequestList);
+
+        ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/incomes/yearly/2025")
+                        .header("Authorization", bearerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+        String responseJson = result.andReturn().getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<GetIncomeDto> incomes = objectMapper.readValue(responseJson, objectMapper.getTypeFactory().constructCollectionType(List.class, GetIncomeDto.class));
+
+        // Verify that we got the expected number of incomes
+        assertEquals(3, incomes.size());
+
+        // Verify that all incomes have the expected year
+        for (GetIncomeDto income : incomes) {
+            assertEquals(2025, income.year());
+        }
 
         // delete the incomes
         for (int incomeId : incomesIds) {

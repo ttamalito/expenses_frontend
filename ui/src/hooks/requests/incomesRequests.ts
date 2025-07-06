@@ -88,3 +88,29 @@ export const useGetEarnedYearMonthly = (): [
   );
   return [callback];
 };
+
+export const useGetMonthlyIncomes = (): [
+  (month: number, year: number) => Promise<AxiosResponse | undefined>,
+] => {
+  const { get } = useApi();
+  const callback = useCallback(
+    (month: number, year: number) => {
+      return get(routes.incomes.monthly(month, year));
+    },
+    [get],
+  );
+  return [callback];
+};
+
+export const useGetYearlyIncomes = (): [
+  (year: number) => Promise<AxiosResponse | undefined>,
+] => {
+  const { get } = useApi();
+  const callback = useCallback(
+    (year: number) => {
+      return get(routes.incomes.yearly(year));
+    },
+    [get],
+  );
+  return [callback];
+};
