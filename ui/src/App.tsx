@@ -6,6 +6,7 @@ import { constants } from '@routes';
 import ExpensesLayout from './pages/layout/ExpensesLayout.tsx';
 import Home from './pages/content/home/Home.tsx';
 import Profile from './pages/content/profile/Profile.tsx';
+import Budget from './pages/content/budget/Budget.tsx';
 import ExpensesLandingPage from './pages/landingPage/ExpensesLandingPage.tsx';
 import Signup from './pages/register/Signup.tsx';
 
@@ -18,6 +19,7 @@ function App() {
         <Route path={constants.Register} element={<Signup />} />
         <Route path={constants.Content} element={<ExpensesLayout />}>
           <Route path={constants.Home} index element={<Home />} />
+          <Route path={constants.Budget} element={<Budget />} />
           <Route path={constants.Profile} element={<Profile />} />
         </Route>
       </Routes>
