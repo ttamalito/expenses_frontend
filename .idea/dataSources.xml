@@ -13,7 +13,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="local_prod_expensesdb@localhost" uuid="e72305b2-ac37-4ac2-8fca-92c1611e0b77">
+    <data-source source="LOCAL" name="local_prod_expensesdb@localhost" read-only="true" uuid="e72305b2-ac37-4ac2-8fca-92c1611e0b77">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <remarks>Locally Production db for the expenses</remarks>
