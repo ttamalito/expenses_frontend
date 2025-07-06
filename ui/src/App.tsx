@@ -6,13 +6,16 @@ import { constants } from '@routes';
 import ExpensesLayout from './pages/layout/ExpensesLayout.tsx';
 import Home from './pages/content/home/Home.tsx';
 import Profile from './pages/content/profile/Profile.tsx';
+import ExpensesLandingPage from './pages/landingPage/ExpensesLandingPage.tsx';
+import Signup from './pages/register/Signup.tsx';
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path={'/'} element={'Hello'} />
-        <Route path={'/login'} element={<Login />} />
+        <Route path={'/'} element={<ExpensesLandingPage />} />
+        <Route path={constants.Login} element={<Login />} />
+        <Route path={constants.Register} element={<Signup />} />
         <Route path={constants.Content} element={<ExpensesLayout />}>
           <Route path={constants.Home} index element={<Home />} />
           <Route path={constants.Profile} element={<Profile />} />
