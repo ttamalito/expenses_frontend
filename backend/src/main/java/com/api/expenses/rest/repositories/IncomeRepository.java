@@ -12,6 +12,8 @@ public interface IncomeRepository extends JpaRepository<Income, Integer> {
 
     public List<Income> findByUserIdAndYear(UUID userId, int year);
 
+    public long countByCategoryId(int categoryId);
+
     public List<Income> findByUserIdAndMonthAndYearAndCategoryId(UUID userId, int month, int year, int categoryId);
 
     public List<Income> findByUserIdAndWeekAndYear(UUID userId, int week, int year);

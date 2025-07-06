@@ -1,23 +1,38 @@
 export const constants = {
-  home: 'Home',
-  content: 'Content',
+  Home: 'Home',
+  Content: 'Content',
   aboutUs: 'AboutUs',
-  login: 'Login',
-  register: 'Register',
-  changeProfilePicture: 'ChangeProfilePicture',
-  profile: 'Profile',
-  error: 'Error',
+  Login: 'Login',
+  Register: 'Register',
+  Statistics: 'Statistics',
+  Budget: 'Budget',
+  Profile: 'Profile',
+  Year: 'Year',
+  Month: 'Month',
+  Documentation: 'Documentation',
 };
 
 export const routes = {
   home: {
-    index: `/${constants.home}`,
-    aboutUs: `/${constants.home}/${constants.aboutUs}`,
-    login: `/${constants.home}/${constants.login}`,
-    register: `/${constants.home}/${constants.register}`,
+    index: `/`,
+  },
+  documentation: {
+    index: `/${constants.Documentation}`,
   },
   content: {
-    index: `/${constants.content}`,
+    home: `/${constants.Content}/${constants.Home}`,
+    statistics: {
+      index: `/${constants.Content}/${constants.Statistics}`,
+      year: `/${constants.Content}/${constants.Statistics}/${constants.Year}`,
+      month: `/${constants.Content}/${constants.Statistics}/${constants.Month}`,
+    },
+    budget: `/${constants.Content}/${constants.Budget}`,
+    profile: `/${constants.Content}/${constants.Profile}`,
   },
-  error: `/${constants.error}`,
+  login: {
+    index: `/${constants.Login}`,
+  },
+  register: {
+    index: `/${constants.Register}`,
+  },
 };

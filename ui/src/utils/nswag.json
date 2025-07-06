@@ -101,7 +101,12 @@
           "200": {
             "description": "OK",
             "content": {
-              "*/*": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
                 "schema": {
                   "type": "string"
                 }
@@ -194,6 +199,36 @@
               "application/json": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currency/create": {
+      "post": {
+        "tags": [
+          "currency-controller"
+        ],
+        "operationId": "createCurrency",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCurrencyDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyDto"
                 }
               }
             }
@@ -600,7 +635,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/GetIncomeDto"
                 }
               }
             }
@@ -981,6 +1016,60 @@
         }
       }
     },
+    "/currency/{currencyId}": {
+      "get": {
+        "tags": [
+          "currency-controller"
+        ],
+        "operationId": "getCurrency",
+        "parameters": [
+          {
+            "name": "currencyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currency/all": {
+      "get": {
+        "tags": [
+          "currency-controller"
+        ],
+        "operationId": "getAllCurrencies",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetCurrencyDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/category/income/get/{categoryId}": {
       "get": {
         "tags": [
@@ -1004,7 +1093,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/GetIncomeCategoryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/income/all": {
+      "get": {
+        "tags": [
+          "categories-controller"
+        ],
+        "operationId": "getAllIncomeCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetIncomeCategoryDto"
+                  }
                 }
               }
             }
@@ -1035,7 +1147,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/GetExpenseCategoryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/expense/all": {
+      "get": {
+        "tags": [
+          "categories-controller"
+        ],
+        "operationId": "getAllExpenseCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetExpenseCategoryDto"
+                  }
                 }
               }
             }
@@ -1140,6 +1275,30 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/currency/delete/{currencyId}": {
+      "delete": {
+        "tags": [
+          "currency-controller"
+        ],
+        "operationId": "deleteCurrency",
+        "parameters": [
+          {
+            "name": "currencyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1346,6 +1505,38 @@
           }
         }
       },
+      "CreateCurrencyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "GetCurrencyDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
       "UpdateBudgetDto": {
         "type": "object",
         "properties": {
@@ -1387,6 +1578,96 @@
           },
           "password": {
             "type": "string"
+          }
+        }
+      },
+      "GetIncomeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "amount": {
+            "type": "number",
+            "format": "float"
+          },
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "week": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUpdate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GetIncomeCategoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "GetExpenseCategoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "budget": {
+            "type": "number",
+            "format": "float"
           }
         }
       }

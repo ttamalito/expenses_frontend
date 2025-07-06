@@ -17,6 +17,7 @@ export default defineConfig({
       '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
       '@clients': path.resolve(__dirname, './src/models/clients.ts'),
       '@routes': path.resolve(__dirname, './src/routes/routes.ts'),
+      '@requests': path.resolve(__dirname, './src/hooks/requests'),
     },
   },
   server: {

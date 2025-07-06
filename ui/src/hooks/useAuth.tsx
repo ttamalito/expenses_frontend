@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useSaveToken } from './useSaveToken.tsx';
-import { routes } from '../routes/routes.ts';
+import { routes } from '@routes';
 import { IUserLoginRequest } from '@clients';
 import { usePostLogin } from './requests/authRequests.ts';
 
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const token: string = response.data.accessToken;
           setToken(token);
           const destination: string =
-            location.state?.from || routes.content.index;
+            location.state?.from || routes.content.home;
           return Promise.resolve(destination);
         }
       } catch (error: any) {
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleLogout = useCallback(() => {
     setToken('');
-    navigate(routes.home.login);
+    navigate(routes.login.index);
   }, [navigate, setToken]);
 
   const value = useMemo(() => {

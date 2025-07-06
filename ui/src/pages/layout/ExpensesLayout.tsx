@@ -1,15 +1,7 @@
-import {
-  Group,
-  Box,
-  Image,
-  Grid,
-  Stack,
-  useMantineTheme,
-  Text,
-} from '@mantine/core';
-import { Outlet, useLocation, useNavigate } from 'react-router';
-import { routes } from '../../routes/routes.ts';
-import HomeSideBar from '../../shared/HomeSideBar.tsx';
+import { Group, Box, Image, Grid, useMantineTheme, Text } from '@mantine/core';
+import { Outlet, useNavigate } from 'react-router';
+import { routes } from '@routes';
+import SideBar from './SideBar';
 export default function ExpensesLayout() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
@@ -33,13 +25,14 @@ export default function ExpensesLayout() {
       >
         <Image
           alt="logo"
+          src={'/money_svg.svg'}
           width={171}
           height={74}
           style={{
             position: 'relative',
           }}
           onClick={() => {
-            navigate(routes.content.index);
+            navigate(routes.content.home);
           }}
         />
       </Group>
@@ -68,7 +61,7 @@ export default function ExpensesLayout() {
             // overflow={'hidden'}
             //justify={'flex-end'}
             // gutter={{ base: 10, xs: 'md', md: 'xl', xl: 50 }}
-            visibleFrom={'md'}
+            //visibleFrom={'md'}
             gutter={0}
             style={{
               //float: 'left',
@@ -80,8 +73,7 @@ export default function ExpensesLayout() {
             // grow
           >
             <Grid.Col span={'content'}>
-              <HomeSideBar />
-              {/*<div>Hello</div>*/}
+              <SideBar />
             </Grid.Col>
             <Grid.Col
               span={40} // TODO: Find a solution to not loose those 15-20 px

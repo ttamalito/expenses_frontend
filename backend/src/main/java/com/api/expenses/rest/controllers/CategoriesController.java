@@ -6,6 +6,8 @@ import com.api.expenses.rest.models.IncomeCategory;
 import com.api.expenses.rest.models.User;
 import com.api.expenses.rest.models.dtos.CreateExpenseCategoryDto;
 import com.api.expenses.rest.models.dtos.CreateIncomeCategoryDto;
+import com.api.expenses.rest.models.dtos.GetExpenseCategoryDto;
+import com.api.expenses.rest.models.dtos.GetIncomeCategoryDto;
 import com.api.expenses.rest.services.ExpenseCategoryService;
 import com.api.expenses.rest.services.IncomeCategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,22 +36,29 @@ public class CategoriesController {
     }
 
     @GetMapping("/expense/get/{categoryId}")
-    public ResponseEntity<String> getExpenseCategory(@PathVariable int categoryId) {
+    public ResponseEntity<GetExpenseCategoryDto> getExpenseCategory(@PathVariable int categoryId) {
         Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
         try {
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 Optional<ExpenseCategory> category = expenseCategoryService.getCategoryById(categoryId);
                 if (category.isPresent()) {
-                    String categoryJson = objectMapper.writeValueAsString(category.get());
-                    return ResponseEntity.ok().body(categoryJson);
+                    ExpenseCategory expenseCategory = category.get();
+                    GetExpenseCategoryDto dto = new GetExpenseCategoryDto(
+                        expenseCategory.getId(),
+                        expenseCategory.getUserId(),
+                        expenseCategory.getName(),
+                        expenseCategory.getDescription(),
+                        expenseCategory.getBudget()
+                    );
+                    return ResponseEntity.ok(dto);
                 }
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            return ResponseEntity.badRequest().body(throwable.getMessage());
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().body("Could not get Category");
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/expense/create")
@@ -89,22 +99,28 @@ public class CategoriesController {
     }
 
     @GetMapping("/income/get/{categoryId}")
-    public ResponseEntity<String> getIncomeCategory(@PathVariable int categoryId) {
+    public ResponseEntity<GetIncomeCategoryDto> getIncomeCategory(@PathVariable int categoryId) {
         Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
         try {
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 Optional<IncomeCategory> category = incomeCategoryService.getCategoryById(categoryId);
                 if (category.isPresent()) {
-                    String categoryJson = objectMapper.writeValueAsString(category.get());
-                    return ResponseEntity.ok().body(categoryJson);
+                    IncomeCategory incomeCategory = category.get();
+                    GetIncomeCategoryDto dto = new GetIncomeCategoryDto(
+                        incomeCategory.getId(),
+                        incomeCategory.getUserId(),
+                        incomeCategory.getName(),
+                        incomeCategory.getDescription()
+                    );
+                    return ResponseEntity.ok(dto);
                 }
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();
-            return ResponseEntity.badRequest().body(throwable.getMessage());
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.badRequest().body("Could not get Category");
+        return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/income/create")
@@ -141,5 +157,54 @@ public class CategoriesController {
             return ResponseEntity.badRequest().body(throwable.getMessage());
         }
         return ResponseEntity.badRequest().body("No user found with the token");
+    }
+
+    @GetMapping("/expense/all")
+    public ResponseEntity<List<GetExpenseCategoryDto>> getAllExpenseCategories() {
+        Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
+        try {
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                List<ExpenseCategory> categories = expenseCategoryService.getCategoriesForUser(user.getId());
+                List<GetExpenseCategoryDto> dtos = categories.stream()
+                    .map(category -> new GetExpenseCategoryDto(
+                        category.getId(),
+                        category.getUserId(),
+                        category.getName(),
+                        category.getDescription(),
+                        category.getBudget()
+                    ))
+                    .toList();
+                return ResponseEntity.ok(dtos);
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/income/all")
+    public ResponseEntity<List<GetIncomeCategoryDto>> getAllIncomeCategories() {
+        Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
+        try {
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                List<IncomeCategory> categories = incomeCategoryService.getCategoriesForUser(user.getId());
+                List<GetIncomeCategoryDto> dtos = categories.stream()
+                    .map(category -> new GetIncomeCategoryDto(
+                        category.getId(),
+                        category.getUserId(),
+                        category.getName(),
+                        category.getDescription()
+                    ))
+                    .toList();
+                return ResponseEntity.ok(dtos);
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

@@ -35,7 +35,7 @@ public class UserController implements Serializable {
         this.objectMapper = new ObjectMapper();
     }
 
-    @PostMapping("/update/{username}")
+    @PostMapping(value = "/update/{username}", produces = {"application/json", "text/plain"})
     public ResponseEntity<String> update(@RequestBody UpdateUserDto userdata, @PathVariable String username) {
         Optional<User> optionalUser = ControllersHelper.getUserFromSecurityContextHolder();
         if (optionalUser.isEmpty()) {

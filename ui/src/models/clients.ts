@@ -388,6 +388,122 @@ export interface ICreateExpenseDto {
     [key: string]: any;
 }
 
+export class CreateCurrencyDto implements ICreateCurrencyDto {
+    name?: string;
+    symbol?: string;
+    description?: string;
+
+    [key: string]: any;
+
+    constructor(data?: ICreateCurrencyDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.name = _data["name"];
+            this.symbol = _data["symbol"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): CreateCurrencyDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCurrencyDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["name"] = this.name;
+        data["symbol"] = this.symbol;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface ICreateCurrencyDto {
+    name?: string;
+    symbol?: string;
+    description?: string;
+
+    [key: string]: any;
+}
+
+export class GetCurrencyDto implements IGetCurrencyDto {
+    id?: number;
+    name?: string;
+    symbol?: string;
+    description?: string;
+
+    [key: string]: any;
+
+    constructor(data?: IGetCurrencyDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.symbol = _data["symbol"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): GetCurrencyDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCurrencyDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["symbol"] = this.symbol;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface IGetCurrencyDto {
+    id?: number;
+    name?: string;
+    symbol?: string;
+    description?: string;
+
+    [key: string]: any;
+}
+
 export class UpdateBudgetDto implements IUpdateBudgetDto {
     categoryId?: number;
     newBudget?: number;
@@ -552,6 +668,218 @@ export interface IUserLoginRequest {
     username?: string;
     email?: string;
     password?: string;
+
+    [key: string]: any;
+}
+
+export class GetIncomeDto implements IGetIncomeDto {
+    id?: number;
+    userId?: string;
+    amount?: number;
+    currencyId?: number;
+    date?: Date;
+    description?: string;
+    month?: number;
+    year?: number;
+    week?: number;
+    lastUpdate?: Date;
+    categoryId?: number;
+
+    [key: string]: any;
+
+    constructor(data?: IGetIncomeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+            this.amount = _data["amount"];
+            this.currencyId = _data["currencyId"];
+            this.date = _data["date"] ? new Date(_data["date"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.month = _data["month"];
+            this.year = _data["year"];
+            this.week = _data["week"];
+            this.lastUpdate = _data["lastUpdate"] ? new Date(_data["lastUpdate"].toString()) : <any>undefined;
+            this.categoryId = _data["categoryId"];
+        }
+    }
+
+    static fromJS(data: any): GetIncomeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetIncomeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        data["amount"] = this.amount;
+        data["currencyId"] = this.currencyId;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["month"] = this.month;
+        data["year"] = this.year;
+        data["week"] = this.week;
+        data["lastUpdate"] = this.lastUpdate ? this.lastUpdate.toISOString() : <any>undefined;
+        data["categoryId"] = this.categoryId;
+        return data;
+    }
+}
+
+export interface IGetIncomeDto {
+    id?: number;
+    userId?: string;
+    amount?: number;
+    currencyId?: number;
+    date?: Date;
+    description?: string;
+    month?: number;
+    year?: number;
+    week?: number;
+    lastUpdate?: Date;
+    categoryId?: number;
+
+    [key: string]: any;
+}
+
+export class GetIncomeCategoryDto implements IGetIncomeCategoryDto {
+    id?: number;
+    userId?: string;
+    name?: string;
+    description?: string;
+
+    [key: string]: any;
+
+    constructor(data?: IGetIncomeCategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): GetIncomeCategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetIncomeCategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        return data;
+    }
+}
+
+export interface IGetIncomeCategoryDto {
+    id?: number;
+    userId?: string;
+    name?: string;
+    description?: string;
+
+    [key: string]: any;
+}
+
+export class GetExpenseCategoryDto implements IGetExpenseCategoryDto {
+    id?: number;
+    userId?: string;
+    name?: string;
+    description?: string;
+    budget?: number;
+
+    [key: string]: any;
+
+    constructor(data?: IGetExpenseCategoryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.budget = _data["budget"];
+        }
+    }
+
+    static fromJS(data: any): GetExpenseCategoryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetExpenseCategoryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["budget"] = this.budget;
+        return data;
+    }
+}
+
+export interface IGetExpenseCategoryDto {
+    id?: number;
+    userId?: string;
+    name?: string;
+    description?: string;
+    budget?: number;
 
     [key: string]: any;
 }

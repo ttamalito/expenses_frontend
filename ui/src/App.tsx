@@ -1,105 +1,41 @@
-import { Routes, Route, Navigate } from 'react-router';
-import BaseRoutes from './routes/BaseRoutes';
-import React, { useEffect } from 'react';
-import FallBackRoutes from './routes/FallBackRoutes';
-import HomeSideBar from './shared/HomeSideBar';
-import HomeTopBar from './shared/HomeTopBar';
+import { Routes, Route } from 'react-router';
 import './index.css';
-import Box from '@mui/material/Box';
-import Base from './Base.tsx';
-import MonthExpenses from './spent/month/MonthExpenses.tsx';
-import Budget from './budget/Budget.tsx';
-import YearSummary from './spent/year/YearSummary.tsx';
-import Profile from './profile/Profile.tsx';
-import LandingPage from './landingPage/LandingPage.tsx';
-import SignUp from './auth/SignUp.tsx';
 import { AuthProvider } from './hooks/useAuth.tsx';
 import Login from './pages/login/Login.tsx';
 import { constants } from '@routes';
 import ExpensesLayout from './pages/layout/ExpensesLayout.tsx';
+import Home from './pages/content/home/Home.tsx';
+import Profile from './pages/content/profile/Profile.tsx';
+import Budget from './pages/content/budget/Budget.tsx';
+import ExpensesLandingPage from './pages/landingPage/ExpensesLandingPage.tsx';
+import Signup from './pages/register/Signup.tsx';
+import Statistics from './pages/content/statistics/Statistics.tsx';
+import MonthlyExpenses from './pages/content/statistics/MonthlyExpenses.tsx';
+import YearlyExpenses from './pages/content/statistics/YearlyExpenses.tsx';
+import Documentation from './pages/documentation/Documentation.tsx';
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
-
-  // useEffect(() => {
-  //   isLoggedInRequest()
-  //     .then((response) => {
-  //       if (response) {
-  //         console.log('User is logged in, verifyied in App.tsx');
-  //         setLoggedIn(true);
-  //       } else {
-  //         console.log('User is not logged in, verifyied in App.tsx');
-  //         //window.location.href = '/login';
-  //       } // end of if else
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //       setLoggedIn(false);
-  //     });
-  // }, []);
-
-  const authorizedComponents = (
-    <>
-      <HomeSideBar />
-      <main className={'content'}>
-        <Box
-          component="main"
-          className="MainContent"
-          sx={{
-            pt: { xs: 'calc(12px + var(--Header-height))', md: 3 },
-            pb: { xs: 2, sm: 2, md: 3 },
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: 0,
-            height: '100dvh',
-            gap: 1,
-            overflow: 'auto',
-          }}
-        >
-          <HomeTopBar />
-          <BaseRoutes />
-        </Box>
-      </main>
-    </>
-  );
-
-  const unauthorizedComponents = <FallBackRoutes />;
-
-  // how to change the title of the webpage
-  document.title = 'Expenses Manager';
-  const responsiveMetaTag = document.createElement('meta');
-  responsiveMetaTag.name = 'viewport';
-  responsiveMetaTag.content = 'width=device-width, initial-scale=1';
-  document.head.appendChild(responsiveMetaTag);
-  /*
-      <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
-        <div className="app">
-          {loggedIn ? <Home /> : unauthorizedComponents}
-        </div>
-      </Box>
-    </ThemeProvider>
-   */
-
   return (
     <AuthProvider>
       <Routes>
-        <Route path={'/'} element={<LandingPage />} />
-        <Route path={'/login'} element={<Login />} />
-        <Route path={'/signup'} element={<SignUp />} />
-        <Route path={constants.content} element={<ExpensesLayout />}>
-          <Route path={''} index element={<Base />} />
+        <Route path={'/'} element={<ExpensesLandingPage />} />
+        <Route path={constants.Documentation} element={<Documentation />} />
+        <Route path={constants.Login} element={<Login />} />
+        <Route path={constants.Register} element={<Signup />} />
+        <Route path={constants.Content} element={<ExpensesLayout />}>
+          <Route path={constants.Home} index element={<Home />} />
+          <Route path={constants.Budget} element={<Budget />} />
+          <Route path={constants.Profile} element={<Profile />} />
+          <Route path={constants.Statistics} element={<Statistics />} />
+          <Route
+            path={`${constants.Statistics}/${constants.Year}`}
+            element={<YearlyExpenses />}
+          />
+          <Route
+            path={`${constants.Statistics}/${constants.Month}`}
+            element={<MonthlyExpenses />}
+          />
         </Route>
-
-        <Route
-          path={'/expensesMonth/:month/:year'}
-          element={<MonthExpenses />}
-        />
-        <Route path={'/budget'} element={<Budget />} />
-        <Route path={'/summary/:year'} element={<YearSummary />} />
-        <Route path={'/profile'} element={<Profile username={'tamalito'} />} />
       </Routes>
     </AuthProvider>
   );

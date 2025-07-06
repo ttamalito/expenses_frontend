@@ -3,6 +3,7 @@ package com.api.expenses.rest.controllers;
 import com.api.expenses.rest.controllers.utils.ControllersHelper;
 import com.api.expenses.rest.models.Income;
 import com.api.expenses.rest.models.dtos.CreateIncomeDto;
+import com.api.expenses.rest.models.dtos.GetIncomeDto;
 import com.api.expenses.rest.services.IncomeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,21 +65,36 @@ public class IncomesController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<String> getIncomeById(@PathVariable int id) {
+    public ResponseEntity<GetIncomeDto> getIncomeById(@PathVariable int id) {
         UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
 
         try {
             Optional<Income> income = incomeService.getIncomeById(id);
             if (income.isEmpty()) {
-                return ResponseEntity.badRequest().body("Income not found");
+                return ResponseEntity.badRequest().build();
             }
             if (!income.get().getUser().getId().equals(userId)) {
-                return ResponseEntity.badRequest().body("Unauthorized");
+                return ResponseEntity.badRequest().build();
             }
-            String incomeJson = objectMapper.writeValueAsString(income.get());
-            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(incomeJson);
+
+            Income incomeObj = income.get();
+            GetIncomeDto incomeDto = new GetIncomeDto(
+                incomeObj.getId(),
+                incomeObj.getUserId(),
+                incomeObj.getAmount(),
+                incomeObj.getCurrencyId(),
+                incomeObj.getDate(),
+                incomeObj.getDescription(),
+                incomeObj.getMonth(),
+                incomeObj.getYear(),
+                incomeObj.getWeek(),
+                incomeObj.getLastUpdate(),
+                incomeObj.getCategoryId()
+            );
+
+            return ResponseEntity.ok(incomeDto);
         } catch (Exception e) {
-            return ControllersHelper.handleException(e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -128,5 +144,67 @@ public class IncomesController {
         }
      }
 
+    @GetMapping("/monthly/{month}/{year}")
+    public ResponseEntity<String> getIncomesForAMonth(@PathVariable int month, @PathVariable int year) {
+        UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
 
+        try {
+            List<Income> incomes = incomeService.getIncomesForAMonthOfAUser(userId, month, year);
+            List<GetIncomeDto> incomeDtos = new ArrayList<>();
+
+            for (Income income : incomes) {
+                GetIncomeDto incomeDto = new GetIncomeDto(
+                    income.getId(),
+                    income.getUserId(),
+                    income.getAmount(),
+                    income.getCurrencyId(),
+                    income.getDate(),
+                    income.getDescription(),
+                    income.getMonth(),
+                    income.getYear(),
+                    income.getWeek(),
+                    income.getLastUpdate(),
+                    income.getCategoryId()
+                );
+                incomeDtos.add(incomeDto);
+            }
+
+            String incomesJson = objectMapper.writeValueAsString(incomeDtos);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(incomesJson);
+        } catch (JsonProcessingException e) {
+            return ControllersHelper.handleException(e);
+        }
+    }
+
+    @GetMapping("/yearly/{year}")
+    public ResponseEntity<String> getIncomesForAYear(@PathVariable int year) {
+        UUID userId = ControllersHelper.getUserIdFromSecurityContextHolder();
+
+        try {
+            List<Income> incomes = incomeService.getIncomesForAYearOfAUser(userId, year);
+            List<GetIncomeDto> incomeDtos = new ArrayList<>();
+
+            for (Income income : incomes) {
+                GetIncomeDto incomeDto = new GetIncomeDto(
+                    income.getId(),
+                    income.getUserId(),
+                    income.getAmount(),
+                    income.getCurrencyId(),
+                    income.getDate(),
+                    income.getDescription(),
+                    income.getMonth(),
+                    income.getYear(),
+                    income.getWeek(),
+                    income.getLastUpdate(),
+                    income.getCategoryId()
+                );
+                incomeDtos.add(incomeDto);
+            }
+
+            String incomesJson = objectMapper.writeValueAsString(incomeDtos);
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(incomesJson);
+        } catch (JsonProcessingException e) {
+            return ControllersHelper.handleException(e);
+        }
+    }
 }
