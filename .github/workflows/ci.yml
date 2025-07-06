@@ -53,7 +53,7 @@ jobs:
 
       - name: Insert Test Data
         run: |
-          mysql -h localhost -P 3306 -u root -ptest_db test_expensesdb -e "
+          mysql -h 127.0.0.1 -P 3306 -u root -ptest_db test_expensesdb -e "
           INSERT INTO test_expensesdb.currencies (code, name, symbol) VALUES ('GTQ', 'Quetzales', 'Q');
           INSERT INTO test_expensesdb.currencies (code, name, symbol) VALUES ('USD', 'Dolares', '$');
           INSERT INTO test_expensesdb.users (id, creation_date, currency_id, email, first_name, last_name, password, profile_picture, username, role) 
