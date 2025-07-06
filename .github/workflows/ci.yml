@@ -30,7 +30,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Start MySQL
+      - name: Verify MySQL Connection
         env:
           DB_HOST: 127.0.0.1 # maybe use localhost
           DB_CONNECTION: mysql
@@ -39,7 +39,6 @@ jobs:
           DB_PASSWORD: test_db
           DB_PORT: 3306
         run: |
-          sudo /etc/init.d/mysql start
           mysql -uroot -ptest_db
           mysql -e 'CREATE DATABASE IF NOT EXISTS test_expensesdb;' -uroot -ptest_db
 
