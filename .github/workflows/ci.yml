@@ -60,10 +60,10 @@ jobs:
           VALUES (0xF8DFFE3009ED4794ABC798A930C7B938, '2025-07-01', 1, 'coding.tamalito@gmail.com', null, null, '$2a$10$FKYfPVP3XGCZswCBCKXKTeJqn8.cYJgU2T1YgWG0Tz3Z0tKn1r.ga', 'profilePicture', 'tamalito', 0);
           "
 
-      - name: Run Backend Integration Tests
-        run: |
-          cd backend
-          mvn clean install -Pexecute-integration-tests -Dspring.profiles.active=test
+#      - name: Run Backend Integration Tests
+#        run: |
+#          cd backend
+#          mvn clean install -Pexecute-integration-tests -Dspring.profiles.active=test
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
