@@ -107,6 +107,7 @@ export function ExpensesTable({
   return (
     <>
       <DataTable
+        height={500}
         withTableBorder
         withColumnBorders
         records={records}

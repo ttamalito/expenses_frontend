@@ -102,6 +102,7 @@ export function IncomesTable({ incomes, onIncomeUpdated }: IncomesTableProps) {
   return (
     <>
       <DataTable
+        height={500}
         withTableBorder
         withColumnBorders
         records={records}
