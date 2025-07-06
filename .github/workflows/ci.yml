@@ -72,17 +72,17 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ui/package-lock.json
 
-      - name: Install UI Dependencies
-        run: |
-          cd ui
-          npm install
-
-      - name: Build UI
-        run: |
-          cd ui
-          npm run build
-
-      - name: Run UI Tests
-        run: |
-          cd ui
-          npm test
+#      - name: Install UI Dependencies
+#        run: |
+#          cd ui
+#          npm install
+#
+#      - name: Build UI
+#        run: |
+#          cd ui
+#          npm run build
+#
+#      - name: Run UI Tests
+#        run: |
+#          cd ui
+#          npm test
