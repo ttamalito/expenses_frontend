@@ -61,10 +61,10 @@ function Login() {
   return (
     <Container size={420} my={40}>
       <Title ta="center" className={classes.title}>
-        {'loginPage.login'}
+        Login
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
-        {'loginPage.noAccountYet'}{' '}
+        Don't have an account yet?{' '}
         <Anchor
           onClick={() => {
             navigate(routes.register.index);
@@ -72,7 +72,18 @@ function Login() {
           size="sm"
           component="button"
         >
-          {'loginPage.register'}
+          Register
+        </Anchor>
+      </Text>
+      <Text c="dimmed" size="sm" ta="center" mt={5}>
+        <Anchor
+          onClick={() => {
+            navigate(routes.home.index);
+          }}
+          size="sm"
+          component="button"
+        >
+          Go back home
         </Anchor>
       </Text>
 
@@ -106,15 +117,15 @@ function Login() {
           })}
         >
           <TextInput
-            label={'loginPage.userOrEmail'}
-            placeholder={'loginPage.userOrEmail'}
+            label="Username or Email"
+            placeholder="Enter your username or email"
             required
             key={formHook.key('email')}
             {...formHook.getInputProps('email')}
           />
           <PasswordInput
-            label={'loginPage.password'}
-            placeholder={'loginPage.password'}
+            label="Password"
+            placeholder="Enter your password"
             required
             mt="md"
             key={formHook.key('password')}
@@ -122,7 +133,7 @@ function Login() {
           />
           <Group justify="space-between" mt="lg">
             <Checkbox
-              label={'loginPage.rememberMe'}
+              label="Remember me"
               key={formHook.key('rememberMe')}
               {...formHook.getInputProps('rememberMe', { type: 'checkbox' })}
             />
@@ -134,7 +145,7 @@ function Login() {
                 //navigate(routes.home.forgotPassword);
               }}
             >
-              {'loginPage.forgotPassword'}
+              Forgot password?
             </Anchor>
           </Group>
           <Button
@@ -143,7 +154,7 @@ function Login() {
             type={'submit'}
             leftSection={<IconArrowRight />}
           >
-            {'loginPage.login'}
+            Login
           </Button>
         </form>
       </Paper>
