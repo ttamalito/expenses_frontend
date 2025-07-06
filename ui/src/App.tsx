@@ -5,6 +5,7 @@ import Login from './pages/login/Login.tsx';
 import { constants } from '@routes';
 import ExpensesLayout from './pages/layout/ExpensesLayout.tsx';
 import Home from './pages/content/home/Home.tsx';
+import Profile from './pages/content/profile/Profile.tsx';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <Route path={'/'} element={'Hello'} />
         <Route path={'/login'} element={<Login />} />
         <Route path={constants.Content} element={<ExpensesLayout />}>
-          <Route path={'/'} index element={<Home />} />
+          <Route path={constants.Home} index element={<Home />} />
+          <Route path={constants.Profile} element={<Profile />} />
         </Route>
       </Routes>
     </AuthProvider>

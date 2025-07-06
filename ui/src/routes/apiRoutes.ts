@@ -42,6 +42,9 @@ export const constants = {
   // User
   user: 'user',
   update: 'update',
+
+  // Currency
+  currency: 'currency',
 };
 
 export const routes = {
@@ -135,6 +138,18 @@ export const routes = {
     },
     delete: (username: string) => {
       return `/${constants.user}/${constants.delete}/${username}`;
+    },
+  },
+
+  // Currency Controller
+  currency: {
+    all: `/${constants.currency}/${constants.all}`,
+    get: (currencyId: number) => {
+      return `/${constants.currency}/${currencyId}`;
+    },
+    create: `/${constants.currency}/${constants.create}`,
+    delete: (currencyId: number) => {
+      return `/${constants.currency}/${constants.delete}/${currencyId}`;
     },
   },
 };
