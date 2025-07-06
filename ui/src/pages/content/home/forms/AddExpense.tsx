@@ -32,25 +32,18 @@ export default function AddExpense() {
   const [getUser] = useGetUser();
 
   const form = useForm<ICreateExpenseDto>({
-    initialValues: {
-      amount: 0,
-      categoryId: 0,
-      currencyId: 0,
-      date: new Date(Date.now()),
-      description: '',
-      name: '',
-    },
-    validate: {
-      amount: (value) => {
-        return value && value <= 0 ? 'Amount must be greater than 0' : null;
-      },
-      categoryId: (value) => {
-        return value && value <= 0 ? 'Please select a category' : null;
-      },
-      name: (value) => {
-        return value.trim().length < 1 ? 'Name is required' : null;
-      },
-    },
+    mode: 'uncontrolled',
+    // validate: {
+    //   amount: (value) => {
+    //     return value && value <= 0 ? 'Amount must be greater than 0' : null;
+    //   },
+    //   categoryId: (value) => {
+    //     return value && value <= 0 ? 'Please select a category' : null;
+    //   },
+    //   name: (value) => {
+    //     return value.trim().length < 1 ? 'Name is required' : null;
+    //   },
+    // },
   });
 
   // Fetch categories
@@ -59,7 +52,8 @@ export default function AddExpense() {
       try {
         const response = await getAllCategories();
         if (response?.data) {
-          const categoriesData = JSON.parse(response.data);
+          console.log(response);
+          const categoriesData = response.data;
           const options = categoriesData.map((category: any) => {
             return {
               value: category.id.toString(),
@@ -87,10 +81,10 @@ export default function AddExpense() {
       try {
         // Assuming we can get the username from somewhere
         // For now, we'll use a placeholder
-        const username = 'currentUser'; // This should be replaced with actual username
+        const username = 'tamalito'; // This should be replaced with actual username
         const response = await getUser(username);
         if (response?.data) {
-          const userData = JSON.parse(response.data);
+          const userData = response.data;
           setCurrencyId(userData.currencyId);
           form.setFieldValue('currencyId', userData.currencyId);
         }

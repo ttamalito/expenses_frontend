@@ -4,7 +4,7 @@ import { Paper, Title, Text, Box, Loader, Center } from '@mantine/core';
 import { useGetTotalSpentMonthly } from '@requests/expensesRequests';
 import { useGetTotalEarnedMonth } from '@requests/incomesRequests';
 
-interface ChartData {
+interface ChartData extends Record<string, any> {
   month: string;
   spent: number;
   earned: number;
@@ -55,7 +55,9 @@ export default function HomeLineChart() {
         for (let month = 1; month <= 12; month++) {
           const spentResponse = await getTotalSpentMonthly(month, currentYear);
           if (spentResponse?.data) {
-            newChartData[month - 1].spent = parseFloat(spentResponse.data);
+            newChartData[month - 1].spent = parseFloat(
+              spentResponse.data.totalSpent,
+            );
           }
         }
 
@@ -63,7 +65,9 @@ export default function HomeLineChart() {
         for (let month = 1; month <= 12; month++) {
           const earnedResponse = await getTotalEarnedMonth(month, currentYear);
           if (earnedResponse?.data) {
-            newChartData[month - 1].earned = parseFloat(earnedResponse.data);
+            newChartData[month - 1].earned = parseFloat(
+              earnedResponse.data.total,
+            );
           }
         }
 
@@ -99,7 +103,7 @@ export default function HomeLineChart() {
           Monthly Expenses & Income
         </Title>
         <Center style={{ height: 300 }}>
-          <Text color="red">{error}</Text>
+          <Text c="red">{error}</Text>
         </Center>
       </Paper>
     );
@@ -110,8 +114,10 @@ export default function HomeLineChart() {
       <Title order={3} mb="md">
         Monthly Expenses & Income
       </Title>
-      <Box style={{ height: 300 }}>
+      <Box h={300}>
         <LineChart
+          // one of the props HAS to be a percentage string
+          h={'100%'}
           data={chartData}
           dataKey="month"
           series={[

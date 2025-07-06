@@ -60,7 +60,7 @@ export default function ExpensesLayout() {
             // overflow={'hidden'}
             //justify={'flex-end'}
             // gutter={{ base: 10, xs: 'md', md: 'xl', xl: 50 }}
-            visibleFrom={'md'}
+            //visibleFrom={'md'}
             gutter={0}
             style={{
               //float: 'left',

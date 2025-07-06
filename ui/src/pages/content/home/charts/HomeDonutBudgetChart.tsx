@@ -35,14 +35,21 @@ export default function HomeDonutBudgetChart() {
           currentMonth,
           currentYear,
         );
-        const spent = spentResponse?.data ? parseFloat(spentResponse.data) : 0;
+        const spent = spentResponse?.data
+          ? parseFloat(spentResponse.data.totalSpent)
+          : 0;
         setTotalSpent(spent);
 
         // Fetch budget
         const budgetResponse = await getBudget();
-        const budgetAmount = budgetResponse?.data
-          ? parseFloat(budgetResponse.data)
-          : 0;
+        const budgets: any[] = budgetResponse?.data.budget;
+        const totalBudget: number = budgets.reduce(
+          (accumulator, currentValue) => {
+            return accumulator + currentValue.budget;
+          },
+          0,
+        );
+        const budgetAmount = totalBudget;
         setBudget(budgetAmount);
 
         // Calculate remaining budget (or overspent amount)
@@ -109,7 +116,7 @@ export default function HomeDonutBudgetChart() {
           Monthly Budget
         </Title>
         <Center style={{ height: 300 }}>
-          <Text color="red">{error}</Text>
+          <Text c="red">{error}</Text>
         </Center>
       </Paper>
     );
@@ -126,19 +133,22 @@ export default function HomeDonutBudgetChart() {
       <Group justify="space-between" mb="md">
         <Text>Spent: ${totalSpent.toFixed(2)}</Text>
         <Text>Budget: ${budget.toFixed(2)}</Text>
-        <Text color={isOverBudget ? 'red' : 'green'}>
+        <Text c={isOverBudget ? 'red' : 'green'}>
           {isOverBudget ? 'Over budget: ' : 'Remaining: '}
           {Math.abs(budget - totalSpent).toFixed(2)} ({percentSpent}%)
         </Text>
       </Group>
       <Box style={{ height: 250 }}>
         <DonutChart
+          // one of the props HAS to be a percentage string
+          h={'100%'}
+          ml={100}
           data={chartData}
           withLabels
           //labelsPosition="inside"
           labelsType="percent"
           thickness={30}
-          size={250}
+          //size={150}
         />
       </Box>
     </Paper>
