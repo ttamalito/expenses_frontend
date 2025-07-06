@@ -39,8 +39,8 @@ jobs:
           DB_PASSWORD: test_db
           DB_PORT: 3306
         run: |
-          mysql -uroot -ptest_db
-          mysql -e 'CREATE DATABASE IF NOT EXISTS test_expensesdb;' -uroot -ptest_db
+          mysql -h 127.0.0.1 -P 3306 -uroot -ptest_db
+          mysql -h 127.0.0.1 -P 3306 -e 'CREATE DATABASE IF NOT EXISTS test_expensesdb;' -uroot -ptest_db
 
       - name: Initialize Database Schema
         run: |
