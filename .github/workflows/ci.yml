@@ -33,12 +33,13 @@ jobs:
       - name: Start MySQL
         env:
           DB_HOST: 127.0.0.1 # maybe use localhost
+          DB_CONNECTION: mysql
           DB_NAME: test_expensesdb
           DB_USER: root
           DB_PASSWORD: test_db
           DB_PORT: 3306
         run: |
-          sudo systemctl start mysql.service
+          sudo /etc/init.d/mysql start
           mysql -uroot -ptest_db
           mysql -e 'CREATE DATABASE IF NOT EXISTS test_expensesdb;' -uroot -ptest_db
 
