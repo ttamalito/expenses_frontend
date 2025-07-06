@@ -5,7 +5,7 @@ A comprehensive web application for personal finance management, expense trackin
 ## Description
 This project was created to help users track and manage their personal finances effectively. It provides a complete solution for monitoring expenses, managing income, setting budgets, and visualizing spending patterns through detailed statistics and reports.
 
-Originally built with JavaScript (both frontend and backend with Django), the project has evolved to use TypeScript for the frontend and Java Spring Boot for the backend, combined in a single repository for easier development and deployment.
+Originally built with JavaScript (both frontend and backend), the project has evolved to use TypeScript and React for the frontend and Java Spring Boot for the backend, combined in a single repository for easier development and deployment.
 
 ## Features
 - **Expense Management**
