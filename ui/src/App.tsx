@@ -12,12 +12,14 @@ import Signup from './pages/register/Signup.tsx';
 import Statistics from './pages/content/statistics/Statistics.tsx';
 import MonthlyExpenses from './pages/content/statistics/MonthlyExpenses.tsx';
 import YearlyExpenses from './pages/content/statistics/YearlyExpenses.tsx';
+import Documentation from './pages/documentation/Documentation.tsx';
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path={'/'} element={<ExpensesLandingPage />} />
+        <Route path={constants.Documentation} element={<Documentation />} />
         <Route path={constants.Login} element={<Login />} />
         <Route path={constants.Register} element={<Signup />} />
         <Route path={constants.Content} element={<ExpensesLayout />}>

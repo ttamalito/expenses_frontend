@@ -9,11 +9,15 @@ export const constants = {
   Profile: 'Profile',
   Year: 'Year',
   Month: 'Month',
+  Documentation: 'Documentation',
 };
 
 export const routes = {
   home: {
     index: `/`,
+  },
+  documentation: {
+    index: `/${constants.Documentation}`,
   },
   content: {
     home: `/${constants.Content}/${constants.Home}`,

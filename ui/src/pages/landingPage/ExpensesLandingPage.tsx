@@ -35,6 +35,15 @@ function ExpensesLandingPage() {
           variant="subtle"
           className={classes.navButton}
           onClick={() => {
+            return navigate(routes.documentation.index);
+          }}
+        >
+          Documentation
+        </Button>
+        <Button
+          variant="subtle"
+          className={classes.navButton}
+          onClick={() => {
             return navigate(routes.login.index);
           }}
         >
@@ -126,6 +135,15 @@ function ExpensesLandingPage() {
           with our platform.
         </Text>
         <Group justify="center">
+          <Button
+            size="lg"
+            onClick={() => {
+              return navigate(routes.documentation.index);
+            }}
+            variant="light"
+          >
+            View Documentation
+          </Button>
           <Button
             size="lg"
             onClick={() => {
